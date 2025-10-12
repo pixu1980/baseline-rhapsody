@@ -1,0 +1,287 @@
+<section data-transition="convex">
+  <section>
+    <h2>Scroll-driven <mark>Animations</mark></h2>
+    <div class="baseline-badge limited">❌ Not in Baseline</div>
+    <p class="fragment">Animations driven by <mark>scroll position</mark></p>
+  </section>
+
+  <section>
+    <h3>animation-timeline</h3>
+    <div class="before-after" style="margin-top: 1.5rem;">
+      <div class="before">
+        <h4>❌ Before: JavaScript</h4>
+        <div style="background: #f8fafc; padding: 2rem; border-radius: 0.75rem;">
+          <pre><code class="language-javascript">// Update on scroll
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const max = document.body.scrollHeight 
+              - window.innerHeight;
+  const progress = scrolled / max;
+  
+  progressBar.style.transform = 
+    `scaleX(${progress})`;
+    
+  // Performance issues!
+  // Janky on mobile
+  // Needs throttling
+});</code></pre>
+        </div>
+      </div>
+
+      <div class="after">
+        <h4>✅ After: CSS</h4>
+        <div style="background: #fef3c7; padding: 2rem; border-radius: 0.75rem;">
+          <pre><code class="language-css">@keyframes grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.progress-bar {
+  animation: grow linear;
+  animation-timeline: scroll(root);
+  /* Smooth, performant, automatic */
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Timeline <mark>Types</mark></h3>
+    <div style="display: grid; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">scroll() - Scroll Container</h4>
+        <pre><code class="language-css">/* Track scroll position of an element */
+.element {
+  animation: fade-in linear;
+  animation-timeline: scroll();        /* Self */
+  animation-timeline: scroll(root);    /* Document */
+  animation-timeline: scroll(nearest); /* Nearest scroller */
+  
+  /* Direction */
+  animation-timeline: scroll(block);   /* Vertical (default) */
+  animation-timeline: scroll(inline);  /* Horizontal */
+}</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">view() - Element Visibility</h4>
+        <pre><code class="language-css">/* Animate as element enters/exits viewport */
+.card {
+  animation: reveal linear;
+  animation-timeline: view();
+  
+  /* Control when animation starts/ends */
+  animation-range: entry 0% cover 50%;
+  /* Starts when entering viewport
+     Ends at 50% coverage */
+}</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #e0e7ff; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #667eea;">
+        <h4 style="margin-top: 0; color: #3730a3;">💡 Named Timelines</h4>
+        <pre><code class="language-css">/* Define on container */
+.scroller {
+  scroll-timeline-name: --my-scroller;
+  scroll-timeline-axis: block;
+}
+
+/* Use anywhere */
+.other-element {
+  animation: slide linear;
+  animation-timeline: --my-scroller;
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>animation-range</h3>
+    <div style="display: grid; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">Control Animation Progress</h4>
+        <pre><code class="language-css">/* For view() timelines */
+.element {
+  animation-timeline: view();
+  
+  /* Range names for view() */
+  animation-range: cover;       /* While in viewport */
+  animation-range: entry;       /* While entering */
+  animation-range: exit;        /* While exiting */
+  animation-range: contain;     /* When fully contained */
+  
+  /* Specific ranges */
+  animation-range: entry 25% exit 75%;
+  /* Start at 25% entry, end at 75% exit */
+}</code></pre>
+      </div>
+
+      <div class="fragment" style="background: white; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #e2e8f0;">
+        <h4 style="margin-top: 0; color: #0f172a;">Visual Timeline Ranges</h4>
+        <div style="background: #f8fafc; padding: 1.5rem; border-radius: 0.5rem; font-family: monospace; font-size: 0.75rem;">
+          <div style="margin-bottom: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+              <span style="color: #64748b;">Viewport:</span>
+              <div style="flex: 1; height: 4px; background: #e2e8f0;"></div>
+            </div>
+          </div>
+          
+          <div style="position: relative; height: 100px; background: linear-gradient(to bottom, white, #f1f5f9); border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 0.5rem;">
+            <div style="position: absolute; top: -1.5rem; left: 0; right: 0; display: flex; justify-content: space-between; font-size: 0.7rem; color: #64748b;">
+              <span>↓ entry 0%</span>
+              <span>entry 100% / contain 0% ↓</span>
+            </div>
+            <div style="position: absolute; bottom: -1.5rem; left: 0; right: 0; display: flex; justify-content: space-between; font-size: 0.7rem; color: #64748b;">
+              <span>↑ contain 100% / exit 0%</span>
+              <span>exit 100% ↑</span>
+            </div>
+            <div style="text-align: center; padding-top: 1.5rem; color: #3730a3; font-weight: 600;">
+              Element Position
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Practical <mark>Examples</mark></h3>
+    <div style="display: grid; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">📊 Reading Progress Bar</h4>
+        <pre><code class="language-css">@keyframes progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  transform-origin: left;
+  
+  animation: progress linear;
+  animation-timeline: scroll(root block);
+}</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">🎭 Reveal on Scroll</h4>
+        <pre><code class="language-css">@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: reveal linear;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
+  /* Animates as card enters viewport */
+}</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">🌅 Parallax Effect</h4>
+        <pre><code class="language-css">@keyframes parallax {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100px); }
+}
+
+.background {
+  animation: parallax linear;
+  animation-timeline: scroll(root);
+}
+
+.foreground {
+  animation: parallax linear;
+  animation-timeline: scroll(root);
+  /* Moves at different rate = parallax */
+}
+
+/* Different speeds */
+@keyframes parallax-slow {
+  to { transform: translateY(-50px); }
+}</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">🔄 Rotate on Scroll</h4>
+        <pre><code class="language-css">@keyframes rotate-in {
+  from {
+    opacity: 0;
+    rotate: -180deg;
+  }
+  to {
+    opacity: 1;
+    rotate: 0deg;
+  }
+}
+
+.icon {
+  animation: rotate-in ease-out;
+  animation-timeline: view();
+  animation-range: entry 0% entry 100%;
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Browser <mark>Support</mark></h3>
+    <div style="display: grid; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
+      <div class="fragment" style="background: #fef2f2; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #ef4444;">
+        <h4 style="margin-top: 0; color: #dc2626;">❌ Not in Baseline</h4>
+        <p style="margin: 0.5rem 0 0; color: #991b1b;">
+          <strong>Chrome/Edge 115+</strong> - Full support<br>
+          <strong>Safari</strong> - Under development<br>
+          <strong>Firefox</strong> - Under consideration
+        </p>
+      </div>
+
+      <div class="fragment" style="background: #e0e7ff; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #667eea;">
+        <h4 style="margin-top: 0; color: #3730a3;">🎯 Progressive Enhancement</h4>
+        <pre><code class="language-css">/* Fallback: regular animation */
+.element {
+  animation: fade-in 1s ease-out;
+}
+
+/* Enhanced: scroll-driven */
+@supports (animation-timeline: scroll()) {
+  .element {
+    animation: fade-in linear;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+  }
+}</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">📚 Resources</h4>
+        <ul style="margin: 0.5rem 0 0 1.5rem; color: #78350f;">
+          <li><a href="https://scroll-driven-animations.style" style="color: #d97706;">scroll-driven-animations.style</a> - Interactive demos</li>
+          <li><a href="https://developer.chrome.com/articles/scroll-driven-animations/" style="color: #d97706;">Chrome Developers Guide</a></li>
+          <li>Polyfill: <code>@flackr/scroll-timeline</code></li>
+        </ul>
+      </div>
+
+      <div class="fragment" style="background: #d1fae5; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #10b981;">
+        <h4 style="margin-top: 0; color: #065f46;">💡 Best Practices</h4>
+        <ul style="margin: 0.5rem 0 0 1.5rem; color: #047857;">
+          <li>Use for <strong>progressive enhancement</strong></li>
+          <li>Provide <strong>meaningful fallbacks</strong></li>
+          <li>Test <strong>performance</strong> on low-end devices</li>
+          <li>Respect <strong>prefers-reduced-motion</strong></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</section>

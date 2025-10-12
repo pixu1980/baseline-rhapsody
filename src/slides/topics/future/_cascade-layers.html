@@ -1,0 +1,287 @@
+<section data-transition="convex">
+  <section>
+    <h2>@layer - Cascade Layers</h2>
+    <div class="baseline-badge newly">🟡 Newly Available (2024)</div>
+    <p class="fragment">Control the <mark>cascade</mark> explicitly</p>
+  </section>
+
+  <section>
+    <h3>The Cascade <mark>Problem</mark></h3>
+    <div class="before-after">
+      <div class="before">
+        <h4>❌ Before: Specificity Wars</h4>
+        <pre><code class="language-css">/* Reset styles */
+* { margin: 0; padding: 0; }
+
+/* Base styles */
+button { 
+  padding: 0.5rem 1rem;
+  background: blue;
+}
+
+/* Component styles */
+.btn-primary {
+  background: #667eea; /* Overrides? */
+}
+
+/* Utility has to use !important */
+.mt-4 {
+  margin-top: 1rem !important;
+}
+
+/* Now EVERYTHING needs !important! */
+.btn-primary {
+  background: #667eea !important;
+}</code></pre>
+        <div style="margin-top: 1rem; padding: 1rem; background: #fee2e2; border-radius: 0.5rem; font-size: 0.85rem; color: #991b1b;">
+          ⚠️ Specificity spirals out of control
+        </div>
+      </div>
+
+      <div class="after">
+        <h4>✅ After: Explicit Layer Order</h4>
+        <pre><code class="language-css">/* Define layer order upfront */
+@layer reset, base, components, utilities;
+
+/* Reset layer (lowest priority) */
+@layer reset {
+  * { margin: 0; padding: 0; }
+}
+
+/* Base layer */
+@layer base {
+  button { 
+    padding: 0.5rem 1rem;
+    background: blue;
+  }
+}
+
+/* Components (higher priority) */
+@layer components {
+  .btn-primary {
+    background: #667eea; /* Always wins! */
+  }
+}
+
+/* Utilities (highest priority) */
+@layer utilities {
+  .mt-4 {
+    margin-top: 1rem; /* No !important needed */
+  }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>How Layers <mark>Work</mark></h3>
+    <div style="margin-top: 2rem;">
+      <div class="fragment" style="background: linear-gradient(to right, #fee2e2, #fef3c7, #d1fae5, #dbeafe); padding: 2rem; border-radius: 1rem; margin-bottom: 2rem;">
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; text-align: center;">
+          <div>
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">1️⃣</div>
+            <div style="font-weight: 600; margin-bottom: 0.25rem;">reset</div>
+            <div style="font-size: 0.75rem; opacity: 0.7;">Lowest</div>
+          </div>
+          <div>
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">2️⃣</div>
+            <div style="font-weight: 600; margin-bottom: 0.25rem;">base</div>
+            <div style="font-size: 0.75rem; opacity: 0.7;">Low</div>
+          </div>
+          <div>
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">3️⃣</div>
+            <div style="font-weight: 600; margin-bottom: 0.25rem;">components</div>
+            <div style="font-size: 0.75rem; opacity: 0.7;">High</div>
+          </div>
+          <div>
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">4️⃣</div>
+            <div style="font-weight: 600; margin-bottom: 0.25rem;">utilities</div>
+            <div style="font-size: 0.75rem; opacity: 0.7;">Highest</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fragment" style="display: grid; gap: 1.5rem; font-size: 0.85rem;">
+        <div style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+          <h4 style="margin-top: 0; color: #92400e;">📋 Layer Priority Rules</h4>
+          <ol style="margin: 0; padding-left: 1.5rem; color: #78350f;">
+            <li>Later layers always win over earlier layers</li>
+            <li>Specificity only matters <strong>within</strong> the same layer</li>
+            <li>Unlayered styles have the highest priority</li>
+            <li>!important reverses the layer order</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Layer <mark>Syntax</mark></h3>
+    <div style="display: grid; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">1️⃣ Define Layer Order</h4>
+        <pre><code class="language-css">/* Option 1: Empty declaration */
+@layer reset, base, theme, components, utilities;
+
+/* Option 2: With imports */
+@import url("reset.css") layer(reset);
+@import url("theme.css") layer(theme);</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">2️⃣ Add Styles to Layers</h4>
+        <pre><code class="language-css">/* Named layer */
+@layer components {
+  .button {
+    padding: 0.5rem 1rem;
+    background: #667eea;
+  }
+}
+
+/* Anonymous layer (auto-named) */
+@layer {
+  /* Lower priority than named layers */
+}</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">3️⃣ Nested Layers</h4>
+        <pre><code class="language-css">@layer components {
+  @layer buttons {
+    .btn { /* ... */ }
+  }
+  
+  @layer forms {
+    input { /* ... */ }
+  }
+}
+
+/* Access nested layers */
+@layer components.buttons {
+  .btn-large { /* ... */ }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Real-World <mark>Example</mark></h3>
+    <div class="code-demo-split">
+      <div class="code-example">
+        <pre><code class="language-css">/* 1. Define architecture */
+@layer reset, tokens, base, layouts, components, utilities;
+
+/* 2. Reset layer */
+@layer reset {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+  }
+}
+
+/* 3. Design tokens */
+@layer tokens {
+  :root {
+    --color-primary: #667eea;
+    --space-unit: 0.25rem;
+  }
+}
+
+/* 4. Base styles */
+@layer base {
+  body {
+    font-family: system-ui;
+    line-height: 1.5;
+  }
+  
+  a {
+    color: var(--color-primary);
+  }
+}
+
+/* 5. Layout primitives */
+@layer layouts {
+  .container {
+    max-width: 1200px;
+    margin-inline: auto;
+  }
+  
+  .stack > * + * {
+    margin-top: var(--space, 1rem);
+  }
+}</code></pre>
+      </div>
+
+      <div class="code-example">
+        <pre><code class="language-css">/* 6. Component styles */
+@layer components {
+  @layer buttons {
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      font-weight: 600;
+    }
+    
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+    }
+  }
+  
+  @layer cards {
+    .card {
+      padding: 1.5rem;
+      background: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+  }
+}
+
+/* 7. Utility classes (highest priority) */
+@layer utilities {
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  
+  .mt-4 {
+    margin-top: calc(var(--space-unit) * 4);
+  }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Benefits & <mark>Use Cases</mark></h3>
+    <div style="display: grid; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
+      <div class="fragment" style="background: #d1fae5; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #10b981;">
+        <h4 style="margin-top: 0; color: #065f46;">✅ Design Systems</h4>
+        <p style="margin: 0; color: #064e3b;">
+          Clear hierarchy: tokens → base → components → utilities. Team knows exactly where to add styles.
+        </p>
+      </div>
+
+      <div class="fragment" style="background: #d1fae5; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #10b981;">
+        <h4 style="margin-top: 0; color: #065f46;">✅ Third-Party CSS</h4>
+        <pre><code class="language-css">/* Put third-party CSS in lower layer */
+@import url("library.css") layer(vendor);
+
+/* Your styles always win */
+@layer components {
+  .button { /* Overrides library */ }
+}</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #d1fae5; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #10b981;">
+        <h4 style="margin-top: 0; color: #065f46;">✅ No More !important</h4>
+        <p style="margin: 0; color: #064e3b;">
+          Utilities naturally override components without specificity hacks or !important declarations.
+        </p>
+      </div>
+    </div>
+  </section>
+</section>

@@ -1,0 +1,43 @@
+<section>
+  <h2>Container Queries <span class="baseline-badge widely">✅ Widely Available</span></h2>
+
+  <div class="code-demo-split">
+    <div class="code-example">
+      <pre><code class="language-css">/* Define container */
+.container {
+  container-type: inline-size;
+  container-name: card;
+}
+
+/* Query the container, not viewport */
+@container card (min-width: 400px) {
+  .card-title {
+    font-size: 2rem;
+  }
+  
+  .card-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+  }
+}
+
+/* Component truly responsive! */
+</code></pre>
+    </div>
+
+    <div class="demo">
+      <div style="container-type: inline-size; padding: 1rem; background: #f1f5f9; border-radius: 0.5rem">
+        <div style="padding: 1rem; background: white; border-radius: 0.25rem; border: 2px solid #3b82f6">
+          <h4 style="margin: 0 0 0.5rem 0; font-size: clamp(1rem, 5cqw, 1.5rem)">Card Title</h4>
+          <p style="margin: 0; font-size: clamp(0.875rem, 3cqw, 1rem)">This card adapts to its container size, not the viewport!</p>
+        </div>
+      </div>
+      <p style="margin-top: 1rem; font-size: 0.9rem; color: #64748b">✨ True component-level responsive design!</p>
+    </div>
+  </div>
+
+  <aside class="notes">
+    Container Queries: the missing piece of responsive design. - Available since 2023 (Baseline widely available 2024) - Components respond to their container, not viewport - Makes components truly
+    reusable - Container query units: cqw, cqh, cqi, cqb - Game-changer for design systems Duration: 2 min
+  </aside>
+</section>

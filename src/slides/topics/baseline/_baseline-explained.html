@@ -1,0 +1,298 @@
+<section>
+  <h4>What is Baseline?</h4>
+  <small>
+    <p>Baseline is a standard that indicates when web platform features become reliably available across major browsers.</p>
+    <ul>
+      <li>✅ Clear communication about feature support</li>
+      <li>✅ Helps developers make informed decisions</li>
+      <li>✅ Tracks features across Chrome, Firefox, Safari, Edge</li>
+      <li>✅ Updated regularly by web standards organizations</li>
+    </ul>
+  </small>
+</section>
+
+<section>
+  <h4>The 3 Baseline States</h4>
+  <small>
+    <ul>
+      <li>
+        <img src="./assets/baseline/baseline-widely-icon.svg" style="width: 5rem" alt="" />
+        <mark>Widely</mark>: Features that are fully supported across all modern browsers.
+      </li>
+      <li>
+        <img src="./assets/baseline/baseline-newly-icon.svg" style="width: 5rem" alt="" />
+        <mark>Newly</mark>: Features that have recently been implemented and may not be fully supported yet.
+      </li>
+      <li>
+        <img src="./assets/baseline/baseline-limited-icon.svg" style="width: 5rem" alt="" />
+        <mark>Limited</mark>: Features that are only available in specific browsers or under certain conditions.
+      </li>
+    </ul>
+  </small>
+</section>
+
+<section>
+  <h3>✅ Widely Available</h3>
+  <div style="background: #d1fae5; padding: 2rem; border-radius: 8px; border-left: 4px solid #10b981">
+    <h4 style="color: #065f46; margin-top: 0">Safe to Use in Production</h4>
+    <ul style="color: #065f46">
+      <li>Available in Chrome, Firefox, Safari, Edge for <strong>30+ months</strong></li>
+      <li>Excellent cross-browser support</li>
+      <li>Can be used without fallbacks in most cases</li>
+      <li>Recommended for all projects</li>
+    </ul>
+    <p style="margin-bottom: 0"><strong>Examples:</strong> Flexbox, CSS Grid, Custom Properties, Calc(), CSS Filters</p>
+  </div>
+</section>
+
+<section>
+  <h3>🟡 Newly Available</h3>
+  <div style="background: #fef3c7; padding: 2rem; border-radius: 8px; border-left: 4px solid #f59e0b">
+    <h4 style="color: #92400e; margin-top: 0">Use with Progressive Enhancement</h4>
+    <ul style="color: #92400e">
+      <li>Available in all major browsers for <strong>less than 30 months</strong></li>
+      <li>Good modern browser support</li>
+      <li>Consider fallbacks for older browsers</li>
+      <li>Test thoroughly across browsers</li>
+    </ul>
+    <p style="margin-bottom: 0"><strong>Examples:</strong> Container Queries, :has(), @layer, @scope, Nesting, Popover API</p>
+  </div>
+</section>
+
+<section>
+  <h3>❌ Limited Availability</h3>
+  <div style="background: #fee2e2; padding: 2rem; border-radius: 8px; border-left: 4px solid #ef4444">
+    <h4 style="color: #991b1b; margin-top: 0">Experimental - Use with Caution</h4>
+    <ul style="color: #991b1b">
+      <li><strong>Not available</strong> in all major browsers yet</li>
+      <li>May require feature flags or polyfills</li>
+      <li>Syntax may change</li>
+      <li>Best for experiments and prototypes</li>
+      <li>Plan for graceful degradation</li>
+    </ul>
+    <p style="margin-bottom: 0"><strong>Examples:</strong> Anchor Positioning, Scroll-driven Animations, View Transitions (cross-document)</p>
+  </div>
+</section>
+
+<section>
+  <h3>Timeline Visualization</h3>
+  <div style="background: #f9fafb; padding: 2rem; border-radius: 8px">
+    <style>
+      .timeline {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin: 2rem 0;
+      }
+
+      .timeline-stage {
+        flex: 1;
+        text-align: center;
+        padding: 1.5rem;
+        border-radius: 8px;
+        position: relative;
+      }
+
+      .timeline-stage::after {
+        content: '→';
+        position: absolute;
+        right: -1.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.5rem;
+        color: #9ca3af;
+      }
+
+      .timeline-stage:last-child::after {
+        display: none;
+      }
+
+      .limited {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+      .newly {
+        background: #fef3c7;
+        color: #92400e;
+      }
+      .widely {
+        background: #d1fae5;
+        color: #065f46;
+      }
+    </style>
+
+    <div class="timeline">
+      <div class="timeline-stage limited">
+        <div style="font-size: 2rem">❌</div>
+        <strong>Limited</strong>
+        <div style="font-size: 0.8rem; margin-top: 0.5rem">Not in all browsers</div>
+      </div>
+      <div class="timeline-stage newly">
+        <div style="font-size: 2rem">🟡</div>
+        <strong>Newly Available</strong>
+        <div style="font-size: 0.8rem; margin-top: 0.5rem">0-30 months</div>
+      </div>
+      <div class="timeline-stage widely">
+        <div style="font-size: 2rem">✅</div>
+        <strong>Widely Available</strong>
+        <div style="font-size: 0.8rem; margin-top: 0.5rem">30+ months</div>
+      </div>
+    </div>
+
+    <p style="text-align: center; color: #6b7280; font-size: 0.9rem; margin-top: 2rem">Features progress through stages as browser support improves</p>
+  </div>
+</section>
+
+<section>
+  <h3>How Baseline Dates Work</h3>
+  <pre><code class="language-text">Example: Container Queries
+
+Chrome 105    ✅ Sep 2022
+Firefox 110   ✅ Feb 2023
+Safari 16.0   ✅ Sep 2022
+Edge 105      ✅ Sep 2022
+
+Last browser:  Firefox (Feb 2023)
+Baseline date: Feb 2023 (Newly Available)
+Widely date:   Aug 2025 (Feb 2023 + 30 months)
+</code></pre>
+
+  <pre><code class="language-text">Example: CSS Grid
+
+Chrome 57     ✅ Mar 2017
+Firefox 52    ✅ Mar 2017
+Safari 10.1   ✅ Mar 2017
+Edge 16       ✅ Oct 2017
+
+Last browser:  Edge (Oct 2017)
+Baseline date: Oct 2017 (Newly Available)
+Widely date:   Apr 2020 (Widely Available)
+</code></pre>
+</section>
+
+<section>
+  <h3>Decision Framework</h3>
+  <table style="width: 100%; font-size: 0.85rem">
+    <thead>
+      <tr>
+        <th>Status</th>
+        <th>When to Use</th>
+        <th>Considerations</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>✅ Widely</td>
+        <td>
+          ✅ All projects<br />
+          ✅ Production sites<br />
+          ✅ No fallback needed
+        </td>
+        <td>
+          Safe for 95%+ users<br />
+          Minimal testing required
+        </td>
+      </tr>
+      <tr>
+        <td>🟡 Newly</td>
+        <td>
+          ✅ Modern projects<br />
+          ✅ With fallbacks<br />
+          ⚠️ Check user base
+        </td>
+        <td>
+          Use @supports<br />
+          Test older browsers<br />
+          Progressive enhancement
+        </td>
+      </tr>
+      <tr>
+        <td>❌ Limited</td>
+        <td>
+          ⚠️ Experiments only<br />
+          ⚠️ With polyfills<br />
+          ⚠️ Feature detection
+        </td>
+        <td>
+          Provide fallbacks<br />
+          Syntax may change<br />
+          Limited browser support
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h3>Real-World Examples</h3>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; font-size: 0.9rem">
+    <div>
+      <h4>✅ E-commerce Site (Wide Reach)</h4>
+      <ul>
+        <li>✅ Use: Flexbox, Grid, Custom Props</li>
+        <li>🟡 Consider: Container Queries, :has()</li>
+        <li>❌ Avoid: Anchor Positioning</li>
+      </ul>
+    </div>
+    <div>
+      <h4>🎨 Design Tool (Modern Browsers)</h4>
+      <ul>
+        <li>✅ Use: All Widely Available</li>
+        <li>🟡 Use: All Newly Available</li>
+        <li>⚠️ Try: Limited (with fallbacks)</li>
+      </ul>
+    </div>
+    <div>
+      <h4>📰 News Site (Accessibility Focus)</h4>
+      <ul>
+        <li>✅ Use: Widely Available only</li>
+        <li>🟡 Test: Newly Available carefully</li>
+        <li>❌ Avoid: Limited features</li>
+      </ul>
+    </div>
+    <div>
+      <h4>🚀 Experimental Project</h4>
+      <ul>
+        <li>✅ Use: Everything Widely/Newly</li>
+        <li>🟡 Experiment: Limited features</li>
+        <li>✅ Provide: Polyfills & fallbacks</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h3>Checking Baseline Status</h3>
+  <ol>
+    <li>Visit <a href="https://web.dev/baseline" target="_blank">web.dev/baseline</a></li>
+    <li>Check MDN browser compatibility tables</li>
+    <li>Look for Baseline badges in documentation</li>
+    <li>Use <code>@supports</code> for feature detection</li>
+  </ol>
+  <pre><code class="language-css">/* Feature detection example */
+@supports (container-type: inline-size) {
+  .card {
+    container-type: inline-size;
+  }
+}
+
+/* Fallback for browsers without support */
+@supports not (container-type: inline-size) {
+  .card {
+    /* Use media queries instead */
+  }
+}</code></pre>
+</section>
+
+<section>
+  <h3>Key Takeaways</h3>
+  <ul>
+    <li>✅ <strong>Widely Available</strong> = Safe for production (30+ months)</li>
+    <li>🟡 <strong>Newly Available</strong> = Use with progressive enhancement (&lt;30 months)</li>
+    <li>❌ <strong>Limited Availability</strong> = Experimental, use with caution</li>
+    <li>📊 Baseline helps you make informed decisions</li>
+    <li>🎯 Choose features based on your project needs</li>
+    <li>🔍 Always check browser support for your audience</li>
+    <li>✨ Use @supports for feature detection</li>
+  </ul>
+</section>

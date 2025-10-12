@@ -1,0 +1,275 @@
+<section data-transition="convex">
+  <section>
+    <h2>Typography & Color Enhancements</h2>
+    <div class="baseline-badge newly">🟡 Newly Available (2024)</div>
+    <p class="fragment">Better <mark>text & colors</mark></p>
+  </section>
+
+  <section>
+    <h3>text-wrap: <mark>balance</mark></h3>
+    <div class="baseline-badge newly" style="font-size: 0.75rem;">🟡 Newly Available (mar 2024)</div>
+    <div class="before-after" style="margin-top: 1.5rem;">
+      <div class="before">
+        <h4>❌ Before: Unbalanced</h4>
+        <div style="background: #f8fafc; padding: 2rem; border-radius: 0.75rem;">
+          <h2 style="max-width: 400px; margin: 0; line-height: 1.2;">
+            This is a long heading that wraps awkwardly
+          </h2>
+          <p style="margin: 1rem 0 0; font-size: 0.875rem; color: #64748b;">
+            Last word orphaned on its own line 😞
+          </p>
+        </div>
+      </div>
+
+      <div class="after">
+        <h4>✅ After: Balanced</h4>
+        <div style="background: #fef3c7; padding: 2rem; border-radius: 0.75rem;">
+          <h2 style="max-width: 400px; margin: 0; line-height: 1.2; text-wrap: balance;">
+            This is a long heading that wraps awkwardly
+          </h2>
+          <p style="margin: 1rem 0 0; font-size: 0.875rem; color: #78350f;">
+            Lines balanced for better readability ✨
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>text-wrap <mark>Values</mark></h3>
+    <div style="display: grid; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">balance</h4>
+        <pre><code class="language-css">h1, h2, h3 {
+  text-wrap: balance;
+  /* Balances line lengths
+     Perfect for headings
+     Max 6 lines */
+}</code></pre>
+        <p style="margin: 0.5rem 0 0; color: #78350f;">Distributes text evenly across lines to avoid orphans.</p>
+      </div>
+
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">pretty</h4>
+        <pre><code class="language-css">p {
+  text-wrap: pretty;
+  /* Avoids orphans in last line
+     Better for paragraphs
+     Minimal performance impact */
+}</code></pre>
+        <p style="margin: 0.5rem 0 0; color: #78350f;">Prevents single words on last line of paragraphs.</p>
+      </div>
+
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">stable</h4>
+        <pre><code class="language-css">.editable {
+  text-wrap: stable;
+  /* Content doesn't reflow when editing
+     Good for contenteditable */
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>@property - <mark>Typed CSS</mark></h3>
+    <div class="baseline-badge newly" style="font-size: 0.75rem;">🟡 Newly Available (lug 2024)</div>
+    <div class="code-demo-split" style="margin-top: 1.5rem;">
+      <div class="code-example">
+        <pre><code class="language-css">/* Register custom property */
+@property --gradient-angle {
+  syntax: '&lt;angle&gt;';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* Now can animate! */
+.gradient-box {
+  background: linear-gradient(
+    var(--gradient-angle),
+    #667eea,
+    #764ba2
+  );
+  animation: rotate 3s linear infinite;
+}
+
+@keyframes rotate {
+  to {
+    --gradient-angle: 360deg;
+  }
+}</code></pre>
+      </div>
+
+      <div class="demo">
+        <style>
+          @property --demo-angle {
+            syntax: '<angle>';
+            initial-value: 45deg;
+            inherits: false;
+          }
+          
+          .demo-gradient {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(
+              var(--demo-angle),
+              #667eea,
+              #764ba2
+            );
+            border-radius: 1rem;
+            animation: demo-rotate 4s linear infinite;
+          }
+          
+          @keyframes demo-rotate {
+            to { --demo-angle: 405deg; }
+          }
+        </style>
+        <div style="display: flex; justify-content: center; padding: 2rem; background: #f8fafc; border-radius: 0.75rem;">
+          <div class="demo-gradient"></div>
+        </div>
+        <p style="margin-top: 1rem; text-align: center; font-size: 0.875rem; color: #64748b;">
+          Animated gradient using @property
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>@property <mark>Syntax Types</mark></h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; font-size: 0.8rem;">
+      <div class="fragment" style="background: #fef3c7; padding: 1rem; border-radius: 0.5rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">Numbers & Lengths</h4>
+        <pre><code class="language-css">@property --spacing {
+  syntax: '&lt;length&gt;';
+  initial-value: 1rem;
+  inherits: true;
+}
+
+@property --opacity {
+  syntax: '&lt;number&gt;';
+  initial-value: 1;
+  inherits: false;
+}</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #fef3c7; padding: 1rem; border-radius: 0.5rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">Colors</h4>
+        <pre><code class="language-css">@property --theme-color {
+  syntax: '&lt;color&gt;';
+  initial-value: #667eea;
+  inherits: true;
+}
+
+/* Can now animate colors! */
+.box {
+  background: var(--theme-color);
+  transition: --theme-color 0.3s;
+}</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #fef3c7; padding: 1rem; border-radius: 0.5rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">Transforms</h4>
+        <pre><code class="language-css">@property --rotate {
+  syntax: '&lt;angle&gt;';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@property --scale {
+  syntax: '&lt;number&gt;';
+  initial-value: 1;
+  inherits: false;
+}</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #fef3c7; padding: 1rem; border-radius: 0.5rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">Multiple Values</h4>
+        <pre><code class="language-css">@property --gradient-stops {
+  syntax: '&lt;color&gt;+';
+  initial-value: red, blue;
+  inherits: false;
+}
+
+@property --any {
+  syntax: '*';
+  initial-value: whatever;
+  inherits: false;
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Relative Color <mark>Syntax</mark></h3>
+    <div class="baseline-badge newly" style="font-size: 0.75rem;">🟡 Newly Available (set 2024)</div>
+    <div style="margin-top: 1.5rem; display: grid; gap: 1.5rem; font-size: 0.85rem;">
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">Create Color Variations</h4>
+        <pre><code class="language-css">:root {
+  --primary: #667eea;
+}
+
+/* Lighter version */
+.light {
+  background: oklch(from var(--primary) calc(l + 0.2) c h);
+}
+
+/* More saturated */
+.saturated {
+  background: oklch(from var(--primary) l calc(c * 1.5) h);
+}
+
+/* Different hue */
+.shifted {
+  background: oklch(from var(--primary) l c calc(h + 180));
+}
+
+/* With transparency */
+.transparent {
+  background: oklch(from var(--primary) l c h / 0.5);
+}</code></pre>
+      </div>
+
+      <div class="fragment">
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem;">
+          <div>
+            <div style="width: 100%; aspect-ratio: 1; background: #667eea; border-radius: 0.5rem; margin-bottom: 0.5rem;"></div>
+            <p style="margin: 0; font-size: 0.75rem; text-align: center;">Original</p>
+          </div>
+          <div>
+            <div style="width: 100%; aspect-ratio: 1; background: oklch(from #667eea calc(l + 0.2) c h); border-radius: 0.5rem; margin-bottom: 0.5rem;"></div>
+            <p style="margin: 0; font-size: 0.75rem; text-align: center;">Lighter</p>
+          </div>
+          <div>
+            <div style="width: 100%; aspect-ratio: 1; background: oklch(from #667eea calc(l - 0.2) c h); border-radius: 0.5rem; margin-bottom: 0.5rem;"></div>
+            <p style="margin: 0; font-size: 0.75rem; text-align: center;">Darker</p>
+          </div>
+          <div>
+            <div style="width: 100%; aspect-ratio: 1; background: oklch(from #667eea l c calc(h + 180)); border-radius: 0.5rem; margin-bottom: 0.5rem;"></div>
+            <p style="margin: 0; font-size: 0.75rem; text-align: center;">Complement</p>
+          </div>
+          <div>
+            <div style="width: 100%; aspect-ratio: 1; background: oklch(from #667eea l c h / 0.3); border-radius: 0.5rem; margin-bottom: 0.5rem; border: 2px solid #e2e8f0;"></div>
+            <p style="margin: 0; font-size: 0.75rem; text-align: center;">30% Opacity</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="fragment" style="background: #d1fae5; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #10b981;">
+        <h4 style="margin-top: 0; color: #065f46;">💡 Perfect For Design Systems</h4>
+        <pre><code class="language-css">/* One color, infinite variations */
+:root {
+  --brand: oklch(65% 0.2 270);
+  
+  --brand-50: oklch(from var(--brand) calc(l + 0.3) calc(c * 0.3) h);
+  --brand-100: oklch(from var(--brand) calc(l + 0.25) calc(c * 0.5) h);
+  --brand-500: var(--brand);
+  --brand-900: oklch(from var(--brand) calc(l - 0.3) calc(c * 1.2) h);
+  
+  --brand-hover: oklch(from var(--brand) calc(l - 0.1) c h);
+  --brand-active: oklch(from var(--brand) calc(l - 0.2) c h);
+}</code></pre>
+      </div>
+    </div>
+  </section>
+</section>

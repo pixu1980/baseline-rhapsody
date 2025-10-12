@@ -1,0 +1,62 @@
+<section>
+  <h2>Text Effects <span class="baseline-badge widely">✅ Widely Available</span></h2>
+
+  <div class="code-demo-split">
+    <div class="code-example">
+      <pre><code class="language-css">/* Text stroke */
+.outline {
+  -webkit-text-stroke: 2px #3b82f6;
+  color: transparent;
+}
+
+/* Background clip */
+.gradient-text {
+  background: linear-gradient(
+    45deg, #3b82f6, #8b5cf6
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Text shadow */
+.glowing {
+  text-shadow: 
+    0 0 10px #3b82f6,
+    0 0 20px #3b82f6,
+    0 0 30px #3b82f6;
+}
+</code></pre>
+    </div>
+
+    <div class="demo">
+      <div style="padding: 1rem; background: #f1f5f9; border-radius: 0.5rem; text-align: center">
+        <p style="-webkit-text-stroke: 2px #3b82f6; color: transparent; font-size: 2rem; font-weight: bold; margin: 0 0 1rem 0">Outlined</p>
+        <p
+          style="background: linear-gradient(45deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 2rem; font-weight: bold; margin: 0 0 1rem 0"
+        >
+          Gradient
+        </p>
+        <p
+          style="
+            color: #3b82f6;
+            text-shadow:
+              0 0 10px #3b82f6,
+              0 0 20px #3b82f6;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0;
+          "
+        >
+          Glowing
+        </p>
+      </div>
+      <p style="margin-top: 1rem; font-size: 0.9rem; color: #64748b">✨ Creative text effects without images!</p>
+    </div>
+  </div>
+
+  <aside class="notes">
+    Text Effects: typography gets creative. - Available since 2015+ (Baseline widely available) - text-stroke for outlined text - background-clip: text for gradient fills - Multiple text-shadow for
+    glow effects - text-fill-color for precise control - All animatable and responsive Duration: 1 min
+  </aside>
+</section>

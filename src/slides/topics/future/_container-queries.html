@@ -1,0 +1,314 @@
+<section data-transition="convex">
+  <section>
+    <h2>Container Queries</h2>
+    <div class="baseline-badge newly">🟡 Newly Available (2024)</div>
+    <p class="fragment">Query the <mark>container</mark>, not the viewport</p>
+  </section>
+
+  <section>
+    <h3>The Problem with <mark>Media Queries</mark></h3>
+    <div class="before-after">
+      <div class="before">
+        <h4>❌ Media Queries = Viewport Only</h4>
+        <pre><code class="language-css">/* Component changes based on viewport */
+.card {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .card {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+  }
+}
+
+/* Problem: What if card is in a sidebar? */
+/* A 300px wide sidebar on a 1920px screen
+   still triggers the "desktop" layout! */</code></pre>
+        <div style="margin-top: 1rem; padding: 1rem; background: #fee2e2; border-radius: 0.5rem; border: 2px solid #ef4444; font-size: 0.85rem; color: #991b1b;">
+          ⚠️ Component can't adapt to its actual available space
+        </div>
+      </div>
+
+      <div class="after">
+        <h4>✅ Container Queries = Actual Space</h4>
+        <pre><code class="language-css">/* Define container */
+.sidebar {
+  container-type: inline-size;
+  container-name: sidebar;
+}
+
+/* Query the container */
+.card {
+  display: block;
+}
+
+@container sidebar (min-width: 400px) {
+  .card {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+  }
+}
+
+/* Card adapts to sidebar width,
+   not viewport width! */</code></pre>
+        <div style="margin-top: 1rem; padding: 1rem; background: #d1fae5; border-radius: 0.5rem; border: 2px solid #10b981; font-size: 0.85rem; color: #065f46;">
+          ✅ Component truly responsive to its context
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Container Query <mark>Syntax</mark></h3>
+    <div class="code-demo-split">
+      <div class="code-example">
+        <pre><code class="language-css">/* Step 1: Define container */
+.container {
+  container-type: inline-size;
+  /* or: size (both dimensions) */
+  /* or: normal (not a container) */
+}
+
+/* Named containers */
+.sidebar {
+  container-type: inline-size;
+  container-name: sidebar;
+}
+
+/* Shorthand */
+.main {
+  container: main / inline-size;
+  /* name / type */
+}
+
+/* Step 2: Query the container */
+@container (min-width: 400px) {
+  .card {
+    /* Styles for cards in containers >= 400px */
+  }
+}
+
+/* Query named containers */
+@container sidebar (min-width: 300px) {
+  .widget {
+    /* Styles for widgets in sidebar >= 300px */
+  }
+}</code></pre>
+      </div>
+
+      <div class="code-example">
+        <pre><code class="language-css">/* Container Query Units */
+.element {
+  /* Based on container size */
+  width: 50cqw;   /* 50% container width */
+  height: 30cqh;  /* 30% container height */
+  
+  /* Inline/Block (logical) */
+  padding: 2cqi;  /* 2% container inline size */
+  margin: 1cqb;   /* 1% container block size */
+  
+  /* Min/Max */
+  font-size: 5cqmin; /* 5% of smaller dimension */
+  gap: 2cqmax;       /* 2% of larger dimension */
+}
+
+/* Combine with clamp for fluid sizing */
+.card-title {
+  font-size: clamp(
+    1rem,
+    4cqw,
+    2rem
+  );
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Interactive <mark>Demo</mark></h3>
+    <div class="demo" style="margin-top: 2rem;">
+      <style>
+        .demo-cq-wrapper {
+          display: grid;
+          grid-template-columns: 1fr 2fr;
+          gap: 2rem;
+        }
+        
+        .demo-cq-container {
+          container-type: inline-size;
+          container-name: demo;
+          background: #f8fafc;
+          padding: 1rem;
+          border-radius: 0.75rem;
+          border: 2px solid #e2e8f0;
+          resize: horizontal;
+          overflow: auto;
+          min-width: 200px;
+        }
+        
+        .demo-cq-card {
+          background: white;
+          border-radius: 0.5rem;
+          padding: 1rem;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        @container demo (min-width: 400px) {
+          .demo-cq-card {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 1rem;
+            padding: 1.5rem;
+          }
+          
+          .demo-cq-image {
+            order: -1;
+          }
+        }
+        
+        .demo-cq-image {
+          width: 100%;
+          aspect-ratio: 1;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          border-radius: 0.375rem;
+          margin-bottom: 0.5rem;
+        }
+        
+        @container demo (min-width: 400px) {
+          .demo-cq-image {
+            margin-bottom: 0;
+          }
+        }
+        
+        .demo-cq-title {
+          font-size: clamp(0.875rem, 4cqw, 1.25rem);
+          font-weight: 600;
+          margin: 0 0 0.5rem;
+        }
+        
+        .demo-cq-text {
+          font-size: clamp(0.75rem, 3cqw, 0.875rem);
+          color: #64748b;
+          margin: 0;
+        }
+      </style>
+      
+      <div class="demo-cq-wrapper">
+        <div class="demo-cq-container">
+          <div class="demo-cq-card">
+            <div class="demo-cq-image"></div>
+            <div>
+              <h4 class="demo-cq-title">Responsive Card</h4>
+              <p class="demo-cq-text">This card adapts to its container size, not the viewport. Try resizing this container!</p>
+            </div>
+          </div>
+        </div>
+        
+        <div style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24; color: #78350f;">
+          <h4 style="margin-top: 0; color: #92400e;">👆 Try It!</h4>
+          <p style="margin: 0 0 1rem; font-size: 0.9rem;">
+            Drag the <strong>bottom-right corner</strong> of the left container to resize it.
+          </p>
+          <ul style="margin: 0; padding-left: 1.5rem; font-size: 0.85rem;">
+            <li><strong>&lt; 400px</strong>: Vertical layout</li>
+            <li><strong>≥ 400px</strong>: Horizontal grid</li>
+            <li>Font sizes scale with container width (<code>cqw</code>)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Practical <mark>Use Cases</mark></h3>
+    <div style="display: grid; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">🎨 Reusable Components</h4>
+        <pre><code class="language-css">/* Card that works in sidebar, grid, or full-width */
+.card-container {
+  container-type: inline-size;
+}
+
+@container (min-width: 300px) {
+  .card { display: flex; gap: 1rem; }
+}
+
+@container (min-width: 500px) {
+  .card { display: grid; grid-template-columns: 200px 1fr; }
+}</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">📱 Component Libraries</h4>
+        <pre><code class="language-css">/* Component adapts to where it's used */
+.product-card-container {
+  container: product / inline-size;
+}
+
+@container product (min-width: 250px) {
+  .product-image { aspect-ratio: 4/3; }
+  .product-price { font-size: 4cqw; }
+}
+
+@container product (min-width: 400px) {
+  .product-details { display: block; }
+}</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">🎯 Grid Items</h4>
+        <pre><code class="language-css">/* Each grid item is a container */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.grid > * {
+  container-type: inline-size;
+}
+
+/* Items adapt individually based on their width */
+@container (min-width: 300px) {
+  .item { padding: 2rem; }
+  .item-title { font-size: 1.5rem; }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Container Queries vs <mark>Media Queries</mark></h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; font-size: 0.85rem;">
+      <div style="background: #f8fafc; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #e2e8f0;">
+        <h4 style="margin-top: 0;">📺 Media Queries</h4>
+        <ul style="margin: 0; padding-left: 1.5rem;">
+          <li>Query viewport size</li>
+          <li>Global breakpoints</li>
+          <li>Page-level layouts</li>
+          <li>Device detection</li>
+        </ul>
+        <div style="margin-top: 1rem; padding: 0.75rem; background: #e0e7ff; border-radius: 0.375rem; font-size: 0.8rem;">
+          <strong>Use for:</strong> Overall page structure, navigation, global themes
+        </div>
+      </div>
+
+      <div style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">📦 Container Queries</h4>
+        <ul style="margin: 0; padding-left: 1.5rem; color: #78350f;">
+          <li>Query container size</li>
+          <li>Component-level control</li>
+          <li>Context-aware components</li>
+          <li>True modularity</li>
+        </ul>
+        <div style="margin-top: 1rem; padding: 0.75rem; background: #fde68a; border-radius: 0.375rem; font-size: 0.8rem; color: #78350f;">
+          <strong>Use for:</strong> Reusable components, cards, widgets, modular UI
+        </div>
+      </div>
+    </div>
+    
+    <p class="fragment" style="margin-top: 2rem; text-align: center; font-size: 1.1rem; color: #667eea;">
+      💡 <strong>Pro tip:</strong> Use both! Media queries for layout, container queries for components.
+    </p>
+  </section>
+</section>

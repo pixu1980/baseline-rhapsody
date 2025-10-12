@@ -1,0 +1,271 @@
+<section data-transition="convex"></section>
+  <section>
+    <h2>More <mark>Experimental</mark> Features</h2>
+    <div class="baseline-badge limited">❌ Limited Availability</div>
+    <p class="fragment">Cutting-edge CSS <mark>in progress</mark></p>
+  </section>
+
+  <section>
+    <h3>View Transitions <mark>(Cross-Document)</mark></h3>
+    <div style="display: grid; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">Same-Document (Widely Available)</h4>
+        <pre><code class="language-javascript">// Already covered in Phase 3
+document.startViewTransition(() => {
+  // Update DOM
+  updateContent();
+});</code></pre>
+        <p style="margin: 0.5rem 0 0; color: #78350f;">✅ Works within same page</p>
+      </div>
+
+      <div class="fragment" style="background: #fef2f2; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #ef4444;">
+        <h4 style="margin-top: 0; color: #dc2626;">Cross-Document (Not in Baseline)</h4>
+        <pre><code class="language-css">/* Enable transitions between page navigations */
+@view-transition {
+  navigation: auto; /* Trigger on same-origin navigations */
+}
+
+/* Or programmatically */
+navigation.addEventListener('navigate', (e) => {
+  if (shouldTransition(e)) {
+    e.intercept({
+      handler: async () => {
+        // Smooth transition to new page
+      }
+    });
+  }
+});</code></pre>
+        <p style="margin: 0.5rem 0 0; color: #991b1b;">
+          ❌ Chrome/Edge only (behind flag)<br>
+          Enables SPA-like transitions for MPAs!
+        </p>
+      </div>
+
+      <div class="fragment" style="background: #e0e7ff; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #667eea;">
+        <h4 style="margin-top: 0; color: #3730a3;">🎬 Example: Image Gallery</h4>
+        <pre><code class="language-css">/* Page A */
+.thumbnail {
+  view-transition-name: gallery-image-1;
+}
+
+/* Page B */
+.full-image {
+  view-transition-name: gallery-image-1;
+}
+
+/* Automatic morphing between pages! */</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Masonry <mark>Layout</mark></h3>
+    <div style="display: grid; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">CSS Grid Extension</h4>
+        <pre><code class="language-css">/* Proposed syntax */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-rows: masonry; /* 🚀 */
+  
+  /* Items flow like Pinterest/Masonry.js */
+  align-tracks: start; /* Pack items */
+}
+
+/* No JavaScript needed for masonry! */</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #fef2f2; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #ef4444;">
+        <h4 style="margin-top: 0; color: #dc2626;">⚠️ Status</h4>
+        <p style="margin: 0.5rem 0 0; color: #991b1b;">
+          <strong>Firefox</strong> - Behind flag: <code>layout.css.grid-template-masonry-value.enabled</code><br>
+          <strong>Chrome/Safari</strong> - Under consideration<br>
+          <strong>Alternative syntax</strong> under discussion at CSSWG
+        </p>
+      </div>
+
+      <div class="fragment" style="background: #e0e7ff; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #667eea;">
+        <h4 style="margin-top: 0; color: #3730a3;">📸 Use Cases</h4>
+        <ul style="margin: 0.5rem 0 0 1.5rem; color: #4338ca;">
+          <li>Image galleries (Pinterest-style)</li>
+          <li>Card layouts with varying heights</li>
+          <li>News feeds, social media timelines</li>
+          <li>Dashboard widgets</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>scrollbar-color</h3>
+    <div style="display: grid; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">Simple Scrollbar Theming</h4>
+        <pre><code class="language-css">.container {
+  /* Firefox only (for now) */
+  scrollbar-color: #667eea #e0e7ff;
+  /*              thumb    track */
+  
+  scrollbar-width: thin; /* ✅ Widely available */
+}
+
+/* Still need vendor prefixes for webkit */
+.container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background: #667eea;
+  border-radius: 4px;
+}
+
+.container::-webkit-scrollbar-track {
+  background: #e0e7ff;
+}</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #fef2f2; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #ef4444;">
+        <h4 style="margin-top: 0; color: #dc2626;">❌ Not in Baseline</h4>
+        <p style="margin: 0.5rem 0 0; color: #991b1b;">
+          <strong>Firefox 64+</strong> - Full support<br>
+          <strong>Chrome/Safari</strong> - Not supported, use ::-webkit-scrollbar
+        </p>
+      </div>
+
+      <div class="fragment" style="background: #e0e7ff; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #667eea;">
+        <h4 style="margin-top: 0; color: #3730a3;">🎨 Cross-Browser Approach</h4>
+        <pre><code class="language-css">/* Progressive enhancement */
+.custom-scroll {
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
+}
+
+/* Firefox */
+@supports (scrollbar-color: auto) {
+  .custom-scroll {
+    scrollbar-color: #667eea #e0e7ff;
+  }
+}
+
+/* Webkit browsers */
+@supports selector(::-webkit-scrollbar) {
+  .custom-scroll::-webkit-scrollbar {
+    width: 8px;
+  }
+  .custom-scroll::-webkit-scrollbar-thumb {
+    background: #667eea;
+  }
+  .custom-scroll::-webkit-scrollbar-track {
+    background: #e0e7ff;
+  }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Other <mark>Experimental</mark> APIs</h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; font-size: 0.8rem;">
+      <div class="fragment" style="background: white; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #e2e8f0;">
+        <h4 style="margin-top: 0; color: #0f172a;">🎨 CSS Painting API</h4>
+        <pre><code class="language-javascript">// Houdini Paint API
+CSS.paintWorklet.addModule('paint.js');
+
+// paint.js
+registerPaint('myGradient', class {
+  paint(ctx, size, props) {
+    // Custom paint logic
+  }
+});</code></pre>
+        <pre style="margin-top: 0.5rem;"><code class="language-css">.element {
+  background: paint(myGradient);
+}</code></pre>
+        <p style="margin: 0.5rem 0 0; font-size: 0.75rem; color: #64748b;">Chrome/Edge only</p>
+      </div>
+
+      <div class="fragment" style="background: white; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #e2e8f0;">
+        <h4 style="margin-top: 0; color: #0f172a;">🔢 sibling-count() & sibling-index()</h4>
+        <pre><code class="language-css">/* Proposed - not implemented */
+.item {
+  /* Style based on position */
+  width: calc(100% / sibling-count());
+  
+  /* Different color per index */
+  background: hsl(
+    calc(sibling-index() * 30),
+    70%, 50%
+  );
+}</code></pre>
+        <p style="margin: 0.5rem 0 0; font-size: 0.75rem; color: #64748b;">Proposal stage</p>
+      </div>
+
+      <div class="fragment" style="background: white; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #e2e8f0;">
+        <h4 style="margin-top: 0; color: #0f172a;">🎭 @when / @else</h4>
+        <pre><code class="language-css">/* Proposed conditional at-rules */
+@when media(width >= 768px) and supports(display: grid) {
+  .container {
+    display: grid;
+  }
+} @else {
+  .container {
+    display: flex;
+  }
+}</code></pre>
+        <p style="margin: 0.5rem 0 0; font-size: 0.75rem; color: #64748b;">Under discussion</p>
+      </div>
+
+      <div class="fragment" style="background: white; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #e2e8f0;">
+        <h4 style="margin-top: 0; color: #0f172a;">🔧 @function & @mixin</h4>
+        <pre><code class="language-css">/* Proposed custom functions */
+@function --double(--value) {
+  result: calc(var(--value) * 2);
+}
+
+.element {
+  width: --double(100px); /* 200px */
+}</code></pre>
+        <p style="margin: 0.5rem 0 0; font-size: 0.75rem; color: #64748b;">Early proposal</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>The <mark>Future</mark> is Bright</h3>
+    <div style="display: grid; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
+      <div class="fragment" style="background: #d1fae5; padding: 2rem; border-radius: 0.75rem; border: 2px solid #10b981;">
+        <h4 style="margin-top: 0; color: #065f46;">🚀 What's Coming</h4>
+        <ul style="margin: 0.5rem 0 0 1.5rem; color: #047857; line-height: 1.8;">
+          <li><strong>Anchor Positioning</strong> - Expected 2026</li>
+          <li><strong>Scroll Animations</strong> - Safari support incoming</li>
+          <li><strong>Cross-doc View Transitions</strong> - MPA revolution</li>
+          <li><strong>Masonry</strong> - Syntax finalization in progress</li>
+          <li><strong>@when/@else</strong> - Cleaner conditional logic</li>
+          <li><strong>Custom functions</strong> - True CSS programming</li>
+        </ul>
+      </div>
+
+      <div class="fragment" style="background: #e0e7ff; padding: 2rem; border-radius: 0.75rem; border: 2px solid #667eea;">
+        <h4 style="margin-top: 0; color: #3730a3;">📚 Stay Updated</h4>
+        <ul style="margin: 0.5rem 0 0 1.5rem; color: #4338ca; line-height: 1.8;">
+          <li><a href="https://web.dev/baseline" style="color: #667eea;">web.dev/baseline</a> - Track feature availability</li>
+          <li><a href="https://caniuse.com" style="color: #667eea;">caniuse.com</a> - Browser support tables</li>
+          <li><a href="https://github.com/w3c/csswg-drafts" style="color: #667eea;">CSSWG Drafts</a> - Upcoming specs</li>
+          <li><a href="https://developer.chrome.com/blog" style="color: #667eea;">Chrome Developers Blog</a></li>
+          <li><a href="https://webkit.org/blog" style="color: #667eea;">WebKit Blog</a></li>
+        </ul>
+      </div>
+
+      <div class="fragment" style="background: #fef3c7; padding: 2rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">💡 How to Use Today</h4>
+        <ol style="margin: 0.5rem 0 0 1.5rem; color: #78350f; line-height: 1.8;">
+          <li><strong>Feature Detection</strong> - Use @supports queries</li>
+          <li><strong>Progressive Enhancement</strong> - Build base experience first</li>
+          <li><strong>Polyfills</strong> - Bridge the gap where available</li>
+          <li><strong>Testing</strong> - Test in target browsers</li>
+          <li><strong>Documentation</strong> - Note experimental features used</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+</section>

@@ -94,7 +94,54 @@
 
     function localRequire(x) {
       var res = localRequire.resolve(x);
-      return res === false ? {} : newRequire(res);
+      if (res === false) {
+        return {};
+      }
+      // Synthesize a module to follow re-exports.
+      if (Array.isArray(res)) {
+        var m = {__esModule: true};
+        res.forEach(function (v) {
+          var key = v[0];
+          var id = v[1];
+          var exp = v[2] || v[0];
+          var x = newRequire(id);
+          if (key === '*') {
+            Object.keys(x).forEach(function (key) {
+              if (
+                key === 'default' ||
+                key === '__esModule' ||
+                Object.prototype.hasOwnProperty.call(m, key)
+              ) {
+                return;
+              }
+
+              Object.defineProperty(m, key, {
+                enumerable: true,
+                get: function () {
+                  return x[key];
+                },
+              });
+            });
+          } else if (exp === '*') {
+            Object.defineProperty(m, key, {
+              enumerable: true,
+              value: x,
+            });
+          } else {
+            Object.defineProperty(m, key, {
+              enumerable: true,
+              get: function () {
+                if (exp === 'default') {
+                  return x.__esModule ? x.default : x;
+                }
+                return x[exp];
+              },
+            });
+          }
+        });
+        return m;
+      }
+      return newRequire(res);
     }
 
     function resolve(x) {
@@ -160,7 +207,7 @@
       });
     }
   }
-})({"8mmGs":[function(require,module,exports,__globalThis) {
+})({"llFaT":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -669,7 +716,7 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 },{}],"8JWvp":[function(require,module,exports,__globalThis) {
 var _core = require("@pixu-talks/core");
 
-},{"@pixu-talks/core":"iP4Wg"}],"iP4Wg":[function(require,module,exports,__globalThis) {
+},{"@pixu-talks/core":"6ObJm"}],"6ObJm":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _polyfills = require("./polyfills");
 var _revealJs = require("reveal.js");
@@ -849,7 +896,7 @@ addEventListener('DOMContentLoaded', ()=>{
     window.Reveal = deck;
 });
 
-},{"./polyfills":"2usu1","reveal.js":"3pfz5","reveal.js/plugin/highlight/highlight.js":"jM73S","reveal.js/plugin/markdown/markdown.js":"922Yv","reveal.js/plugin/zoom/zoom.js":"luYLa","reveal.js/plugin/notes/notes.js":"2NT6T","./plugins":"g7vIF","./components":"lABBs","./utils":"9HSHT","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"2usu1":[function(require,module,exports,__globalThis) {
+},{"./polyfills":"gkb54","reveal.js":"5TOrn","reveal.js/plugin/highlight/highlight.js":"aOigT","reveal.js/plugin/markdown/markdown.js":"ivDFJ","reveal.js/plugin/zoom/zoom.js":"c3HUO","reveal.js/plugin/notes/notes.js":"aEJLN","./plugins":"b4G2x","./components":"byc93","./utils":"fg3DK","@parcel/transformer-js/src/esmodule-helpers.js":"kttee"}],"gkb54":[function(require,module,exports,__globalThis) {
 !String.prototype.startsWith && (String.prototype.startsWith = function(searchString, position) {
     return this.substr(position || 0, searchString.length) === searchString;
 });
@@ -858,7 +905,7 @@ addEventListener('DOMContentLoaded', ()=>{
     return this.substring(this_len - search.length, this_len) === search;
 });
 
-},{}],"3pfz5":[function(require,module,exports,__globalThis) {
+},{}],"5TOrn":[function(require,module,exports,__globalThis) {
 /*!
  * reveal.js 5.2.0
  * https://revealjs.com
@@ -3663,7 +3710,7 @@ X.initialize = (e)=>(Object.assign(X, new $(document.querySelector(".reveal"), e
     };
 }), X.isReady = ()=>!1, X.VERSION = K;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"jnFvT":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"kttee"}],"kttee":[function(require,module,exports,__globalThis) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -3693,7 +3740,7 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"jM73S":[function(require,module,exports,__globalThis) {
+},{}],"aOigT":[function(require,module,exports,__globalThis) {
 !function(e, t) {
     module.exports = t();
 }(this, function() {
@@ -49039,7 +49086,7 @@ exports.export = function(dest, destName, get) {
     return ()=>Rs;
 });
 
-},{}],"922Yv":[function(require,module,exports,__globalThis) {
+},{}],"ivDFJ":[function(require,module,exports,__globalThis) {
 !function(e, t) {
     module.exports = t();
 }(this, function() {
@@ -50419,7 +50466,7 @@ exports.export = function(dest, destName, get) {
     };
 });
 
-},{}],"luYLa":[function(require,module,exports,__globalThis) {
+},{}],"c3HUO":[function(require,module,exports,__globalThis) {
 !function(e, t) {
     module.exports = t();
 }(this, function() {
@@ -50509,7 +50556,7 @@ exports.export = function(dest, destName, get) {
 	 */ return ()=>e;
 });
 
-},{}],"2NT6T":[function(require,module,exports,__globalThis) {
+},{}],"aEJLN":[function(require,module,exports,__globalThis) {
 !function(t, e) {
     module.exports = e();
 }(this, function() {
@@ -51820,7 +51867,7 @@ exports.export = function(dest, destName, get) {
     };
 });
 
-},{}],"g7vIF":[function(require,module,exports,__globalThis) {
+},{}],"b4G2x":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Header", ()=>(0, _headerDefault.default));
@@ -51833,7 +51880,7 @@ var _menuDefault = parcelHelpers.interopDefault(_menu);
 var _toolbar = require("./_toolbar");
 var _toolbarDefault = parcelHelpers.interopDefault(_toolbar);
 
-},{"./_header":"anVkR","./_menu":"2ywBn","./_toolbar":"8X25d","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"anVkR":[function(require,module,exports,__globalThis) {
+},{"./_header":"b2EvN","./_menu":"c6FQV","./_toolbar":"cIIeL","@parcel/transformer-js/src/esmodule-helpers.js":"kttee"}],"b2EvN":[function(require,module,exports,__globalThis) {
 /**
  * Handles opening of and synchronization with the reveal.js
  * notes window.
@@ -51890,7 +51937,7 @@ const HeaderPlugin = ()=>{
 };
 exports.default = HeaderPlugin;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"2ywBn":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"kttee"}],"c6FQV":[function(require,module,exports,__globalThis) {
 /*
  * Reveal.js menu plugin
  * MIT licensed
@@ -52622,7 +52669,7 @@ const Plugin = ()=>{
 };
 exports.default = Plugin;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"8X25d":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"kttee"}],"cIIeL":[function(require,module,exports,__globalThis) {
 /*
  * Reveal.js toolbar plugin
  * MIT licensed
@@ -52771,12 +52818,12 @@ const Plugin = ()=>{
 };
 exports.default = Plugin;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"lABBs":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"kttee"}],"byc93":[function(require,module,exports,__globalThis) {
 var _diveIn = require("./_dive-in");
 var _stagger = require("./_stagger");
 var _tabs = require("./_tabs");
 
-},{"./_dive-in":"5jJFD","./_stagger":"5TVt1","./_tabs":"aVVRT"}],"5jJFD":[function(require,module,exports,__globalThis) {
+},{"./_dive-in":"1YoWH","./_stagger":"kIweT","./_tabs":"PsVwL"}],"1YoWH":[function(require,module,exports,__globalThis) {
 // DiveIn stacked container component
 addEventListener('DOMContentLoaded', ()=>{
     const diveIn = document.querySelector('dive-in');
@@ -52805,7 +52852,7 @@ addEventListener('DOMContentLoaded', ()=>{
     }
 });
 
-},{}],"5TVt1":[function(require,module,exports,__globalThis) {
+},{}],"kIweT":[function(require,module,exports,__globalThis) {
 // Stagger animation components
 addEventListener('DOMContentLoaded', ()=>{
     const staggers = [
@@ -52819,7 +52866,7 @@ addEventListener('DOMContentLoaded', ()=>{
     }
 });
 
-},{}],"aVVRT":[function(require,module,exports,__globalThis) {
+},{}],"PsVwL":[function(require,module,exports,__globalThis) {
 // Tabs component
 addEventListener('DOMContentLoaded', ()=>{
     const tabsComponents = document.querySelectorAll('tabs');
@@ -52892,7 +52939,7 @@ addEventListener('DOMContentLoaded', ()=>{
     }
 });
 
-},{}],"9HSHT":[function(require,module,exports,__globalThis) {
+},{}],"fg3DK":[function(require,module,exports,__globalThis) {
 window.pixuTalks = {
     /**
    * Pass in an element and its CSS Custom Property that you want the value of.
@@ -53002,6 +53049,6 @@ window.pixuTalks = {
     }
 };
 
-},{}]},["8mmGs","8JWvp"], "8JWvp", "parcelRequire4ccd", {})
+},{}]},["llFaT","8JWvp"], "8JWvp", "parcelRequire4ccd", {})
 
-//# sourceMappingURL=talk-template.c6396971.js.map
+//# sourceMappingURL=baseline-rhapsody.c6396971.js.map

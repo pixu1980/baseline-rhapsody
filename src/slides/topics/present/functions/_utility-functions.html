@@ -1,0 +1,266 @@
+<section data-transition="convex">
+  <section>
+    <h2>Utility Functions</h2>
+    <div class="baseline-badge widely">✅ Widely Available (2015)</div>
+    <p class="fragment">Generate content <mark>dynamically</mark></p>
+  </section>
+
+  <section>
+    <h3>attr() - Read HTML <mark>Attributes</mark></h3>
+    <div class="code-demo-split">
+      <div class="code-example">
+        <pre><code class="language-html">&lt;!-- HTML --&gt;
+&lt;a href="https://example.com" 
+   data-tooltip="Visit our website"&gt;
+  Link
+&lt;/a&gt;
+
+&lt;img src="photo.jpg" 
+     alt="Sunset" 
+     data-credit="Photo by Jane"&gt;</code></pre>
+
+        <pre><code class="language-css">/* CSS */
+a::after {
+  content: " (" attr(href) ")";
+  font-size: 0.875em;
+  opacity: 0.7;
+}
+
+a[data-tooltip]:hover::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  background: #333;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  bottom: 100%;
+}
+
+img::after {
+  content: attr(data-credit);
+  display: block;
+  font-size: 0.75em;
+  color: #666;
+}</code></pre>
+      </div>
+
+      <div class="demo">
+        <div style="padding: 2rem; background: #f8fafc; border-radius: 0.75rem;">
+          <style>
+            .demo-link::after {
+              content: " (" attr(href) ")";
+              font-size: 0.875em;
+              opacity: 0.7;
+            }
+          </style>
+          <a href="https://example.com" class="demo-link" style="color: #667eea;">Visit Example</a>
+          <p style="margin-top: 1rem; font-size: 0.9rem; color: #64748b;">
+            The URL is automatically added from the <code>href</code> attribute!
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>counter() - Automatic <mark>Numbering</mark></h3>
+    <div class="code-demo-split">
+      <div class="code-example">
+        <pre><code class="language-css">/* Define counters */
+body {
+  counter-reset: section;
+}
+
+h2 {
+  counter-reset: subsection;
+  counter-increment: section;
+}
+
+h2::before {
+  content: counter(section) ". ";
+  color: #667eea;
+  font-weight: bold;
+}
+
+h3 {
+  counter-increment: subsection;
+}
+
+h3::before {
+  content: counter(section) "." counter(subsection) " ";
+  color: #764ba2;
+}
+
+/* Nested counters */
+ol {
+  counter-reset: item;
+  list-style: none;
+}
+
+ol li::before {
+  counter-increment: item;
+  content: counters(item, ".") ". ";
+  color: #10b981;
+}</code></pre>
+      </div>
+
+      <div class="demo">
+        <style>
+          .demo-counter {
+            counter-reset: demo-section;
+          }
+          .demo-counter h4 {
+            counter-increment: demo-section;
+            font-size: 1.1rem;
+            margin: 0.75rem 0;
+          }
+          .demo-counter h4::before {
+            content: counter(demo-section) ". ";
+            color: #667eea;
+            font-weight: bold;
+          }
+          .demo-counter ol {
+            counter-reset: demo-item;
+            list-style: none;
+            padding-left: 0;
+          }
+          .demo-counter ol li {
+            counter-increment: demo-item;
+          }
+          .demo-counter ol li::before {
+            content: counter(demo-section) "." counter(demo-item) " ";
+            color: #10b981;
+            font-weight: 600;
+          }
+        </style>
+        <div class="demo-counter" style="padding: 1.5rem; background: #f8fafc; border-radius: 0.75rem; font-size: 0.9rem;">
+          <h4>Introduction</h4>
+          <ol style="margin: 0.5rem 0 1rem 1rem;">
+            <li>First point</li>
+            <li>Second point</li>
+          </ol>
+          
+          <h4>Main Content</h4>
+          <ol style="margin: 0.5rem 0 1rem 1rem;">
+            <li>First point</li>
+            <li>Second point</li>
+            <li>Third point</li>
+          </ol>
+          
+          <h4>Conclusion</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>symbols() - Custom <mark>List Styles</mark></h3>
+    <div class="code-demo-split">
+      <div class="code-example">
+        <pre><code class="language-css">/* Cyclic symbols */
+ul.emoji {
+  list-style-type: symbols(cyclic "🎯" "✨" "🚀");
+}
+
+/* Numeric with custom symbols */
+ol.steps {
+  list-style-type: symbols(
+    numeric 
+    "➊" "➋" "➌" "➍" "➎"
+  );
+}
+
+/* Alphabetic with symbols */
+ol.letters {
+  list-style-type: symbols(
+    alphabetic 
+    "Ⓐ" "Ⓑ" "Ⓒ" "Ⓓ"
+  );
+}
+
+/* Fixed symbols (repeats last) */
+ul.priority {
+  list-style-type: symbols(
+    fixed 
+    "🔴" "🟡" "🟢"
+  );
+}</code></pre>
+      </div>
+
+      <div class="demo">
+        <style>
+          .demo-symbols ul {
+            list-style-type: symbols(cyclic "🎯" "✨" "🚀");
+            margin: 0.5rem 0;
+          }
+          .demo-symbols ol {
+            list-style-type: symbols(numeric "➊" "➋" "➌" "➍" "➎");
+            margin: 0.5rem 0;
+          }
+        </style>
+        <div class="demo-symbols" style="padding: 1.5rem; background: #f8fafc; border-radius: 0.75rem; font-size: 0.9rem;">
+          <p style="margin: 0 0 0.5rem; font-weight: 600;">Custom List Markers:</p>
+          <ul>
+            <li>First item gets 🎯</li>
+            <li>Second item gets ✨</li>
+            <li>Third item gets 🚀</li>
+            <li>Fourth item cycles back to 🎯</li>
+          </ul>
+          
+          <ol style="margin-top: 1rem;">
+            <li>Step one</li>
+            <li>Step two</li>
+            <li>Step three</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Practical <mark>Use Cases</mark></h3>
+    <div style="display: grid; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
+      <div class="fragment" style="background: #f8fafc; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #e2e8f0;">
+        <h4 style="margin-top: 0;">📄 Print Stylesheet with Page Numbers</h4>
+        <pre><code class="language-css">@media print {
+  body {
+    counter-reset: page;
+  }
+  
+  @page {
+    @bottom-right {
+      content: "Page " counter(page);
+    }
+  }
+}</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #f8fafc; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #e2e8f0;">
+        <h4 style="margin-top: 0;">🔗 Link Preview Tooltips</h4>
+        <pre><code class="language-css">a[href^="http"]::after {
+  content: " (" attr(href) ")";
+  font-size: 0.8em;
+  word-break: break-all;
+}
+
+a[title]:hover::before {
+  content: attr(title);
+  /* Tooltip styling */
+}</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #f8fafc; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #e2e8f0;">
+        <h4 style="margin-top: 0;">📋 Nested Table of Contents</h4>
+        <pre><code class="language-css">nav ol {
+  counter-reset: toc;
+  list-style: none;
+}
+
+nav li::before {
+  counter-increment: toc;
+  content: counters(toc, ".") " ";
+}</code></pre>
+      </div>
+    </div>
+  </section>
+</section>

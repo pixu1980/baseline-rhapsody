@@ -1,0 +1,287 @@
+<section data-transition="convex"></section>
+  <section>
+    <h2>interpolate-size Property</h2>
+    <div class="baseline-badge widely">✅ Widely Available (2024)</div>
+    <p class="fragment">Animate <mark>intrinsic sizes</mark></p>
+  </section>
+
+  <section>
+    <h3>The Problem: <mark>auto & Intrinsic Sizes</mark></h3>
+    <div class="before-after">
+      <div class="before">
+        <h4>❌ Before: Couldn't Animate</h4>
+        <pre><code class="language-css">/* This DOESN'T work */
+.accordion {
+  height: 0;
+  transition: height 0.3s;
+}
+
+.accordion.expanded {
+  height: auto;
+  /* Can't transition from 0 to auto! */
+}
+
+/* Workaround: Use max-height */
+.accordion {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s;
+}
+
+.accordion.expanded {
+  max-height: 500px;
+  /* Arbitrary value, not flexible */
+}</code></pre>
+      </div>
+
+      <div class="after">
+        <h4>✅ After: interpolate-size</h4>
+        <pre><code class="language-css">/* Enable intrinsic size transitions */
+* {
+  interpolate-size: allow-keywords;
+}
+
+/* Now this works! */
+.accordion {
+  height: 0;
+  transition: height 0.3s;
+  overflow: hidden;
+}
+
+.accordion.expanded {
+  height: auto;
+  /* Smoothly transitions to content height! */
+}
+
+/* Works with all intrinsic sizes */
+.element {
+  width: min-content;
+  transition: width 0.3s;
+}
+
+.element:hover {
+  width: max-content;
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>How It <mark>Works</mark></h3>
+    <div class="code-demo-split">
+      <div class="code-example">
+        <pre><code class="language-css">/* Global enable (recommended) */
+* {
+  interpolate-size: allow-keywords;
+}
+
+/* Or per-element */
+.accordion {
+  interpolate-size: allow-keywords;
+}
+
+/* Supported keywords */
+.element {
+  /* Height/Width */
+  height: auto;
+  width: auto;
+  
+  /* Intrinsic sizing */
+  width: min-content;
+  width: max-content;
+  width: fit-content;
+  
+  /* All can now be transitioned! */
+}
+
+/* Common pattern: Accordions */
+details {
+  interpolate-size: allow-keywords;
+}
+
+details summary {
+  cursor: pointer;
+}
+
+details[open] {
+  /* Content height is calculated */
+  /* Transition just works! */
+}</code></pre>
+      </div>
+
+      <div class="code-example">
+        <pre><code class="language-css">/* Practical examples */
+
+/* Expandable card */
+.card {
+  interpolate-size: allow-keywords;
+  height: 200px;
+  overflow: hidden;
+  transition: height 0.3s ease;
+}
+
+.card:hover {
+  height: auto;
+}
+
+/* Animated details */
+details {
+  interpolate-size: allow-keywords;
+}
+
+details > div {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.3s;
+}
+
+details[open] > div {
+  height: auto;
+}
+
+/* Responsive menu */
+nav {
+  interpolate-size: allow-keywords;
+  height: 0;
+  transition: height 0.3s;
+}
+
+nav.open {
+  height: max-content;
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Interactive <mark>Demo</mark></h3>
+    <div class="demo" style="margin-top: 2rem;">
+      <style>
+        .demo-interpolate * {
+          interpolate-size: allow-keywords;
+        }
+        
+        .demo-accordion {
+          background: white;
+          border: 2px solid #e2e8f0;
+          border-radius: 0.75rem;
+          margin-bottom: 0.5rem;
+          overflow: hidden;
+        }
+        
+        .demo-accordion summary {
+          padding: 1rem 1.5rem;
+          cursor: pointer;
+          font-weight: 600;
+          background: #f8fafc;
+          user-select: none;
+          list-style: none;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        
+        .demo-accordion summary::after {
+          content: "▼";
+          transition: transform 0.3s;
+        }
+        
+        .demo-accordion[open] summary::after {
+          transform: rotate(-180deg);
+        }
+        
+        .demo-accordion-content {
+          height: 0;
+          overflow: hidden;
+          transition: height 0.3s ease;
+        }
+        
+        .demo-accordion[open] .demo-accordion-content {
+          height: auto;
+        }
+        
+        .demo-accordion-inner {
+          padding: 1.5rem;
+          color: #64748b;
+        }
+      </style>
+      
+      <div class="demo-interpolate" style="max-width: 600px; margin: 0 auto;">
+        <details class="demo-accordion">
+          <summary>What is interpolate-size?</summary>
+          <div class="demo-accordion-content">
+            <div class="demo-accordion-inner">
+              The <code>interpolate-size</code> property allows CSS transitions and animations to interpolate intrinsic sizing keywords like <code>auto</code>, <code>min-content</code>, and <code>max-content</code>.
+            </div>
+          </div>
+        </details>
+        
+        <details class="demo-accordion">
+          <summary>Why is this useful?</summary>
+          <div class="demo-accordion-content">
+            <div class="demo-accordion-inner">
+              Before this property, you couldn't smoothly animate from a fixed size to <code>auto</code>. You had to use workarounds like <code>max-height</code> with arbitrary values, which were inflexible and could cause timing issues.
+            </div>
+          </div>
+        </details>
+        
+        <details class="demo-accordion" open>
+          <summary>How does it work?</summary>
+          <div class="demo-accordion-content">
+            <div class="demo-accordion-inner">
+              Set <code>interpolate-size: allow-keywords</code> on an element (or globally with <code>*</code>), and CSS will calculate the computed value of intrinsic sizes, allowing smooth transitions. Try collapsing this accordion to see it in action!
+            </div>
+          </div>
+        </details>
+      </div>
+      
+      <p style="margin-top: 2rem; text-align: center; font-size: 0.85rem; color: #64748b;">
+        Click to expand/collapse. Notice the smooth height transitions!
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h3>Use Cases & <mark>Considerations</mark></h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
+      <div class="fragment" style="background: #f8fafc; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #10b981;">
+        <h4 style="margin-top: 0;">✅ Perfect For</h4>
+        <ul style="margin: 0; padding-left: 1.5rem;">
+          <li>Accordions & collapsible panels</li>
+          <li>Expandable cards</li>
+          <li>Dropdown menus</li>
+          <li>&lt;details&gt; elements</li>
+          <li>Dynamic content reveals</li>
+        </ul>
+      </div>
+
+      <div class="fragment" style="background: #f8fafc; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #f59e0b;">
+        <h4 style="margin-top: 0;">⚠️ Considerations</h4>
+        <ul style="margin: 0; padding-left: 1.5rem;">
+          <li>Applies globally - use <code>*</code> selector</li>
+          <li>Content must be measurable</li>
+          <li>May impact performance on complex layouts</li>
+          <li>Use with <code>overflow: hidden</code> for clean animations</li>
+        </ul>
+      </div>
+
+      <div class="fragment" style="background: #f8fafc; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #e2e8f0; grid-column: 1 / -1;">
+        <h4 style="margin-top: 0;">💡 Pro Tip: Global Setup</h4>
+        <pre><code class="language-css">/* Add to your CSS reset */
+*, *::before, *::after {
+  interpolate-size: allow-keywords;
+}
+
+/* Now all transitions/animations support intrinsic sizes */
+.any-element {
+  height: 100px;
+  transition: height 0.3s;
+}
+
+.any-element.expanded {
+  height: auto; /* Just works! */
+}</code></pre>
+      </div>
+    </div>
+  </section>
+</section>

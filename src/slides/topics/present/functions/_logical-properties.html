@@ -1,0 +1,40 @@
+<section>
+  <h2>Logical Properties <span class="baseline-badge widely">✅ Widely Available</span></h2>
+
+  <div class="code-demo-split">
+    <div class="code-example">
+      <pre><code class="language-css">/* Old way: physical directions */
+.old {
+  margin-left: 1rem;
+  padding-right: 2rem;
+  border-top: 1px solid;
+}
+
+/* New way: logical directions */
+.new {
+  margin-inline-start: 1rem;
+  padding-inline-end: 2rem;
+  border-block-start: 1px solid;
+}
+
+/* Works with RTL automatically! */
+[dir="rtl"] .new {
+  /* No changes needed! */
+}
+</code></pre>
+    </div>
+
+    <div class="demo">
+      <div style="padding: 1rem; background: #f1f5f9; border-radius: 0.5rem">
+        <div style="padding-inline-start: 2rem; padding-inline-end: 0.5rem; margin-block-end: 0.5rem; background: #3b82f6; color: white; border-radius: 0.25rem">LTR: padding-inline-start</div>
+        <div dir="rtl" style="padding-inline-start: 2rem; padding-inline-end: 0.5rem; background: #8b5cf6; color: white; border-radius: 0.25rem">RTL: same property, flipped!</div>
+      </div>
+      <p style="margin-top: 1rem; font-size: 0.9rem; color: #64748b">✨ Write once, works in any direction!</p>
+    </div>
+  </div>
+
+  <aside class="notes">
+    Logical properties: direction-agnostic CSS. - Available since 2018 (Baseline widely available) - inline = horizontal in LTR, vertical in vertical writing modes - block = vertical in LTR,
+    horizontal in vertical modes - Essential for internationalization - Future-proof your layouts Duration: 1–2 min
+  </aside>
+</section>

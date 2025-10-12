@@ -1,0 +1,281 @@
+<section data-transition="convex">
+  <section>
+    <h2>Custom <mark>Highlight API</mark></h2>
+    <div class="baseline-badge newly">🟡 Newly Available (giu 2025)</div>
+    <p class="fragment">Style arbitrary <mark>text ranges</mark> with CSS</p>
+  </section>
+
+  <section>
+    <h3>The <mark>Problem</mark></h3>
+    <div class="before-after" style="margin-top: 1.5rem;">
+      <div class="before">
+        <h4>❌ Before: Wrapping Elements</h4>
+        <div style="background: #f8fafc; padding: 2rem; border-radius: 0.75rem;">
+          <pre><code class="language-javascript">// Had to wrap text in elements
+function highlightSearch(text, query) {
+  return text.replace(
+    new RegExp(query, 'gi'),
+    '&lt;mark&gt;$&&lt;/mark&gt;'
+  );
+  // Modifies DOM structure
+  // Breaks selection/copy
+  // Performance issues
+}</code></pre>
+          <div style="margin-top: 1rem; padding: 1rem; background: white; border-radius: 0.5rem; border: 2px solid #e2e8f0;">
+            <p style="margin: 0;">The quick brown <mark style="background: yellow;">fox</mark> jumps over the lazy <mark style="background: yellow;">fox</mark>.</p>
+            <p style="margin: 0.5rem 0 0; font-size: 0.75rem; color: #64748b;">DOM polluted with &lt;mark&gt; elements</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="after">
+        <h4>✅ After: Custom Highlights</h4>
+        <div style="background: #fef3c7; padding: 2rem; border-radius: 0.75rem;">
+          <pre><code class="language-javascript">// Create highlight without DOM changes
+const range = new Range();
+range.setStart(node, 10);
+range.setEnd(node, 13);
+
+const highlight = new Highlight(range);
+CSS.highlights.set('search-result', highlight);</code></pre>
+          <pre style="margin-top: 1rem;"><code class="language-css">::highlight(search-result) {
+  background-color: yellow;
+  color: black;
+}</code></pre>
+          <div style="margin-top: 1rem; padding: 1rem; background: white; border-radius: 0.5rem; border: 2px solid #fbbf24;">
+            <p style="margin: 0;">Clean DOM, styled text ranges ✨</p>
+            <p style="margin: 0.5rem 0 0; font-size: 0.75rem; color: #78350f;">No wrapper elements needed</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Interactive <mark>Search Demo</mark></h3>
+    <style>
+      /* ::highlight pseudo-elements (browser support required) */
+      /* 
+      ::highlight(demo-search-result) {
+        background-color: #fef3c7;
+        color: #92400e;
+        text-decoration: underline;
+        text-decoration-color: #fbbf24;
+        text-decoration-thickness: 2px;
+      }
+
+      ::highlight(demo-current-result) {
+        background-color: #fbbf24;
+        color: #78350f;
+        font-weight: 600;
+      }
+      */
+    </style>
+    <div style="margin-top: 1.5rem;">
+      <div style="background: #f8fafc; padding: 1.5rem; border-radius: 0.75rem; margin-bottom: 1rem;">
+        <input 
+          type="text" 
+          id="search-input" 
+          placeholder="Search text (try 'the')"
+          style="width: 100%; padding: 0.75rem; border: 2px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem;"
+        />
+        <p id="search-results" style="margin: 0.5rem 0 0; font-size: 0.875rem; color: #64748b;"></p>
+      </div>
+
+      <div style="background: white; padding: 2rem; border-radius: 0.75rem; border: 2px solid #e2e8f0; line-height: 1.6;">
+        <p id="demo-text" style="margin: 0;">
+          The quick brown fox jumps over the lazy dog. The fox is clever and the dog is sleeping. 
+          This is a demonstration of the Custom Highlight API, which allows styling arbitrary text ranges 
+          without modifying the DOM structure.
+        </p>
+      </div>
+    </div>
+
+    <script>
+      (function() {
+        const input = document.getElementById('search-input');
+        const text = document.getElementById('demo-text');
+        const resultsEl = document.getElementById('search-results');
+
+        function highlightText(query) {
+          CSS.highlights?.clear();
+          
+          if (!query || !CSS.highlights) {
+            resultsEl.textContent = '';
+            return;
+          }
+
+          const textContent = text.textContent;
+          const ranges = [];
+          const regex = new RegExp(query, 'gi');
+          let match;
+
+          while ((match = regex.exec(textContent)) !== null) {
+            const range = new Range();
+            const textNode = text.firstChild;
+            range.setStart(textNode, match.index);
+            range.setEnd(textNode, match.index + match[0].length);
+            ranges.push(range);
+          }
+
+          if (ranges.length > 0) {
+            const highlight = new Highlight(...ranges);
+            CSS.highlights.set('demo-search-result', highlight);
+            resultsEl.textContent = `Found ${ranges.length} result${ranges.length !== 1 ? 's' : ''}`;
+          } else {
+            resultsEl.textContent = 'No results found';
+          }
+        }
+
+        input?.addEventListener('input', (e) => highlightText(e.target.value));
+      })();
+    </script>
+  </section>
+
+  <section>
+    <h3>JavaScript <mark>API</mark></h3>
+    <div style="display: grid; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">Creating Highlights</h4>
+        <pre><code class="language-javascript">// 1. Create Range objects
+const range1 = new Range();
+range1.setStart(textNode, 0);
+range1.setEnd(textNode, 10);
+
+const range2 = new Range();
+range2.setStart(textNode, 20);
+range2.setEnd(textNode, 30);
+
+// 2. Create Highlight with ranges
+const highlight = new Highlight(range1, range2);
+
+// 3. Register with CSS.highlights
+CSS.highlights.set('my-highlight', highlight);
+
+// 4. Style with CSS
+// ::highlight(my-highlight) { ... }</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">Managing Highlights</h4>
+        <pre><code class="language-javascript">// Add more ranges
+highlight.add(range3);
+
+// Remove ranges
+highlight.delete(range1);
+
+// Clear all ranges
+highlight.clear();
+
+// Check if has range
+highlight.has(range2); // boolean
+
+// Iterate ranges
+for (const range of highlight) {
+  console.log(range);
+}
+
+// Remove from registry
+CSS.highlights.delete('my-highlight');
+
+// Clear all highlights
+CSS.highlights.clear();</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>CSS <mark>Styling</mark></h3>
+    <div style="display: grid; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">::highlight() Pseudo-element</h4>
+        <pre><code class="language-css">/* Basic styling */
+::highlight(search-result) {
+  background-color: yellow;
+  color: black;
+}
+
+/* Multiple properties */
+::highlight(code-comment) {
+  color: #6a9955;
+  font-style: italic;
+  text-decoration: underline wavy;
+}
+
+/* Allowed properties:
+   - color
+   - background-color
+   - text-decoration and variants
+   - text-shadow
+   - stroke-* and fill-* (for SVG)
+   - -webkit-text-fill-color
+   - -webkit-text-stroke-* */</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">Priority Order</h4>
+        <pre><code class="language-css">/* Highlights stack in registration order */
+::highlight(layer-1) { background: yellow; }
+::highlight(layer-2) { color: red; }
+::highlight(layer-3) { text-decoration: underline; }
+
+/* Later registered = higher priority
+   CSS.highlights.set('layer-1', ...)
+   CSS.highlights.set('layer-2', ...)
+   CSS.highlights.set('layer-3', ...) */</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #d1fae5; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #10b981;">
+        <h4 style="margin-top: 0; color: #065f46;">💡 Use Cases</h4>
+        <ul style="margin: 0.5rem 0 0 1.5rem; color: #047857;">
+          <li><strong>Search results</strong> - Highlight matching text</li>
+          <li><strong>Syntax highlighting</strong> - Code editors</li>
+          <li><strong>Spell check</strong> - Underline errors</li>
+          <li><strong>Collaboration</strong> - Show other users' selections</li>
+          <li><strong>Text annotations</strong> - Comments and notes</li>
+          <li><strong>Reading mode</strong> - Highlight current sentence/paragraph</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>::target-text <mark>Pseudo-element</mark></h3>
+    <div class="baseline-badge newly" style="font-size: 0.75rem;">🟡 Newly Available (dic 2024)</div>
+    <div style="display: grid; gap: 1.5rem; margin-top: 1.5rem; font-size: 0.85rem;">
+      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
+        <h4 style="margin-top: 0; color: #92400e;">Text Fragment Links</h4>
+        <pre><code class="language-html">&lt;!-- URL with text fragment --&gt;
+https://example.com#:~:text=custom%20highlight%20API
+
+&lt;!-- Browser auto-highlights and scrolls to text --&gt;</code></pre>
+        <pre style="margin-top: 1rem;"><code class="language-css">/* Style the auto-highlighted text */
+::target-text {
+  background-color: #fef3c7;
+  color: #92400e;
+  outline: 2px solid #fbbf24;
+  outline-offset: 2px;
+}</code></pre>
+      </div>
+
+      <div class="fragment" style="background: #e0e7ff; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #667eea;">
+        <h4 style="margin-top: 0; color: #3730a3;">🎯 Combined Power</h4>
+        <p style="margin: 0.5rem 0; color: #4338ca;">
+          Custom Highlight API provides programmatic control,<br>
+          ::target-text styles browser-generated highlights<br>
+          Together, they offer complete text highlighting solution!
+        </p>
+      </div>
+
+      <div class="fragment" style="background: #d1fae5; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #10b981;">
+        <h4 style="margin-top: 0; color: #065f46;">✅ Browser Support</h4>
+        <p style="margin: 0.5rem 0 0; color: #047857;">
+          <strong>Custom Highlight API:</strong> Baseline Newly available (Jun 2025)<br>
+          Chrome 105+, Edge 105+, Safari 17.2+, Firefox planned<br><br>
+          <strong>::target-text:</strong> Baseline Newly available (Dec 2024)<br>
+          Chrome 89+, Edge 89+, Safari 16.4+
+        </p>
+      </div>
+    </div>
+  </section>
+</section>

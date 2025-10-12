@@ -1,0 +1,45 @@
+<section>
+  <h2>Masks <span class="baseline-badge widely">✅ Widely Available</span></h2>
+
+  <div class="code-demo-split">
+    <div class="code-example">
+      <pre><code class="language-css">/* Mask with image or gradient */
+.element {
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    transparent 100%
+  );
+}
+
+/* SVG masks */
+.complex-mask {
+  mask-image: url('mask.svg');
+  mask-size: cover;
+  mask-repeat: no-repeat;
+}
+
+/* Combine with clip-path */
+.clipped {
+  clip-path: polygon(
+    0% 0%, 100% 0%, 100% 75%, 0% 100%
+  );
+}
+</code></pre>
+    </div>
+
+    <div class="demo">
+      <div style="padding: 1rem; background: #f1f5f9; border-radius: 0.5rem">
+        <div style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); padding: 3rem; border-radius: 0.25rem; mask-image: linear-gradient(to bottom, black 0%, transparent 100%)">
+          <p style="color: white; margin: 0; font-weight: bold">Gradient mask fade-out</p>
+        </div>
+      </div>
+      <p style="margin-top: 1rem; font-size: 0.9rem; color: #64748b">✨ Control visibility with precision!</p>
+    </div>
+  </div>
+
+  <aside class="notes">
+    CSS Masks: advanced visibility control. - Available since 2017 (Baseline widely available) - mask-image: gradient or image-based masks - clip-path: geometric clipping - Perfect for creative shapes
+    and reveals - No need for complex image editing Duration: 1 min
+  </aside>
+</section>

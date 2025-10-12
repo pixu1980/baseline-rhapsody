@@ -1,0 +1,239 @@
+<section>
+  <h3>CSS Filters 🎨</h3>
+  <div class="baseline-badge widely">✅ Widely Available (2020)</div>
+</section>
+
+<section>
+  <h4>What are CSS Filters?</h4>
+  <p>Filters apply visual effects to elements without needing image editing:</p>
+  <ul>
+    <li><code>blur()</code> - Gaussian blur effect</li>
+    <li><code>brightness()</code> - Adjust brightness</li>
+    <li><code>contrast()</code> - Adjust contrast</li>
+    <li><code>grayscale()</code> - Convert to grayscale</li>
+    <li><code>hue-rotate()</code> - Rotate colors</li>
+    <li><code>saturate()</code> - Adjust saturation</li>
+    <li><code>sepia()</code> - Apply sepia tone</li>
+    <li><code>invert()</code> - Invert colors</li>
+    <li><code>drop-shadow()</code> - Add shadow</li>
+  </ul>
+</section>
+
+<section>
+  <h4>Basic Filter Examples</h4>
+  <pre><code class="language-css">/* Blur effect */
+.blurred {
+  filter: blur(5px);
+}
+
+/* Brightness adjustment */
+.bright {
+  filter: brightness(150%);
+}
+
+.dark {
+  filter: brightness(50%);
+}
+
+/* Convert to grayscale */
+.grayscale {
+  filter: grayscale(100%);
+}
+
+/* Combine multiple filters */
+.vintage {
+  filter: sepia(60%) contrast(110%) brightness(90%);
+}</code></pre>
+</section>
+
+<section>
+  <h4>Interactive Demo: Filter Gallery</h4>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; padding: 1rem; background: #1a1a2e; border-radius: 8px;">
+    <style>
+      .filter-demo {
+        text-align: center;
+      }
+      
+      .filter-demo img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+      }
+      
+      .filter-demo:hover img {
+        transform: scale(1.05);
+      }
+      
+      .filter-demo p {
+        margin: 0.5rem 0 0;
+        color: white;
+        font-size: 0.9rem;
+      }
+    </style>
+    <div class="filter-demo">
+      <img src="https://picsum.photos/200/150?random=1" alt="Original">
+      <p>Original</p>
+    </div>
+    <div class="filter-demo">
+      <img src="https://picsum.photos/200/150?random=1" alt="Blur" style="filter: blur(3px);">
+      <p>blur(3px)</p>
+    </div>
+    <div class="filter-demo">
+      <img src="https://picsum.photos/200/150?random=1" alt="Grayscale" style="filter: grayscale(100%);">
+      <p>grayscale(100%)</p>
+    </div>
+    <div class="filter-demo">
+      <img src="https://picsum.photos/200/150?random=1" alt="Sepia" style="filter: sepia(80%);">
+      <p>sepia(80%)</p>
+    </div>
+    <div class="filter-demo">
+      <img src="https://picsum.photos/200/150?random=1" alt="Hue Rotate" style="filter: hue-rotate(90deg);">
+      <p>hue-rotate(90deg)</p>
+    </div>
+    <div class="filter-demo">
+      <img src="https://picsum.photos/200/150?random=1" alt="Contrast" style="filter: contrast(200%);">
+      <p>contrast(200%)</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h4>Backdrop Filter (Glassmorphism)</h4>
+  <pre><code class="language-css">/* Blur background behind element */
+.glass-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+}
+
+/* macOS-style translucent sidebar */
+.sidebar {
+  backdrop-filter: blur(20px) brightness(110%);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* Dark glass effect */
+.dark-glass {
+  backdrop-filter: blur(16px) contrast(80%);
+  background: rgba(0, 0, 0, 0.3);
+}</code></pre>
+</section>
+
+<section>
+  <h4>Drop Shadow vs Box Shadow</h4>
+  <pre><code class="language-css">/* box-shadow: follows the box */
+.box-shadow {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* drop-shadow: follows the element shape */
+.drop-shadow {
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+}
+
+/* Perfect for non-rectangular shapes */
+.star {
+  clip-path: polygon(
+    50% 0%, 61% 35%, 98% 35%, 68% 57%, 
+    79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%
+  );
+  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+}</code></pre>
+</section>
+
+<section>
+  <h4>Hover Effects with Filters</h4>
+  <pre><code class="language-css">/* Image hover effects */
+.image-card img {
+  filter: grayscale(100%) brightness(80%);
+  transition: filter 0.3s ease;
+}
+
+.image-card:hover img {
+  filter: grayscale(0%) brightness(100%);
+}
+
+/* Button glow effect */
+.glow-button {
+  filter: drop-shadow(0 0 0 transparent);
+  transition: filter 0.3s ease;
+}
+
+.glow-button:hover {
+  filter: drop-shadow(0 0 10px rgba(102, 126, 234, 0.8));
+}</code></pre>
+</section>
+
+<section>
+  <h4>Dynamic Filters with Custom Properties</h4>
+  <pre><code class="language-css">:root {
+  --blur-amount: 0px;
+  --brightness: 100%;
+  --contrast: 100%;
+}
+
+.dynamic-filter {
+  filter: 
+    blur(var(--blur-amount))
+    brightness(var(--brightness))
+    contrast(var(--contrast));
+  transition: filter 0.3s ease;
+}
+
+/* Change with JavaScript or media queries */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --blur-amount: 0px; /* Remove motion blur */
+  }
+}</code></pre>
+</section>
+
+<section>
+  <h4>Performance Tips</h4>
+  <ul>
+    <li>✅ Filters are GPU-accelerated</li>
+    <li>⚠️ Heavy filters (blur, drop-shadow) can impact performance</li>
+    <li>✅ Use <code>will-change: filter</code> for animated filters</li>
+    <li>⚠️ Backdrop-filter can be expensive on low-end devices</li>
+  </ul>
+  <pre><code class="language-css">/* Optimize animated filters */
+.animated-filter {
+  will-change: filter;
+  filter: blur(5px);
+}
+
+.animated-filter.active {
+  filter: blur(0px);
+}</code></pre>
+</section>
+
+<section>
+  <h4>Browser Support</h4>
+  <ul>
+    <li>✅ <strong>filter:</strong> Chrome 53+, Firefox 35+, Safari 9.1+</li>
+    <li>✅ <strong>backdrop-filter:</strong> Chrome 76+, Firefox 103+, Safari 9+</li>
+    <li>📊 Baseline: Widely available (2020)</li>
+  </ul>
+  <div class="resources">
+    <p><strong>Resources:</strong></p>
+    <ul>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/filter" target="_blank">MDN: Filter</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter" target="_blank">MDN: Backdrop Filter</a></li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h4>Key Takeaways</h4>
+  <ul>
+    <li>✅ Apply visual effects without image editing</li>
+    <li>✅ Combine multiple filters for creative effects</li>
+    <li>✅ backdrop-filter enables glassmorphism</li>
+    <li>✅ drop-shadow follows element shape (vs box-shadow)</li>
+    <li>✅ Great for hover effects and transitions</li>
+    <li>⚠️ Test performance on mobile devices</li>
+  </ul>
+</section>

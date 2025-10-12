@@ -1,0 +1,62 @@
+<section>
+  <h2>@supports <span class="baseline-badge widely">✅ Widely Available</span></h2>
+
+  <div class="code-demo-split">
+    <div class="code-example">
+      <pre><code class="language-css">/* Feature detection in CSS */
+@supports (display: grid) {
+  .layout {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Fallbacks for older browsers */
+@supports not (display: grid) {
+  .layout {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+/* Multiple conditions */
+@supports (backdrop-filter: blur(10px)) 
+  and (mask-image: linear-gradient()) {
+  .glassmorphism { /* ... */ }
+}
+</code></pre>
+    </div>
+
+    <div class="demo">
+      <div style="padding: 1rem; background: #f1f5f9; border-radius: 0.5rem">
+        <style>
+          @supports (container-type: inline-size) {
+            .supports-demo-1 {
+              background: #3b82f6;
+              color: white;
+            }
+            .supports-demo-1::after {
+              content: ' ✓ Supported';
+            }
+          }
+          @supports not (container-type: inline-size) {
+            .supports-demo-1 {
+              background: #ef4444;
+              color: white;
+            }
+            .supports-demo-1::after {
+              content: ' ✗ Not supported';
+            }
+          }
+        </style>
+        <div class="supports-demo-1" style="padding: 1rem; border-radius: 0.25rem; font-weight: bold">Container Queries</div>
+      </div>
+      <p style="margin-top: 1rem; font-size: 0.9rem; color: #64748b">✨ Progressive enhancement built into CSS!</p>
+    </div>
+  </div>
+
+  <aside class="notes">
+    @supports: CSS feature queries. - Available since 2015 (Baseline widely available) - Feature detection directly in CSS - No JavaScript required - Supports and/or/not logic - Perfect for
+    progressive enhancement - Graceful degradation for older browsers Duration: 1 min
+  </aside>
+</section>

@@ -1,0 +1,190 @@
+<section>
+  <h3>Trigonometric Functions 📐</h3>
+  <div class="baseline-badge newly">🟡 Newly Available (Jul 2023)</div>
+</section>
+
+<section>
+  <h4>What are Trigonometric Functions?</h4>
+  <p>CSS now supports mathematical functions for circular and angular calculations:</p>
+  <ul>
+    <li><code>sin()</code>, <code>cos()</code>, <code>tan()</code></li>
+    <li><code>asin()</code>, <code>acos()</code>, <code>atan()</code>, <code>atan2()</code></li>
+    <li><code>pow()</code>, <code>sqrt()</code>, <code>hypot()</code></li>
+    <li><code>log()</code>, <code>exp()</code></li>
+  </ul>
+</section>
+
+<section>
+  <h4>Basic Example: Circular Motion</h4>
+  <pre><code class="language-css">.circle-item {
+  --angle: calc(var(--index) * 45deg);
+  --radius: 150px;
+  
+  /* Position items in a circle */
+  left: calc(50% + cos(var(--angle)) * var(--radius));
+  top: calc(50% + sin(var(--angle)) * var(--radius));
+  transform: translate(-50%, -50%);
+}
+
+/* 8 items around a circle */
+.item:nth-child(1) { --index: 0; }
+.item:nth-child(2) { --index: 1; }
+.item:nth-child(3) { --index: 2; }
+/* ... */</code></pre>
+</section>
+
+<section>
+  <h4>Smooth Wave Animation</h4>
+  <pre><code class="language-css">@keyframes wave {
+  from { --progress: 0; }
+  to { --progress: 1; }
+}
+
+.wave-element {
+  animation: wave 2s infinite linear;
+  
+  /* Create wave motion */
+  transform: translateY(
+    calc(sin(var(--progress) * 360deg) * 20px)
+  );
+}
+
+/* Stagger multiple elements */
+.wave-element:nth-child(2) {
+  --phase: 0.2;
+  transform: translateY(
+    calc(sin((var(--progress) + var(--phase)) * 360deg) * 20px)
+  );
+}</code></pre>
+</section>
+
+<section>
+  <h4>Polar to Cartesian Conversion</h4>
+  <pre><code class="language-css">/* Create a radar chart */
+.radar-point {
+  --angle: var(--data-angle);
+  --value: var(--data-value); /* 0-1 range */
+  --max-radius: 100px;
+  
+  --x: calc(cos(var(--angle)) * var(--value) * var(--max-radius));
+  --y: calc(sin(var(--angle)) * var(--value) * var(--max-radius));
+  
+  left: calc(50% + var(--x));
+  top: calc(50% + var(--y));
+}</code></pre>
+</section>
+
+<section>
+  <h4>Interactive Demo: Circular Menu</h4>
+  <div style="position: relative; height: 400px; background: #1a1a2e; border-radius: 8px; overflow: hidden;">
+    <style>
+      .circular-menu {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      
+      .menu-item {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        
+        --angle: calc(var(--index) * 51.43deg); /* 360/7 items */
+        --radius: 120px;
+        
+        left: calc(cos(var(--angle)) * var(--radius));
+        top: calc(sin(var(--angle)) * var(--radius));
+        transform: translate(-50%, -50%);
+      }
+      
+      .menu-item:hover {
+        --radius: 140px;
+        transform: translate(-50%, -50%) scale(1.1);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+      }
+      
+      .menu-center {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        background: #f093fb;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2em;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    </style>
+    <div class="circular-menu">
+      <div class="menu-center">+</div>
+      <div class="menu-item" style="--index: 0;">1</div>
+      <div class="menu-item" style="--index: 1;">2</div>
+      <div class="menu-item" style="--index: 2;">3</div>
+      <div class="menu-item" style="--index: 3;">4</div>
+      <div class="menu-item" style="--index: 4;">5</div>
+      <div class="menu-item" style="--index: 5;">6</div>
+      <div class="menu-item" style="--index: 6;">7</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h4>Advanced: Spiral Layout</h4>
+  <pre><code class="language-css">.spiral-item {
+  --index: var(--i);
+  --total: 20;
+  --progress: calc(var(--index) / var(--total));
+  
+  /* Spiral formula */
+  --angle: calc(var(--progress) * 720deg); /* 2 full rotations */
+  --radius: calc(var(--progress) * 200px); /* Expanding radius */
+  
+  left: calc(50% + cos(var(--angle)) * var(--radius));
+  top: calc(50% + sin(var(--angle)) * var(--radius));
+  
+  /* Rotate item to follow spiral tangent */
+  transform: translate(-50%, -50%) 
+             rotate(calc(var(--angle) + 90deg));
+}</code></pre>
+</section>
+
+<section>
+  <h4>Browser Support & Resources</h4>
+  <ul>
+    <li>✅ Chrome 111+ (Feb 2023)</li>
+    <li>✅ Firefox 108+ (Dec 2022)</li>
+    <li>✅ Safari 15.4+ (Mar 2022)</li>
+    <li>📊 Baseline: Newly available (Jul 2023)</li>
+  </ul>
+  <div class="resources">
+    <p><strong>Resources:</strong></p>
+    <ul>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Functions#trigonometric_functions" target="_blank">MDN: Trigonometric Functions</a></li>
+      <li><a href="https://web.dev/baseline" target="_blank">Baseline Status</a></li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h4>Key Takeaways</h4>
+  <ul>
+    <li>✅ Native support for complex mathematical layouts</li>
+    <li>✅ Perfect for circular menus, radial layouts, data visualizations</li>
+    <li>✅ No JavaScript needed for geometric calculations</li>
+    <li>✅ Combine with custom properties for dynamic effects</li>
+    <li>⚠️ Use <code>@supports</code> for progressive enhancement</li>
+  </ul>
+</section>

@@ -1,0 +1,48 @@
+<section>
+  <h2>Subgrid <span class="baseline-badge widely">✅ Widely Available</span></h2>
+
+  <div class="code-demo-split">
+    <div class="code-example">
+      <pre><code class="language-css">/* Parent grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+/* Child inherits parent's grid */
+.card {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 3;
+}
+
+/* All cards align perfectly */
+.card h3 { grid-row: 1; }
+.card img { grid-row: 2; }
+.card p { grid-row: 3; }
+</code></pre>
+    </div>
+
+    <div class="demo">
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; padding: 1rem; background: #f1f5f9; border-radius: 0.5rem">
+        <div style="display: grid; gap: 0.5rem; background: white; padding: 1rem; border-radius: 0.5rem">
+          <h5 style="margin: 0; color: #3b82f6">Card 1</h5>
+          <div style="height: 60px; background: #dbeafe; border-radius: 0.25rem"></div>
+          <p style="margin: 0; font-size: 0.875rem; color: #6b7280">Short text</p>
+        </div>
+        <div style="display: grid; gap: 0.5rem; background: white; padding: 1rem; border-radius: 0.5rem">
+          <h5 style="margin: 0; color: #8b5cf6">Card 2</h5>
+          <div style="height: 60px; background: #ede9fe; border-radius: 0.25rem"></div>
+          <p style="margin: 0; font-size: 0.875rem; color: #6b7280">Longer text that wraps to multiple lines</p>
+        </div>
+      </div>
+      <p style="margin-top: 1rem; font-size: 0.9rem; color: #64748b">✅ Firefox 71+, Safari 16+, Chrome 117+ (Baseline 2024)</p>
+    </div>
+  </div>
+
+  <aside class="notes">
+    Subgrid: children inherit parent's grid tracks. - Available Firefox 71+, Safari 16+, Chrome 117+ - Baseline widely available since 2024 - Align nested grid items across parent grid - Perfect for
+    card layouts with aligned content - No more height hacks for equal card sections - Makes complex grid layouts maintainable Duration: 1–2 min
+  </aside>
+</section>

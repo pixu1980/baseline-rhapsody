@@ -1,0 +1,65 @@
+<section>
+  <h2>:has() + Form States <span class="baseline-badge widely">✅ Widely Available</span></h2>
+
+  <div class="code-demo-split">
+    <div class="code-example">
+      <pre><code class="language-css">/* Style form based on validity */
+form:has(:invalid) {
+  border-color: red;
+}
+
+form:has(:invalid)::before {
+  content: "⚠️ Please fix errors";
+  color: red;
+}
+
+/* Style parent based on checked state */
+.option:has(input:checked) {
+  background: #3b82f6;
+  color: white;
+}
+
+/* Disabled state styling */
+.field:has(input:disabled) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+</code></pre>
+    </div>
+
+    <div class="demo">
+      <div style="padding: 1rem; background: #f1f5f9; border-radius: 0.5rem">
+        <style>
+          .demo-option {
+            padding: 1rem;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+          }
+          .demo-option:has(input:checked) {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+          }
+        </style>
+        <label class="demo-option">
+          <input type="radio" name="demo" style="margin-right: 0.5rem" />
+          Option 1 (click to select)
+        </label>
+        <label class="demo-option">
+          <input type="radio" name="demo" style="margin-right: 0.5rem" />
+          Option 2 (click to select)
+        </label>
+      </div>
+      <p style="margin-top: 1rem; font-size: 0.9rem; color: #64748b">✅ :has() available since 2023 (Baseline 2024)</p>
+    </div>
+  </div>
+
+  <aside class="notes">
+    :has() combined with form pseudo-classes: powerful form styling. - :has() widely available since 2024 - Form validation without JavaScript - Style containers based on input state - Works with
+    :valid, :invalid, :checked, :disabled, :required - Better UX with instant visual feedback - Accessibility benefits (visual + semantic state) Duration: 1–2 min
+  </aside>
+</section>

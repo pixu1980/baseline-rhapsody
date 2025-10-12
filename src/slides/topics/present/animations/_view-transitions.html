@@ -1,0 +1,345 @@
+<section data-transition="convex">
+  <section>
+    <h2>View Transitions</h2>
+    <div class="baseline-badge widely">✅ Widely Available (2024)</div>
+    <p class="fragment">Smooth transitions between <mark>page states</mark></p>
+  </section>
+
+  <section>
+    <h3>What Are <mark>View Transitions</mark>?</h3>
+    <div class="code-demo-split">
+      <div class="code-example">
+        <pre><code class="language-css">/* Enable view transitions */
+@view-transition {
+  navigation: auto;
+}
+
+/* Or in JavaScript for same-document */
+document.startViewTransition(() => {
+  // Update the DOM
+  updateContent();
+});
+
+/* Default animations provided */
+::view-transition-old(root) {
+  animation: fade-out 0.3s;
+}
+
+::view-transition-new(root) {
+  animation: fade-in 0.3s;
+}
+
+/* Customize per element */
+.card {
+  view-transition-name: card;
+}
+
+::view-transition-old(card),
+::view-transition-new(card) {
+  animation-duration: 0.5s;
+}</code></pre>
+      </div>
+
+      <div class="code-example">
+        <pre><code class="language-css">/* Built-in animations */
+@keyframes fade-in {
+  from { opacity: 0; }
+}
+
+@keyframes fade-out {
+  to { opacity: 0; }
+}
+
+@keyframes slide-from-right {
+  from { transform: translateX(100%); }
+}
+
+/* Element moves & morphs automatically */
+.thumbnail {
+  view-transition-name: featured-image;
+}
+
+/* On page change, image smoothly 
+   transitions from thumbnail to full size */
+.full-image {
+  view-transition-name: featured-image;
+}</code></pre>
+      </div>
+    </div>
+    <aside class="notes">
+      View Transitions API creates smooth animated transitions when the DOM updates. Browser captures before/after snapshots and automatically animates between them, including position, size, and style changes.
+    </aside>
+  </section>
+
+  <section>
+    <h3>Named <mark>Transitions</mark></h3>
+    <div class="code-demo-split">
+      <div class="code-example">
+        <pre><code class="language-css">/* Give elements unique names */
+.product-card {
+  view-transition-name: product-1;
+}
+
+.product-detail-image {
+  view-transition-name: product-1;
+  /* Same name = morphs between states */
+}
+
+/* Multiple elements */
+.card-1 { view-transition-name: card-1; }
+.card-2 { view-transition-name: card-2; }
+.card-3 { view-transition-name: card-3; }
+
+/* Customize each transition */
+::view-transition-old(card-1) {
+  animation: slide-out-left 0.3s;
+}
+
+::view-transition-new(card-1) {
+  animation: slide-in-right 0.3s;
+}
+
+/* Class-based naming */
+.featured {
+  view-transition-name: auto;
+  /* Generates unique name automatically */
+}</code></pre>
+      </div>
+
+      <div class="code-example">
+        <pre><code class="language-css">/* Advanced: Direction-based */
+::view-transition-old(root):only-child {
+  animation: slide-to-left 0.3s;
+}
+
+::view-transition-new(root):only-child {
+  animation: slide-from-right 0.3s;
+}
+
+/* Reduce motion support */
+@media (prefers-reduced-motion) {
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* Dark mode transitions */
+@media (prefers-color-scheme: dark) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.5s;
+  }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>JavaScript <mark>API</mark></h3>
+    <div class="code-demo-split">
+      <div class="code-example">
+        <pre><code class="language-javascript">// Basic usage
+function updateTheme() {
+  document.startViewTransition(() => {
+    document.body.classList.toggle('dark');
+  });
+}
+
+// With promise handling
+async function navigate(url) {
+  const transition = document.startViewTransition(
+    async () => {
+      const response = await fetch(url);
+      const html = await response.text();
+      document.body.innerHTML = html;
+    }
+  );
+  
+  await transition.finished;
+  console.log('Transition complete!');
+}
+
+// Skip if not supported
+function safeTransition(updateFn) {
+  if (!document.startViewTransition) {
+    updateFn();
+    return;
+  }
+  
+  document.startViewTransition(updateFn);
+}</code></pre>
+      </div>
+
+      <div class="code-example">
+        <pre><code class="language-javascript">// Advanced: Custom animations
+function customTransition(direction) {
+  document.documentElement.dataset.direction = direction;
+  
+  const transition = document.startViewTransition(() => {
+    // Update DOM
+    updateContent();
+  });
+  
+  transition.finished.finally(() => {
+    delete document.documentElement.dataset.direction;
+  });
+}
+
+// Direction-based CSS
+html[data-direction="forward"] {
+  &::view-transition-old(root) {
+    animation: slide-out-left 0.3s;
+  }
+  &::view-transition-new(root) {
+    animation: slide-in-right 0.3s;
+  }
+}
+
+html[data-direction="back"] {
+  &::view-transition-old(root) {
+    animation: slide-out-right 0.3s;
+  }
+  &::view-transition-new(root) {
+    animation: slide-in-left 0.3s;
+  }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Interactive <mark>Demo</mark></h3>
+    <div class="demo" style="margin-top: 2rem;">
+      <style>
+        .demo-vt-container {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1rem;
+          margin-bottom: 1.5rem;
+        }
+        
+        .demo-vt-card {
+          padding: 2rem 1rem;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          border-radius: 0.75rem;
+          color: white;
+          text-align: center;
+          cursor: pointer;
+          transition: transform 0.2s;
+        }
+        
+        .demo-vt-card:hover {
+          transform: translateY(-4px);
+        }
+        
+        .demo-vt-detail {
+          display: none;
+          padding: 2rem;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          border-radius: 0.75rem;
+          color: white;
+        }
+        
+        .demo-vt-detail.active {
+          display: block;
+        }
+        
+        .demo-vt-back {
+          padding: 0.5rem 1rem;
+          background: rgba(255, 255, 255, 0.2);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          border-radius: 0.375rem;
+          color: white;
+          cursor: pointer;
+          margin-top: 1rem;
+          font-weight: 500;
+        }
+      </style>
+      
+      <div style="max-width: 700px; margin: 0 auto;">
+        <div class="demo-vt-container" id="cardGrid">
+          <div class="demo-vt-card" onclick="showDetail(1)">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎨</div>
+            <div style="font-weight: 600;">Card 1</div>
+          </div>
+          <div class="demo-vt-card" onclick="showDetail(2)">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🚀</div>
+            <div style="font-weight: 600;">Card 2</div>
+          </div>
+          <div class="demo-vt-card" onclick="showDetail(3)">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">💎</div>
+            <div style="font-weight: 600;">Card 3</div>
+          </div>
+        </div>
+        
+        <div class="demo-vt-detail" id="detail">
+          <h3 style="margin: 0 0 1rem;">Detail View</h3>
+          <p style="margin: 0; opacity: 0.9;">
+            In a real app with View Transitions, this would smoothly morph from the card above. The element would maintain continuity as it transforms in position, size, and content.
+          </p>
+          <button class="demo-vt-back" onclick="hideDetail()">← Back to Grid</button>
+        </div>
+        
+        <p style="text-align: center; font-size: 0.85rem; color: #64748b; margin-top: 1.5rem;">
+          Note: Live demo simplified. With View Transitions API, the morph would be automatic and smooth!
+        </p>
+      </div>
+      
+      <script>
+        function showDetail(id) {
+          document.getElementById('cardGrid').style.display = 'none';
+          document.getElementById('detail').classList.add('active');
+        }
+        
+        function hideDetail() {
+          document.getElementById('detail').classList.remove('active');
+          document.getElementById('cardGrid').style.display = 'grid';
+        }
+      </script>
+    </div>
+  </section>
+
+  <section>
+    <h3>Use Cases & <mark>Best Practices</mark></h3>
+    <div style="display: grid; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
+      <div class="fragment" style="background: #f8fafc; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #10b981;">
+        <h4 style="margin-top: 0;">✅ Perfect For</h4>
+        <ul style="margin: 0; padding-left: 1.5rem;">
+          <li><strong>SPAs:</strong> Page transitions in single-page apps</li>
+          <li><strong>Image galleries:</strong> Thumbnail to full-size morphing</li>
+          <li><strong>List to detail:</strong> Smooth expansion of list items</li>
+          <li><strong>Theme switching:</strong> Animated light/dark mode</li>
+          <li><strong>Sortable lists:</strong> Items smoothly reorder</li>
+        </ul>
+      </div>
+
+      <div class="fragment" style="background: #f8fafc; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #3b82f6;">
+        <h4 style="margin-top: 0;">💡 Best Practices</h4>
+        <pre><code class="language-css">/* 1. Use meaningful names */
+.product-image {
+  view-transition-name: product-image;
+}
+
+/* 2. Keep transitions fast */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 250ms; /* 200-300ms ideal */
+}
+
+/* 3. Respect user preferences */
+@media (prefers-reduced-motion) {
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* 4. Progressive enhancement */
+@supports (view-transition-name: none) {
+  .enhanced { /* ... */ }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+</section>

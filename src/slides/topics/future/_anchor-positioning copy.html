@@ -1,0 +1,70 @@
+<section>
+  <h2>Anchor Positioning <span class="baseline-badge limited">🔴 Limited Availability</span></h2>
+
+  <div class="code-demo-split">
+    <div class="code-example">
+      <pre>
+        <code class="language-css">
+/* CSS Anchor Positioning */
+.anchor {
+  anchor-name: --my-anchor;
+}
+
+.tooltip {
+  position: absolute;
+  position-anchor: --my-anchor;
+  top: anchor(bottom);
+  left: anchor(center);
+  translate: -50% 8px;
+}
+</code>
+</pre>
+    </div>
+
+    <div class="demo">
+      <div style="padding: 2rem; background: #f1f5f9; border-radius: 0.5rem; text-align: center; position: relative">
+        <button
+          style="padding: 0.75rem 1.5rem; background: #3b82f6; color: white; border: none; border-radius: 0.5rem; cursor: pointer"
+          onmouseover="document.getElementById('demo-tooltip').style.display='block'"
+          onmouseout="document.getElementById('demo-tooltip').style.display='none'"
+        >
+          Hover me
+        </button>
+        <div
+          id="demo-tooltip"
+          style="
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1f2937;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.8rem;
+            white-space: nowrap;
+          "
+        >
+          Positioned with CSS Anchor!
+          <div
+            style="
+              position: absolute;
+              top: -4px;
+              left: 50%;
+              transform: translateX(-50%);
+              width: 0;
+              height: 0;
+              border-left: 4px solid transparent;
+              border-right: 4px solid transparent;
+              border-bottom: 4px solid #1f2937;
+            "
+          ></div>
+        </div>
+        <p style="margin-top: 2rem; margin-bottom: 0; font-size: 0.8rem; color: #64748b">Native tooltip positioning</p>
+      </div>
+    </div>
+  </div>
+
+  <aside class="notes">CSS Anchor Positioning: Native tooltip and popover positioning. Duration: 1 min</aside>
+</section>

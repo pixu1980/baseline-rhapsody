@@ -1,0 +1,363 @@
+<section>
+  <h3>Invoker Commands 🎮</h3>
+  <div class="baseline-badge limited">🔴 Proposal Stage</div>
+</section>
+
+<section>
+  <h4>What are Invoker Commands?</h4>
+  <p>Declarative interactions without JavaScript:</p>
+  <ul>
+    <li>Trigger actions on elements using HTML attributes</li>
+    <li>Built-in commands: toggle, show, hide, close, etc.</li>
+    <li>Custom commands for web components</li>
+    <li>Reduce JavaScript for common interactions</li>
+    <li>⚠️ Currently a WHATWG proposal</li>
+  </ul>
+</section>
+
+<section>
+  <h4>Proposed Syntax</h4>
+  <pre><code class="language-html">&lt;!-- Basic invoker syntax --&gt;
+&lt;button commandfor="my-dialog" command="show-modal"&gt;
+  Open Dialog
+&lt;/button&gt;
+
+&lt;dialog id="my-dialog"&gt;
+  &lt;p&gt;Dialog content&lt;/p&gt;
+  &lt;button commandfor="my-dialog" command="close"&gt;
+    Close
+  &lt;/button&gt;
+&lt;/dialog&gt;
+
+&lt;!-- Toggle disclosure --&gt;
+&lt;button commandfor="details-1" command="toggle"&gt;
+  Toggle Details
+&lt;/button&gt;
+
+&lt;details id="details-1"&gt;
+  &lt;summary&gt;Summary&lt;/summary&gt;
+  &lt;p&gt;Hidden content&lt;/p&gt;
+&lt;/details&gt;</code></pre>
+</section>
+
+<section>
+  <h4>Built-in Commands</h4>
+  <table style="width: 100%; font-size: 0.85rem;">
+    <thead>
+      <tr>
+        <th>Command</th>
+        <th>Element</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>show-modal</code></td>
+        <td>&lt;dialog&gt;</td>
+        <td>Show dialog as modal</td>
+      </tr>
+      <tr>
+        <td><code>show</code></td>
+        <td>&lt;dialog&gt;</td>
+        <td>Show non-modal dialog</td>
+      </tr>
+      <tr>
+        <td><code>close</code></td>
+        <td>&lt;dialog&gt;</td>
+        <td>Close dialog</td>
+      </tr>
+      <tr>
+        <td><code>toggle</code></td>
+        <td>&lt;details&gt;</td>
+        <td>Toggle open/closed</td>
+      </tr>
+      <tr>
+        <td><code>show-popover</code></td>
+        <td>[popover]</td>
+        <td>Show popover</td>
+      </tr>
+      <tr>
+        <td><code>hide-popover</code></td>
+        <td>[popover]</td>
+        <td>Hide popover</td>
+      </tr>
+      <tr>
+        <td><code>toggle-popover</code></td>
+        <td>[popover]</td>
+        <td>Toggle popover</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h4>Example: Dialog Control</h4>
+  <pre><code class="language-html">&lt;!-- Multiple triggers for same dialog --&gt;
+&lt;button commandfor="settings" command="show-modal"&gt;
+  Open Settings
+&lt;/button&gt;
+
+&lt;button commandfor="settings" command="show-modal"&gt;
+  ⚙️ Settings
+&lt;/button&gt;
+
+&lt;dialog id="settings"&gt;
+  &lt;h2&gt;Settings&lt;/h2&gt;
+  
+  &lt;!-- Multiple ways to close --&gt;
+  &lt;button commandfor="settings" command="close"&gt;
+    Cancel
+  &lt;/button&gt;
+  
+  &lt;button commandfor="settings" command="close" value="saved"&gt;
+    Save & Close
+  &lt;/button&gt;
+&lt;/dialog&gt;</code></pre>
+</section>
+
+<section>
+  <h4>Example: Accordion/Disclosure</h4>
+  <pre><code class="language-html">&lt;!-- Control details from outside --&gt;
+&lt;nav&gt;
+  &lt;button commandfor="section-1" command="toggle"&gt;
+    Section 1
+  &lt;/button&gt;
+  &lt;button commandfor="section-2" command="toggle"&gt;
+    Section 2
+  &lt;/button&gt;
+  &lt;button commandfor="section-3" command="toggle"&gt;
+    Section 3
+  &lt;/button&gt;
+&lt;/nav&gt;
+
+&lt;details id="section-1"&gt;
+  &lt;summary&gt;Section 1&lt;/summary&gt;
+  &lt;p&gt;Content...&lt;/p&gt;
+&lt;/details&gt;
+
+&lt;details id="section-2"&gt;
+  &lt;summary&gt;Section 2&lt;/summary&gt;
+  &lt;p&gt;Content...&lt;/p&gt;
+&lt;/details&gt;
+
+&lt;details id="section-3"&gt;
+  &lt;summary&gt;Section 3&lt;/summary&gt;
+  &lt;p&gt;Content...&lt;/p&gt;
+&lt;/details&gt;</code></pre>
+</section>
+
+<section>
+  <h4>Example: Popover Control</h4>
+  <pre><code class="language-html">&lt;!-- Better than popovertarget --&gt;
+&lt;button commandfor="menu" command="toggle-popover"&gt;
+  Menu ▼
+&lt;/button&gt;
+
+&lt;div id="menu" popover&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Profile&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Settings&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;
+      &lt;button commandfor="menu" command="hide-popover"&gt;
+        Logout
+      &lt;/button&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;!-- Show on hover --&gt;
+&lt;div 
+  commandfor="tooltip" 
+  command="show-popover"
+  onmouseleave="tooltip.hidePopover()"
+&gt;
+  Hover me
+&lt;/div&gt;
+
+&lt;div id="tooltip" popover&gt;
+  Tooltip content
+&lt;/div&gt;</code></pre>
+</section>
+
+<section>
+  <h4>Custom Commands for Web Components</h4>
+  <pre><code class="language-html">&lt;!-- Define custom commands --&gt;
+&lt;button commandfor="video-player" command="play"&gt;
+  ▶️ Play
+&lt;/button&gt;
+
+&lt;button commandfor="video-player" command="pause"&gt;
+  ⏸️ Pause
+&lt;/button&gt;
+
+&lt;button commandfor="video-player" command="seek" value="10"&gt;
+  +10s
+&lt;/button&gt;
+
+&lt;video-player id="video-player" src="video.mp4"&gt;
+&lt;/video-player&gt;</code></pre>
+
+<pre><code class="language-javascript">// Web Component handling custom commands
+class VideoPlayer extends HTMLElement {
+  connectedCallback() {
+    this.addEventListener('command', (e) => {
+      switch(e.command) {
+        case 'play':
+          this.play();
+          break;
+        case 'pause':
+          this.pause();
+          break;
+        case 'seek':
+          this.currentTime += parseInt(e.value || 0);
+          break;
+      }
+    });
+  }
+}</code></pre>
+</section>
+
+<section>
+  <h4>Comparison with Current APIs</h4>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.85rem;">
+    <div>
+      <h5>❌ Current Approach</h5>
+      <pre><code class="language-html">&lt;!-- Popover API --&gt;
+&lt;button 
+  popovertarget="menu"
+  popovertargetaction="toggle"
+&gt;Menu&lt;/button&gt;
+
+&lt;!-- Dialog --&gt;
+&lt;button onclick="
+  dialog.showModal()
+"&gt;Open&lt;/button&gt;
+
+&lt;!-- Details --&gt;
+&lt;button onclick="
+  details.open = !details.open
+"&gt;Toggle&lt;/button&gt;</code></pre>
+    </div>
+    <div>
+      <h5>✅ Invoker Commands</h5>
+      <pre><code class="language-html">&lt;!-- Unified syntax --&gt;
+&lt;button 
+  commandfor="menu"
+  command="toggle-popover"
+&gt;Menu&lt;/button&gt;
+
+&lt;!-- Dialog --&gt;
+&lt;button 
+  commandfor="dialog"
+  command="show-modal"
+&gt;Open&lt;/button&gt;
+
+&lt;!-- Details --&gt;
+&lt;button 
+  commandfor="details"
+  command="toggle"
+&gt;Toggle&lt;/button&gt;</code></pre>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h4>Benefits</h4>
+  <ul>
+    <li>✅ Unified syntax for all interactive elements</li>
+    <li>✅ No JavaScript required for common patterns</li>
+    <li>✅ Better accessibility (declarative relationships)</li>
+    <li>✅ Extensible with custom commands</li>
+    <li>✅ Works with web components</li>
+    <li>✅ Simpler than multiple APIs (popovertarget, etc.)</li>
+    <li>✅ Progressive enhancement friendly</li>
+  </ul>
+</section>
+
+<section>
+  <h4>Accessibility Advantages</h4>
+  <pre><code class="language-html">&lt;!-- Automatic ARIA relationships --&gt;
+&lt;button 
+  commandfor="menu" 
+  command="toggle-popover"
+  aria-controls="menu"    &lt;!-- Automatic --&gt;
+  aria-expanded="false"   &lt;!-- Automatic --&gt;
+&gt;
+  Menu
+&lt;/button&gt;
+
+&lt;div 
+  id="menu" 
+  popover
+  role="menu"             &lt;!-- Automatic --&gt;
+  aria-hidden="true"      &lt;!-- Automatic --&gt;
+&gt;
+  Menu items...
+&lt;/div&gt;
+
+&lt;!-- Browser handles:
+  - aria-controls
+  - aria-expanded
+  - aria-hidden
+  - keyboard navigation
+  - focus management
+--&gt;</code></pre>
+</section>
+
+<section>
+  <h4>Proposal Status & Timeline</h4>
+  <ul>
+    <li>📋 <strong>Status:</strong> WHATWG/OpenUI Proposal</li>
+    <li>🗓️ <strong>Proposal:</strong> Active (2023-2024)</li>
+    <li>🔍 <strong>Related:</strong> Replaces/extends popovertarget</li>
+    <li>⏳ <strong>Implementation:</strong> Not yet in browsers</li>
+    <li>🎯 <strong>Estimated:</strong> 2025-2026</li>
+    <li>💡 <strong>Note:</strong> May replace popovertarget API</li>
+  </ul>
+  <div class="resources">
+    <p><strong>Resources:</strong></p>
+    <ul>
+      <li><a href="https://open-ui.org/components/invokers.explainer/" target="_blank">Open UI: Invokers Explainer</a></li>
+      <li><a href="https://github.com/whatwg/html/issues/9625" target="_blank">WHATWG: Invoker Commands Proposal</a></li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h4>How to Prepare</h4>
+  <pre><code class="language-html">&lt;!-- Use current APIs, structured for future migration --&gt;
+
+&lt;!-- Current: Popover API --&gt;
+&lt;button 
+  popovertarget="menu"
+  popovertargetaction="toggle"
+  data-future-command="toggle-popover"
+&gt;
+  Menu
+&lt;/button&gt;
+
+&lt;!-- Current: Dialog with onclick --&gt;
+&lt;button 
+  onclick="dialog.showModal()"
+  data-future-commandfor="dialog"
+  data-future-command="show-modal"
+&gt;
+  Open
+&lt;/button&gt;
+
+&lt;!-- Easy to migrate when invokers are available --&gt;</code></pre>
+</section>
+
+<section>
+  <h4>Key Takeaways</h4>
+  <ul>
+    <li>🔮 Unified declarative API for interactions</li>
+    <li>⚠️ Currently in proposal stage (no browser support)</li>
+    <li>✅ Replaces multiple fragmented APIs</li>
+    <li>✅ No JavaScript for common patterns</li>
+    <li>✅ Better accessibility (automatic ARIA)</li>
+    <li>✅ Extensible with custom commands</li>
+    <li>✅ Great for web components</li>
+    <li>👀 May replace popovertarget in the future</li>
+  </ul>
+</section>

@@ -1,0 +1,153 @@
+<section data-transition="convex">
+  <section>
+    <h2>Color Functions</h2>
+    <div class="baseline-badge widely">✅ Widely Available</div>
+    <p class="fragment">Modern color spaces & <mark>manipulation</mark></p>
+  </section>
+
+  <section>
+    <h3>The Color Function <mark>Arsenal</mark></h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; font-size: 0.85rem;">
+      <div class="fragment">
+        <h4 style="color: #ef4444;">rgb() / rgba()</h4>
+        <pre><code class="language-css">color: rgb(239 68 68);
+color: rgb(239 68 68 / 0.5);
+
+/* Old syntax still works */
+color: rgba(239, 68, 68, 0.5);</code></pre>
+        <div style="background: rgb(239 68 68); height: 40px; border-radius: 0.5rem; margin-top: 0.5rem;"></div>
+      </div>
+
+      <div class="fragment">
+        <h4 style="color: #3b82f6;">hsl() / hsla()</h4>
+        <pre><code class="language-css">color: hsl(217 91% 60%);
+color: hsl(217 91% 60% / 0.5);
+
+/* Hue, Saturation, Lightness */
+background: hsl(var(--hue) 100% 50%);</code></pre>
+        <div style="background: hsl(217 91% 60%); height: 40px; border-radius: 0.5rem; margin-top: 0.5rem;"></div>
+      </div>
+
+      <div class="fragment">
+        <h4 style="color: #8b5cf6;">lab()</h4>
+        <pre><code class="language-css">color: lab(50% 40 60);
+
+/* Perceptually uniform */
+/* Better for color manipulation */</code></pre>
+        <div style="background: lab(50% 40 60); height: 40px; border-radius: 0.5rem; margin-top: 0.5rem;"></div>
+      </div>
+
+      <div class="fragment">
+        <h4 style="color: #ec4899;">lch()</h4>
+        <pre><code class="language-css">color: lch(50% 60 320);
+
+/* Lightness, Chroma, Hue */
+/* Lab in polar coordinates */</code></pre>
+        <div style="background: lch(50% 60 320); height: 40px; border-radius: 0.5rem; margin-top: 0.5rem;"></div>
+      </div>
+
+      <div class="fragment">
+        <h4 style="color: #10b981;">oklch()</h4>
+        <pre><code class="language-css">color: oklch(0.7 0.2 150);
+
+/* Improved perceptual uniformity */
+/* Best for color palettes */</code></pre>
+        <div style="background: oklch(0.7 0.2 150); height: 40px; border-radius: 0.5rem; margin-top: 0.5rem;"></div>
+      </div>
+
+      <div class="fragment">
+        <h4>light-dark()</h4>
+        <pre><code class="language-css">color: light-dark(#000, #fff);
+
+/* Auto theme switching */
+/* Based on color-scheme */</code></pre>
+        <div style="background: linear-gradient(90deg, #000 50%, #fff 50%); height: 40px; border-radius: 0.5rem; margin-top: 0.5rem; border: 1px solid #ccc;"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Why <mark>New</mark> Color Spaces?</h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+      <div style="background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); border: 2px solid #ef4444; padding: 1.5rem; border-radius: 1rem;">
+        <h4 style="margin-top: 0; color: #991b1b;">RGB/HSL Problems</h4>
+        <ul style="font-size: 0.85rem; color: #7f1d1d;">
+          <li>❌ Not perceptually uniform</li>
+          <li>❌ Lightness adjustments tricky</li>
+          <li>❌ Limited color gamut (sRGB)</li>
+          <li>❌ Bad for color manipulation</li>
+        </ul>
+      </div>
+
+      <div style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border: 2px solid #10b981; padding: 1.5rem; border-radius: 1rem;">
+        <h4 style="margin-top: 0; color: #065f46;">Lab/LCH/OKLCH Benefits</h4>
+        <ul style="font-size: 0.85rem; color: #064e3b;">
+          <li>✅ Perceptually uniform</li>
+          <li>✅ Predictable lightness</li>
+          <li>✅ Wider color gamut</li>
+          <li>✅ Perfect for palettes</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="fragment" style="margin-top: 2rem; padding: 1.5rem; background: #f8fafc; border-radius: 1rem; border: 2px solid #e2e8f0;">
+      <h4 style="margin-top: 0;">Example: Creating a Palette</h4>
+      <pre><code class="language-css">/* With OKLCH - consistent lightness across hues */
+--color-primary: oklch(0.6 0.2 250);
+--color-secondary: oklch(0.6 0.2 150); /* Same lightness, different hue */
+--color-accent: oklch(0.6 0.2 50);
+
+/* Lightness variations are predictable */
+--primary-light: oklch(0.8 0.2 250);
+--primary-dark: oklch(0.4 0.2 250);</code></pre>
+    </div>
+  </section>
+
+  <section>
+    <h3>light-dark() for <mark>Theming</mark></h3>
+    <div class="code-demo-split">
+      <div class="code-example">
+        <pre><code class="language-css">/* Set color scheme preference */
+:root {
+  color-scheme: light dark;
+}
+
+/* Colors adapt automatically */
+body {
+  background: light-dark(#fff, #1a1a1a);
+  color: light-dark(#000, #fff);
+}
+
+.card {
+  background: light-dark(
+    #f8fafc,
+    #27272a
+  );
+  border: 1px solid light-dark(
+    #e2e8f0,
+    #3f3f46
+  );
+}
+
+/* No more @media (prefers-color-scheme) */
+/* No more duplicate CSS! */</code></pre>
+      </div>
+
+      <div class="demo">
+        <div style="padding: 1.5rem;">
+          <div style="background: #fff; color: #000; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; border: 2px solid #e2e8f0;">
+            <strong>Light Theme</strong>
+            <p style="margin: 0.5rem 0; font-size: 0.9rem;">Clean and bright ☀️</p>
+          </div>
+          <div style="background: #1a1a1a; color: #fff; padding: 1rem; border-radius: 0.5rem; border: 2px solid #3f3f46;">
+            <strong>Dark Theme</strong>
+            <p style="margin: 0.5rem 0; font-size: 0.9rem;">Easy on the eyes 🌙</p>
+          </div>
+          <p style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.7;">
+            One declaration, two themes!
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>

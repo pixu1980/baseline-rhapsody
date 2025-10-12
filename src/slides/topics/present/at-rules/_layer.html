@@ -1,0 +1,53 @@
+<section>
+  <h2>@layer <span class="baseline-badge widely">✅ Widely Available</span></h2>
+
+  <div class="code-demo-split">
+    <div class="code-example">
+      <pre><code class="language-css">/* Control cascade explicitly */
+@layer reset, base, components, utilities;
+
+@layer reset {
+  * { margin: 0; padding: 0; }
+}
+
+@layer base {
+  h1 { font-size: 2rem; }
+}
+
+@layer components {
+  .button { 
+    padding: 1rem; 
+    background: blue; 
+  }
+}
+
+/* Utilities always win */
+@layer utilities {
+  .mt-0 { margin-top: 0 !important; }
+}
+</code></pre>
+    </div>
+
+    <div class="demo">
+      <div style="padding: 1rem; background: #f1f5f9; border-radius: 0.5rem">
+        <div style="background: white; padding: 1rem; border-radius: 0.25rem; border-left: 4px solid #3b82f6">
+          <p style="margin: 0; font-size: 0.9rem; line-height: 1.6">
+            <strong>Layer order:</strong><br />
+            1. reset<br />
+            2. base<br />
+            3. components<br />
+            4. utilities<br />
+            <br />
+            Lower layers are weaker, even with higher specificity!
+          </p>
+        </div>
+      </div>
+      <p style="margin-top: 1rem; font-size: 0.9rem; color: #64748b">✨ Explicit cascade control without specificity wars!</p>
+    </div>
+  </div>
+
+  <aside class="notes">
+    @layer: Explicit cascade management. - Available since 2022 (Baseline widely available 2024) - Define order of style layers - Lower layers lose to higher layers, regardless of specificity -
+    Perfect for design systems and frameworks - No more !important hacks - Replaces BEM/naming conventions for cascade control Duration: 2 min
+  </aside>
+</section>

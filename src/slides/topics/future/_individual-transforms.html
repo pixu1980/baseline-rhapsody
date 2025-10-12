@@ -1,0 +1,60 @@
+<section>
+  <h2>Individual Transform Properties <span class="baseline-badge widely">✅ Widely Available</span></h2>
+
+  <div class="code-demo-split">
+    <div class="code-example">
+      <pre><code class="language-css">/* Old way: combined transform */
+.old {
+  transform: 
+    translateX(100px) 
+    rotate(45deg) 
+    scale(1.5);
+}
+
+/* New way: individual properties */
+.new {
+  translate: 100px 0;
+  rotate: 45deg;
+  scale: 1.5;
+}
+
+/* Easier to animate and override */
+.new:hover {
+  scale: 2; /* Only change scale */
+  /* translate and rotate unchanged */
+}
+</code></pre>
+    </div>
+
+    <div class="demo">
+      <div style="padding: 2rem; background: #f1f5f9; border-radius: 0.5rem; text-align: center">
+        <style>
+          .transform-box {
+            width: 80px;
+            height: 80px;
+            background: #3b82f6;
+            border-radius: 0.5rem;
+            display: inline-block;
+            transition: all 0.3s;
+            translate: 0 0;
+            rotate: 0deg;
+            scale: 1;
+          }
+          .transform-box:hover {
+            translate: 20px -10px;
+            rotate: 15deg;
+            scale: 1.2;
+          }
+        </style>
+        <div class="transform-box"></div>
+        <p style="margin-top: 1rem; font-size: 0.875rem; color: #64748b">Hover to see individual transforms in action</p>
+      </div>
+      <p style="margin-top: 1rem; font-size: 0.9rem; color: #64748b">✅ Available since 2022 (Baseline 2024)</p>
+    </div>
+  </div>
+
+  <aside class="notes">
+    Individual Transform Properties: separate translate, rotate, scale. - Available since 2022, Baseline widely available 2024 - No more transform: translate() rotate() scale() chains - Easier to read
+    and maintain - Better for animations (animate just one property) - Better for overrides (change just scale, keep rotation) - Follows CSS principle: one property, one concern Duration: 1 min
+  </aside>
+</section>

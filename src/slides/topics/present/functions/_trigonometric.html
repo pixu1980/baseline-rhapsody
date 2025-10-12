@@ -1,0 +1,48 @@
+<section>
+  <h2>Trigonometric Functions <span class="baseline-badge widely">✅ Widely Available</span></h2>
+
+  <div class="code-demo-split">
+    <div class="code-example">
+      <pre><code class="language-css">/* sin(), cos(), tan(), etc. */
+.circle-item {
+  --angle: 45deg;
+  --radius: 100px;
+  
+  /* Position items in a circle */
+  left: calc(50% + var(--radius) * cos(var(--angle)));
+  top: calc(50% + var(--radius) * sin(var(--angle)));
+}
+
+/* Smooth wave animations */
+@keyframes wave {
+  to {
+    transform: translateY(
+      calc(sin(var(--progress) * 360deg) * 20px)
+    );
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="demo">
+      <div style="position: relative; height: 200px; background: #f1f5f9; border-radius: 0.5rem; overflow: hidden">
+        <div style="position: absolute; left: calc(50% + 80px * cos(0deg) - 20px); top: calc(50% + 80px * sin(0deg) - 20px); width: 40px; height: 40px; background: #3b82f6; border-radius: 50%"></div>
+        <div
+          style="position: absolute; left: calc(50% + 80px * cos(90deg) - 20px); top: calc(50% + 80px * sin(90deg) - 20px); width: 40px; height: 40px; background: #8b5cf6; border-radius: 50%"
+        ></div>
+        <div
+          style="position: absolute; left: calc(50% + 80px * cos(180deg) - 20px); top: calc(50% + 80px * sin(180deg) - 20px); width: 40px; height: 40px; background: #3b82f6; border-radius: 50%"
+        ></div>
+        <div
+          style="position: absolute; left: calc(50% + 80px * cos(270deg) - 20px); top: calc(50% + 80px * sin(270deg) - 20px); width: 40px; height: 40px; background: #8b5cf6; border-radius: 50%"
+        ></div>
+      </div>
+      <p style="margin-top: 1rem; font-size: 0.9rem; color: #64748b">✨ Circular layouts, wave effects, physics-based animations!</p>
+    </div>
+  </div>
+
+  <aside class="notes">
+    Trigonometric functions: CSS does math! - Available since 2023 (Baseline widely available 2024) - sin(), cos(), tan(), asin(), acos(), atan(), atan2() - Perfect for circular layouts, organic
+    animations - No JavaScript needed for complex positioning - Game-changer for creative effects Duration: 1–2 min
+  </aside>
+</section>

@@ -1,0 +1,48 @@
+<section>
+  <h2>CSS Nesting <span class="baseline-badge limited">🔴 Limited Availability</span></h2>
+
+  <div class="code-demo-split">
+    <div class="code-example">
+      <pre><code class="language-css">/* Native CSS Nesting */
+.card {
+  background: white;
+  border-radius: 8px;
+  
+  & .title {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  & .content {
+    color: #666;
+    
+    & p {
+      margin-bottom: 1rem;
+    }
+  }
+  
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+}</code></pre>
+    </div>
+
+    <div class="demo">
+      <div style="padding: 2rem; background: #f1f5f9; border-radius: 0.5rem">
+        <div
+          style="background: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); transition: box-shadow 0.3s"
+          onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.2)'"
+          onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)'"
+        >
+          <h4 style="margin: 0 0 1rem 0; font-size: 1.5rem; color: #333">Card Title</h4>
+          <div style="color: #666">
+            <p style="margin: 0 0 1rem 0">Nested styles without preprocessors</p>
+            <p style="margin: 0">Native browser support coming soon!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="notes">CSS Nesting: Native nesting without preprocessors. Duration: 1 min</aside>
+</section>
