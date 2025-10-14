@@ -1,90 +1,66 @@
 <section>
-  <h2>CSS Sprites</h2>
-  <p class="fragment">The <mark>image optimization</mark> "technique"</p>
+  <h3>CSS Sprites</h3>
+  <p class="fragment">The "<mark>image optimization</mark>" technique</p>
 </section>
 
 <section>
-  <h3>One Image to Rule Them All</h3>
-  <div class="code-demo-split">
-    <div class="code-example">
-      <pre><code class="language-css">/* The sprite sheet */
+  <h4>One Image to <mark>Rule Them All</mark></h4>
+  <comparison>
+    <left>
+      <div class="fragment">
+        <small style="color: #000; background: #f8fafc; padding: 2rem; border-radius: 0.5rem">
+          <p>the "magic" sprite grid</p>
+          <br />
+          <div style="display: grid; grid-template-columns: repeat(3, 40px); gap: 1rem; background: #e2e8f0; padding: 1rem; place-content: center; border: 2px dashed #94a3b8">
+            <div style="width: 32px; height: 32px; background: hsl(217, 91%, 60%); border-radius: 4px" title="Icon 1"></div>
+            <div style="width: 32px; height: 32px; background: hsl(217, 91%, 65%); border-radius: 4px" title="Icon 2"></div>
+            <div style="width: 32px; height: 32px; background: hsl(217, 91%, 70%); border-radius: 4px" title="Icon 3"></div>
+            <div style="width: 32px; height: 32px; background: hsl(160, 84%, 40%); border-radius: 4px" title="Icon 1 hover"></div>
+            <div style="width: 32px; height: 32px; background: hsl(160, 84%, 55%); border-radius: 4px" title="Icon 2 hover"></div>
+            <div style="width: 32px; height: 32px; background: hsl(160, 84%, 70%); border-radius: 4px" title="Icon 3 hover"></div>
+          </div>
+        </small>
+      </div>
+    </left>
+    <right>
+      <pre class="fragment">
+        <code class="hljs css" data-trim data-line-numbers>
+/* the sprite sheet */
 .icon {
   background: url('sprites.png') no-repeat;
+  background-position: 0 0;
   display: inline-block;
   width: 32px;
   height: 32px;
 }
 
-/* Manual pixel calculations */
-.icon-home {
-  background-position: 0 0;
-}
-
-.icon-user {
+/* adding classes via JS and 
+manual pixel calculations */
+.icon.icon-hover {
   background-position: -32px 0;
 }
 
-.icon-settings {
+.icon.icon-active {
   background-position: -64px 0;
 }
 
-.icon-home:hover {
-  background-position: 0 -32px;
-}</code></pre>
-    </div>
-
-    <div class="demo">
-      <div style="background: #f8fafc; padding: 2rem; border-radius: 0.5rem">
-        <h4 style="margin-top: 0">The "Magic" Sprite Grid</h4>
-        <div style="display: grid; grid-template-columns: repeat(3, 40px); gap: 1rem; background: #e2e8f0; padding: 1rem; border: 2px dashed #94a3b8">
-          <div style="width: 32px; height: 32px; background: #3b82f6; border-radius: 4px" title="Icon 1"></div>
-          <div style="width: 32px; height: 32px; background: #3b82f6; border-radius: 4px" title="Icon 2"></div>
-          <div style="width: 32px; height: 32px; background: #3b82f6; border-radius: 4px" title="Icon 3"></div>
-          <div style="width: 32px; height: 32px; background: #10b981; border-radius: 4px" title="Icon 1 hover"></div>
-          <div style="width: 32px; height: 32px; background: #10b981; border-radius: 4px" title="Icon 2 hover"></div>
-          <div style="width: 32px; height: 32px; background: #10b981; border-radius: 4px" title="Icon 3 hover"></div>
-        </div>
-        <p style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.7">
-          One image, multiple icons.<br />
-          Change one icon? Recalculate ALL positions! 😭
-        </p>
-      </div>
-    </div>
-  </div>
+        </code>
+      </pre>
+    </right>
+  </comparison>
   <aside class="notes">CSS Sprites were born from HTTP/1.1 limitations - fewer requests meant better performance. But the maintenance cost was HUGE.</aside>
 </section>
 
 <section>
-  <h3>The <mark>Problems</mark> Were Real</h3>
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem">
-    <div class="fragment">
-      <h4>😱 Maintenance Nightmare</h4>
-      <ul style="font-size: 0.9rem">
-        <li>Add one icon → rebuild entire sprite</li>
-        <li>Manual pixel calculations</li>
-        <li>Hover states = 2x the complexity</li>
-        <li>Different sizes? More sprites!</li>
-      </ul>
-    </div>
-
-    <div class="fragment">
-      <h4>🔧 Special Tools Required</h4>
-      <ul style="font-size: 0.9rem">
-        <li>Sprite generators (remember Compass?)</li>
-        <li>Photoshop templates</li>
-        <li>Documentation to track positions</li>
-        <li>Version control conflicts galore</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="fragment" style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-radius: 1rem; border: 2px solid #10b981">
-    <h4 style="margin-top: 0">✨ Today's Solution</h4>
-    <p style="font-size: 1.1rem; margin: 0">
-      SVG icons, icon fonts, HTTP/2 multiplexing,<br />
-      and inline SVG = sprites are obsolete! 🎉
-    </p>
-  </div>
-
+  <h4>this idea leaded to lots of <mark>problems</mark></h4>
+  <small>
+    <ul>
+      <li class="fragment">⚠️ Add one button → rebuild entire sprite</li>
+      <li class="fragment">⚠️ Manual pixel calculations</li>
+      <li class="fragment">⚠️ Hover/Active states = 2/3x the complexity</li>
+      <li class="fragment">⚠️ Different sizes? More sprites!</li>
+      <li class="fragment">⚠️ Documentation needed to track positions</li>
+    </ul>
+  </small>
   <aside class="notes">With HTTP/2 multiplexing, the "fewer requests" argument died. SVG gave us scalable, accessible icons. Sprites became a relic of the past.</aside>
 </section>

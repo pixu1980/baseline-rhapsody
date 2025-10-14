@@ -1,262 +1,57 @@
-<section data-transition="convex">
-  <section>
-    <h2>@scope</h2>
-    <div class="baseline-badge newly">🟡 Newly Available (2024)</div>
-    <p class="fragment">True <mark>component encapsulation</mark></p>
-  </section>
-
-  <section>
-    <h3>The Scoping <mark>Problem</mark></h3>
-    <div class="before-after">
-      <div class="before">
-        <h4>❌ Before: Global Namespace</h4>
-        <pre><code class="language-css">/* Card component */
-.card .title {
-  font-size: 1.5rem;
-  color: #1e293b;
-}
-
-/* Oops! Affects ALL .title inside .card */
-&lt;div class="card"&gt;
-  &lt;h2 class="title"&gt;Card Title&lt;/h2&gt;
-  
-  &lt;!-- This gets affected too! --&gt;
-  &lt;div class="nested-component"&gt;
-    &lt;h3 class="title"&gt;Nested Title&lt;/h3&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-
-/* Solution: BEM naming */
-.card__title { /* ... */ }
-.card__content { /* ... */ }
-.card__footer { /* ... */ }</code></pre>
-      </div>
-
-      <div class="after">
-        <h4>✅ After: Scoped Styles</h4>
-        <pre><code class="language-css">/* Scope to .card, stop at nested components */
-@scope (.card) to (.nested-component) {
-  .title {
-    font-size: 1.5rem;
-    color: #1e293b;
-    /* Only affects direct .card > .title */
-  }
-  
-  img {
-    border-radius: 0.5rem;
-    /* Only images inside .card */
-  }
-}
-
-/* Nested components unaffected! */
-@scope (.nested-component) {
-  .title {
-    font-size: 1rem;
-    /* Different styling */
-  }
-}</code></pre>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h3>@scope <mark>Syntax</mark></h3>
-    <div style="display: grid; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
-      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
-        <h4 style="margin-top: 0; color: #92400e;">📦 Basic Scope</h4>
-        <pre><code class="language-css">/* Scope to root */
-@scope (.component) {
-  /* All selectors relative to .component */
-  .title { color: blue; }
-  .content { padding: 1rem; }
-}
-
-/* Equivalent to: */
-.component .title { color: blue; }
-.component .content { padding: 1rem; }</code></pre>
-      </div>
-
-      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
-        <h4 style="margin-top: 0; color: #92400e;">🛑 Scope Boundaries</h4>
-        <pre><code class="language-css">/* Scope with exclusion (donut scope) */
-@scope (.card) to (.nested-card) {
-  /* Styles apply to .card contents
-     but STOP at .nested-card */
-  
-  .title {
-    /* Affects .card .title
-       but NOT .card .nested-card .title */
-  }
-}</code></pre>
-      </div>
-
-      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
-        <h4 style="margin-top: 0; color: #92400e;">🎯 :scope Selector</h4>
-        <pre><code class="language-css">@scope (.media) {
-  /* Style the scope root */
-  :scope {
-    display: grid;
-    gap: 1rem;
-  }
-  
-  /* Direct children */
-  :scope > img {
-    width: 100%;
-  }
-}</code></pre>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h3>Practical <mark>Examples</mark></h3>
-    <div class="code-demo-split">
-      <div class="code-example">
-        <pre><code class="language-css">/* Product Card Component */
-@scope (.product-card) to (.rating) {
-  /* Root styles */
-  :scope {
-    padding: 1.5rem;
-    border-radius: 0.75rem;
+<section>
+  <h4>@scope</h4>
+  <h5><img src="./assets/baseline/baseline-newly-icon.svg" style="width: 5rem" alt="" /> Newly Available (August 2024)</h5>
+  <small>Style encapsulation without <mark>shadow DOM</mark></small>
+    <pre>
+      <code class="hljs css" data-trim data-line-numbers>
+/* Scope styles to component */
+@scope (.card) {
+  /* Only affects buttons in .card */
+  button {
     background: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    color: var(--card-color);
   }
   
-  /* Scoped elements */
-  img {
-    width: 100%;
-    aspect-ratio: 1;
-    object-fit: cover;
-    border-radius: 0.5rem;
-  }
-  
-  h3 {
-    font-size: 1.25rem;
-    margin: 1rem 0 0.5rem;
-  }
-  
-  .price {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #667eea;
-  }
-  
-  button {
-    width: 100%;
-    padding: 0.75rem;
-    background: #667eea;
-    color: white;
-    border: none;
-    border-radius: 0.5rem;
-  }
-}</code></pre>
-      </div>
-
-      <div class="code-example">
-        <pre><code class="language-css">/* Nested rating component unaffected */
-@scope (.rating) {
-  :scope {
-    display: flex;
-    gap: 0.25rem;
-  }
-  
-  /* This button styling is separate */
-  button {
-    background: transparent;
-    border: none;
-    padding: 0;
+  h2 {
     font-size: 1.5rem;
   }
 }
 
-/* Modal with scoped form */
-@scope (.modal) to (.nested-form) {
-  form {
-    display: grid;
-    gap: 1rem;
+@scope (.alert) {
+  /* Only affects buttons in .alert */
+  button {
+    background: black;
+    color: white;
   }
   
-  input {
-    padding: 0.75rem;
-    border: 2px solid #e2e8f0;
-    border-radius: 0.5rem;
+  h2 {
+    font-size: 1.25rem;
+  }
+}
+
+/* Scope with lower boundary */
+@scope (.article) to (.comments) {
+  /* Styles article content,
+     but NOT the comments section */
+  p {
+    line-height: 1.6;
+  }
+}
+
+/* Scope root reference */
+@scope (.card) {
+  :scope {
+    /* Targets .card itself */
+    padding: 2rem;
   }
   
-  /* Nested forms have their own styles */
-}</code></pre>
-      </div>
-    </div>
-  </section>
+  :scope > header {
+    /* Direct child of scope root */
+  }
+}
 
-  <section>
-    <h3>@scope vs <mark>Alternatives</mark></h3>
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; font-size: 0.8rem;">
-      <div style="background: #f8fafc; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #e2e8f0;">
-        <h4 style="margin-top: 0;">BEM</h4>
-        <pre><code class="language-css">.card { }
-.card__title { }
-.card__content { }
-.card__footer { }</code></pre>
-        <p style="margin: 0.5rem 0 0; font-size: 0.75rem; color: #64748b;">
-          ✅ Works everywhere<br>
-          ❌ Verbose naming
-        </p>
-      </div>
-
-      <div style="background: #f8fafc; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #e2e8f0;">
-        <h4 style="margin-top: 0;">CSS Modules</h4>
-        <pre><code class="language-css">/* card.module.css */
-.title { }
-.content { }
-.footer { }</code></pre>
-        <p style="margin: 0.5rem 0 0; font-size: 0.75rem; color: #64748b;">
-          ✅ Auto-scoped<br>
-          ❌ Build tool needed
-        </p>
-      </div>
-
-      <div style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
-        <h4 style="margin-top: 0; color: #92400e;">@scope</h4>
-        <pre><code class="language-css">@scope (.card) {
-  .title { }
-  .content { }
-  .footer { }
-}</code></pre>
-        <p style="margin: 0.5rem 0 0; font-size: 0.75rem; color: #78350f;">
-          ✅ Native CSS<br>
-          ✅ Simple naming<br>
-          ✅ Donut scoping
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h3>Benefits & <mark>Use Cases</mark></h3>
-    <div style="display: grid; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
-      <div class="fragment" style="background: #d1fae5; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #10b981;">
-        <h4 style="margin-top: 0; color: #065f46;">✅ Component Libraries</h4>
-        <p style="margin: 0 0 0.5rem; color: #064e3b;">
-          Each component gets its own scope. No naming conflicts, no specificity wars.
-        </p>
-        <pre><code class="language-css">@scope (.button) { /* Button styles */ }
-@scope (.card) { /* Card styles */ }
-@scope (.modal) { /* Modal styles */ }</code></pre>
-      </div>
-
-      <div class="fragment" style="background: #d1fae5; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #10b981;">
-        <h4 style="margin-top: 0; color: #065f46;">✅ Nested Components</h4>
-        <p style="margin: 0; color: #064e3b;">
-          Parent styles don't leak into child components. True encapsulation without Shadow DOM.
-        </p>
-      </div>
-
-      <div class="fragment" style="background: #d1fae5; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #10b981;">
-        <h4 style="margin-top: 0; color: #065f46;">✅ Simpler Selectors</h4>
-        <p style="margin: 0; color: #064e3b;">
-          Use simple class names like <code>.title</code>, <code>.content</code>, <code>.footer</code> without worrying about conflicts.
-        </p>
-      </div>
-    </div>
-  </section>
+/* No more class prefixes needed! */
+/* .card__button, .card__title, etc. */
+    </code>
+  </pre>
 </section>

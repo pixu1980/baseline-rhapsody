@@ -1,217 +1,238 @@
-<section data-transition="convex">
-  <section>
-    <h2>Popover API</h2>
-    <div class="baseline-badge newly">🟡 Newly Available (gen 2025)</div>
-    <p class="fragment">Native <mark>tooltips & menus</mark></p>
-  </section>
+<section>
+  <h4>Popover API</h4>
+  <h5><img src="./assets/baseline/baseline-newly-icon.svg" style="width: 5rem" alt="" /> Newly Available (April 2024)</h5>
+  <small balance>Tooltips and dropdowns with <mark>automatic positioning</mark> and accessibility</small>
+  <comparison>
+    <left>
+      <style>
+        /* Popover styling */
+        [popover] {
+          border: none;
+          border-radius: 0.5rem;
+          padding: 1rem;
+          box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+          background: #1f2937;
+          color: white;
+          margin: 0;
+        }
 
-  <section>
-    <h3>Before: <mark>JavaScript Everywhere</mark></h3>
-    <div class="before-after">
-      <div class="before">
-        <h4>❌ Complex Setup</h4>
-        <pre><code class="language-html">&lt;button id="btn"&gt;Show Tooltip&lt;/button&gt;
-&lt;div id="tooltip" class="hidden"&gt;
-  Tooltip content
-&lt;/div&gt;</code></pre>
-        <pre><code class="language-javascript">// Toggle visibility
-btn.addEventListener('click', () => {
-  tooltip.classList.toggle('hidden');
-});
+        /* Container positioning for fallback */
+        .tooltip-container {
+          position: relative;
+          display: inline-block;
+        }
 
-// Position near button
-const rect = btn.getBoundingClientRect();
-tooltip.style.top = rect.bottom + 'px';
-tooltip.style.left = rect.left + 'px';
+        .menu-container {
+          position: relative;
+        }
 
-// Close on outside click
-document.addEventListener('click', (e) => {
-  if (!tooltip.contains(e.target)) {
-    tooltip.classList.add('hidden');
-  }
-});
+        /* Anchor positioning for popovers (when supported) */
+        .tooltip-btn {
+          anchor-name: --tooltip-anchor;
+        }
 
-// Handle escape key, focus trap, etc...</code></pre>
-      </div>
+        #tooltip-popover {
+          font-size: 1.5rem;
+          padding: 0.5rem 1rem;
+          white-space: nowrap;
+        }
 
-      <div class="after">
-        <h4>✅ Declarative Popover</h4>
-        <pre><code class="language-html">&lt;button popovertarget="my-tooltip"&gt;
-  Show Tooltip
-&lt;/button&gt;
+        /* Try anchor positioning first */
+        @supports (anchor-name: --test) {
+          #tooltip-popover {
+            position-anchor: --tooltip-anchor;
+            position: fixed;
+            bottom: anchor(top);
+            left: anchor(center);
+            translate: -50% 0;
+            margin-bottom: 0.5rem;
+          }
 
-&lt;div id="my-tooltip" popover&gt;
-  Tooltip content
-&lt;/div&gt;
+          #menu-popover {
+            position-anchor: --menu-anchor;
+            position: fixed;
+            top: anchor(bottom);
+            left: anchor(left);
+            margin-top: 0.5rem;
+          }
+        }
 
-&lt;!-- That's it! 
-  - Auto-positioning in top layer
-  - Light dismiss (click outside)
-  - Escape key closes
-  - Focus management
-  - Accessibility built-in
---&gt;</code></pre>
-        <pre><code class="language-css">/* Style the popover */
-[popover] {
-  border: none;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        /* Fallback: absolute positioning relative to container */
+        @supports not (anchor-name: --test) {
+          #tooltip-popover {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            translate: -50% 0;
+            margin-bottom: 0.5rem;
+          }
+
+          #menu-popover {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 0.5rem;
+          }
+        }
+
+        .menu-btn {
+          anchor-name: --menu-anchor;
+        }
+
+        #menu-popover {
+          background: white;
+          color: #1f2937;
+          padding: 0;
+          min-width: 200px;
+        }
+
+        .menu-item {
+          padding: 0.75rem 1rem;
+          border-bottom: 1px solid #e5e7eb;
+          cursor: pointer;
+          transition: background 0.2s;
+        }
+
+        .menu-item:last-child {
+          border-bottom: none;
+        }
+
+        .menu-item:hover {
+          background: #f3f4f6;
+        }
+
+        .menu-item.danger {
+          color: #ef4444;
+        }
+
+        /* Button styling */
+        .popover-trigger {
+          padding: 0.75rem 1.5rem;
+          border: none;
+          border-radius: 0.5rem;
+          font-weight: bold;
+          cursor: pointer;
+          transition:
+            transform 0.2s,
+            box-shadow 0.2s;
+        }
+
+        .popover-trigger:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .tooltip-btn {
+          background: white;
+          color: #667eea;
+        }
+
+        .menu-btn {
+          background: #667eea;
+          color: white;
+          width: 100%;
+        }
+
+        /* Animation for popover */
+        [popover] {
+          opacity: 0;
+          transform: translateY(-10px);
+          transition:
+            opacity 0.2s ease,
+            transform 0.2s ease,
+            overlay 0.2s ease allow-discrete,
+            display 0.2s ease allow-discrete;
+        }
+
+        [popover]:popover-open {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        @starting-style {
+          [popover]:popover-open {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+        }
+      </style>
+
+      <small style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%">
+        <!-- Tooltip demo -->
+        <div style="padding: 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 0.5rem; text-align: center">
+          <div class="tooltip-container">
+            <button popovertarget="tooltip-popover" class="popover-trigger tooltip-btn">Click for tooltip 💬</button>
+            <div popover id="tooltip-popover">I'm a popover tooltip with automatic positioning!</div>
+          </div>
+        </div>
+
+        <!-- Menu demo -->
+        <div style="padding: 1.5rem; background: #f3f4f6; border-radius: 0.5rem">
+          <div class="menu-container">
+            <button popovertarget="menu-popover" class="popover-trigger menu-btn">Actions ▼</button>
+            <div popover id="menu-popover">
+              <div class="menu-item">✏️ Edit</div>
+              <div class="menu-item">📤 Share</div>
+              <div class="menu-item">📋 Copy</div>
+              <div class="menu-item danger">🗑️ Delete</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Features -->
+        <div style="padding: 1.5rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 0.5rem; color: white">
+          <div style="font-weight: bold; margin-bottom: 1rem">✨ Features</div>
+          <div style="display: flex; flex-direction: column; gap: -0.5rem; font-size: 1.5rem">
+            <div>✓ Automatic top layer positioning</div>
+            <div>✓ Light dismiss (click outside)</div>
+            <div>✓ Focus management built-in</div>
+            <div>✓ No JavaScript required</div>
+          </div>
+        </div>
+      </small>
+    </left>
+    <right>
+      <pre>
+        <code class="hljs css" data-trim data-line-numbers>
+/* Combine Popover API + Anchor Positioning */
+
+/* Define anchor on trigger button */
+.tooltip-btn {
+  anchor-name: --tooltip-anchor;
 }
 
-[popover]::backdrop {
-  background: rgba(0, 0, 0, 0.3);
-}</code></pre>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h3>Popover <mark>Types</mark></h3>
-    <div style="display: grid; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
-      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
-        <h4 style="margin-top: 0; color: #92400e;">🔄 Auto (default)</h4>
-        <pre><code class="language-html">&lt;div popover&gt; &lt;!-- or popover="auto" --&gt;
-  Light dismiss: closes on outside click
-  Only one auto popover at a time
-&lt;/div&gt;</code></pre>
-      </div>
-
-      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
-        <h4 style="margin-top: 0; color: #92400e;">📌 Manual</h4>
-        <pre><code class="language-html">&lt;div popover="manual"&gt;
-  Doesn't auto-close on outside click
-  Must be closed explicitly
-  Multiple can be open
-&lt;/div&gt;</code></pre>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h3>Interactive <mark>Demo</mark></h3>
-    <div class="demo" style="margin-top: 2rem;">
-      <div style="display: flex; gap: 2rem; justify-content: center; align-items: start;">
-        <div>
-          <h4 style="margin-top: 0;">Auto Popover (Tooltip)</h4>
-          <button popovertarget="demo-tooltip" style="padding: 0.75rem 1.5rem; background: #667eea; color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600;">
-            Show Tooltip
-          </button>
-          
-          <div id="demo-tooltip" popover style="margin: 0; border: none; padding: 1rem 1.5rem; border-radius: 0.5rem; background: #1f2937; color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">
-            👋 This is a tooltip!<br>
-            <span style="font-size: 0.875rem; opacity: 0.8;">Click outside or press Esc to close</span>
-          </div>
-        </div>
-
-        <div>
-          <h4 style="margin-top: 0;">Manual Popover (Menu)</h4>
-          <button popovertarget="demo-menu" style="padding: 0.75rem 1.5rem; background: #10b981; color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600;">
-            Open Menu
-          </button>
-          
-          <div id="demo-menu" popover="manual" style="margin: 0; border: none; padding: 0; border-radius: 0.5rem; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-width: 200px;">
-            <button onclick="this.closest('[popover]').hidePopover(); alert('Action 1')" style="width: 100%; padding: 0.75rem 1rem; background: transparent; border: none; text-align: left; cursor: pointer; border-bottom: 1px solid #e2e8f0;">
-              Action 1
-            </button>
-            <button onclick="this.closest('[popover]').hidePopover(); alert('Action 2')" style="width: 100%; padding: 0.75rem 1rem; background: transparent; border: none; text-align: left; cursor: pointer; border-bottom: 1px solid #e2e8f0;">
-              Action 2
-            </button>
-            <button popovertarget="demo-menu" popovertargetaction="hide" style="width: 100%; padding: 0.75rem 1rem; background: transparent; border: none; text-align: left; cursor: pointer; color: #ef4444; font-weight: 600;">
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div style="margin-top: 2rem; padding: 1.5rem; background: #f8fafc; border-radius: 0.75rem; border: 2px solid #e2e8f0; font-size: 0.9rem;">
-        <h4 style="margin: 0 0 1rem;">✨ Built-in Features:</h4>
-        <ul style="margin: 0; padding-left: 1.5rem; color: #64748b;">
-          <li>Renders in top layer (above everything)</li>
-          <li>Light dismiss (auto popovers)</li>
-          <li>Escape key handling</li>
-          <li>Focus management</li>
-          <li>ARIA attributes automatic</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h3>Popover <mark>Controls</mark></h3>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
-      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
-        <h4 style="margin-top: 0; color: #92400e;">HTML Controls</h4>
-        <pre><code class="language-html">&lt;!-- Toggle --&gt;
-&lt;button popovertarget="my-popover"&gt;
-  Toggle
-&lt;/button&gt;
-
-&lt;!-- Explicit actions --&gt;
-&lt;button 
-  popovertarget="my-popover" 
-  popovertargetaction="show"&gt;
-  Show
-&lt;/button&gt;
-
-&lt;button 
-  popovertarget="my-popover" 
-  popovertargetaction="hide"&gt;
-  Hide
-&lt;/button&gt;</code></pre>
-      </div>
-
-      <div class="fragment" style="background: #fef3c7; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #fbbf24;">
-        <h4 style="margin-top: 0; color: #92400e;">JavaScript API</h4>
-        <pre><code class="language-javascript">const popover = document.getElementById('my-popover');
-
-// Methods
-popover.showPopover();
-popover.hidePopover();
-popover.togglePopover();
-
-// Events
-popover.addEventListener('beforetoggle', (e) => {
-  console.log('State:', e.newState); // 'open' or 'closed'
-});
-
-popover.addEventListener('toggle', (e) => {
-  console.log('Toggled!');
-});</code></pre>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h3>Use Cases & <mark>Styling</mark></h3>
-    <div class="code-demo-split">
-      <div class="code-example">
-        <pre><code class="language-css">/* Anchor positioning hint (future) */
-[popover] {
-  /* Position near trigger button */
+/* Position popover relative to anchor */
+[popover]#tooltip {
+  position-anchor: --tooltip-anchor;
   position: fixed;
-  inset: auto;
-  margin: 0;
+  
+  /* Position above button */
+  bottom: anchor(top);
+  left: anchor(center);
+  translate: -50% 0;
+  margin-bottom: 0.5rem;
 }
 
-/* Popover states */
-[popover]:popover-open {
-  /* Styles when open */
-  opacity: 1;
-  transform: scale(1);
+/* Menu positioned below trigger */
+.menu-btn {
+  anchor-name: --menu-anchor;
 }
 
-/* Backdrop */
-[popover]::backdrop {
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+[popover]#menu {
+  position-anchor: --menu-anchor;
+  position: fixed;
+  
+  /* Position below button */
+  top: anchor(bottom);
+  left: anchor(left);
+  margin-top: 0.5rem;
 }
 
-/* Animations */
+/* Animate popover appearance */
 [popover] {
   opacity: 0;
-  transform: scale(0.9);
-  transition: 
+  transform: translateY(-10px);
+  transition:
     opacity 0.2s,
     transform 0.2s,
     overlay 0.2s allow-discrete,
@@ -220,37 +241,17 @@ popover.addEventListener('toggle', (e) => {
 
 [popover]:popover-open {
   opacity: 1;
-  transform: scale(1);
-}</code></pre>
-      </div>
+  transform: translateY(0);
+}
 
-      <div class="code-example">
-        <pre><code class="language-html">&lt;!-- Common patterns --&gt;
-
-&lt;!-- Tooltip --&gt;
-&lt;button popovertarget="tip"&gt;?&lt;/button&gt;
-&lt;div id="tip" popover role="tooltip"&gt;
-  Help text
-&lt;/div&gt;
-
-&lt;!-- Dropdown menu --&gt;
-&lt;button popovertarget="menu"&gt;Menu&lt;/button&gt;
-&lt;div id="menu" popover role="menu"&gt;
-  &lt;button role="menuitem"&gt;Option 1&lt;/button&gt;
-  &lt;button role="menuitem"&gt;Option 2&lt;/button&gt;
-&lt;/div&gt;
-
-&lt;!-- Modal dialog (use &lt;dialog&gt; instead) --&gt;
-&lt;!-- Popover is for light UI, not modals --&gt;
-
-&lt;!-- Nested popovers --&gt;
-&lt;div id="parent" popover&gt;
-  &lt;button popovertarget="child"&gt;More&lt;/button&gt;
-  &lt;div id="child" popover&gt;
-    Nested content
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre>
-      </div>
-    </div>
-  </section>
+@starting-style {
+  [popover]:popover-open {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+        </code>
+      </pre>
+    </right>
+  </comparison>
 </section>

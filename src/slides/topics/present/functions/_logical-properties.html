@@ -1,40 +1,68 @@
 <section>
-  <h2>Logical Properties <span class="baseline-badge widely">✅ Widely Available</span></h2>
-
-  <div class="code-demo-split">
-    <div class="code-example">
-      <pre><code class="language-css">/* Old way: physical directions */
-.old {
+  <h4>Logical Properties</h4>
+  <h5><img src="./assets/baseline/baseline-widely-icon.svg" style="width: 5rem" alt="" /> Widely Available (July 2021)</h5>
+  <p>Write <mark>direction agnostic</mark> CSS for global reach</p>
+  <comparison>
+    <left>
+      <pre>
+        <code class="hljs css" data-trim data-line-numbers>
+/* Physical properties (old way) */
+.box-physical {
   margin-left: 1rem;
-  padding-right: 2rem;
-  border-top: 1px solid;
+  margin-right: 2rem;
+  border-top: 2px solid blue;
+  border-bottom: 1px solid gray;
 }
 
-/* New way: logical directions */
-.new {
+/* Logical properties (modern way) */
+.box-logical {
+  /* Inline = horizontal in LTR/RTL */
   margin-inline-start: 1rem;
-  padding-inline-end: 2rem;
-  border-block-start: 1px solid;
+  margin-inline-end: 2rem;
+  
+  /* Block = vertical */
+  border-block-start: 2px solid blue;
+  border-block-end: 1px solid gray;
 }
 
-/* Works with RTL automatically! */
-[dir="rtl"] .new {
-  /* No changes needed! */
+/* Shorthand */
+.element {
+  padding-inline: 2rem;  /* left & right */
+  padding-block: 1rem;   /* top & bottom */
+  margin-inline: auto;   /* center horizontally */
 }
-</code></pre>
-    </div>
 
-    <div class="demo">
-      <div style="padding: 1rem; background: #f1f5f9; border-radius: 0.5rem">
-        <div style="padding-inline-start: 2rem; padding-inline-end: 0.5rem; margin-block-end: 0.5rem; background: #3b82f6; color: white; border-radius: 0.25rem">LTR: padding-inline-start</div>
-        <div dir="rtl" style="padding-inline-start: 2rem; padding-inline-end: 0.5rem; background: #8b5cf6; color: white; border-radius: 0.25rem">RTL: same property, flipped!</div>
-      </div>
-      <p style="margin-top: 1rem; font-size: 0.9rem; color: #64748b">✨ Write once, works in any direction!</p>
-    </div>
-  </div>
+/* Size properties */
+.card {
+  inline-size: 300px;    /* width */
+  block-size: 200px;     /* height */
+  max-inline-size: 100%; /* max-width */
+}
+        </code>
+      </pre>
+    </left>
+    <right>
+      <small style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%">
+        <!-- LTR demo -->
+        <div style="padding: 1rem; background: #f3f4f6; border-radius: 0.5rem">
+          <div style="font-weight: bold; margin-bottom: 0.5rem">English (LTR)</div>
+          <div style="padding-inline: 2rem 1rem; margin-inline-start: 2rem; border-inline-start: 4px solid #667eea; background: white; border-radius: 0.25rem; direction: ltr">
+            Text flows left to right
+          </div>
+        </div>
 
-  <aside class="notes">
-    Logical properties: direction-agnostic CSS. - Available since 2018 (Baseline widely available) - inline = horizontal in LTR, vertical in vertical writing modes - block = vertical in LTR,
-    horizontal in vertical modes - Essential for internationalization - Future-proof your layouts Duration: 1–2 min
-  </aside>
+        <!-- RTL demo -->
+        <div style="padding: 1rem; background: #f3f4f6; border-radius: 0.5rem">
+          <div style="font-weight: bold; margin-bottom: 0.5rem">Arabic (RTL)</div>
+          <div style="padding-inline: 2rem 1rem; margin-inline-start: 2rem; border-inline-start: 4px solid #10b981; background: white; border-radius: 0.25rem; direction: rtl">
+            النص يتدفق من اليمين إلى اليسار
+          </div>
+        </div>
+
+        <div style="padding: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 0.5rem; text-align: center; font-weight: bold">
+          Same CSS, adapts automatically! ✨
+        </div>
+      </small>
+    </right>
+  </comparison>
 </section>

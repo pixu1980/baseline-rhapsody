@@ -1,61 +1,12 @@
-<section data-transition="convex">
-  <section>
-    <h2>CSS Grid</h2>
-    <div class="baseline-badge widely">✅ Widely Available (2020)</div>
-    <p class="fragment">Two-dimensional layouts <mark>perfected</mark></p>
-  </section>
-
-  <section>
-    <h3>The Layout System We <mark>Deserved</mark></h3>
-    <div class="before-after">
-      <div class="before">
-        <h4>The Old Way (Table/Float)</h4>
-        <pre><code class="language-css">/* Nested divs nightmare */
-.wrapper {
-  display: table;
-}
-
-.header {
-  display: table-row;
-}
-
-.sidebar {
-  display: table-cell;
-  width: 200px;
-}
-
-.content {
-  display: table-cell;
-}
-
-/* Or floats with clearfix... */</code></pre>
-      </div>
-      
-      <div class="after fragment">
-        <h4>The Grid Way</h4>
-        <pre><code class="language-css">.wrapper {
-  display: grid;
-  grid-template-areas:
-    "header header"
-    "sidebar content"
-    "footer footer";
-  grid-template-columns: 200px 1fr;
-  gap: 1rem;
-}
-
-.header { grid-area: header; }
-.sidebar { grid-area: sidebar; }
-.content { grid-area: content; }
-.footer { grid-area: footer; }</code></pre>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h3>Grid <mark>Template</mark> Areas</h3>
-    <div class="code-demo-split">
-      <div class="code-example">
-        <pre><code class="language-css">/* Holy Grail Layout */
+<section>
+  <h4>Grid</h4>
+  <h5><img src="./assets/baseline/baseline-widely-icon.svg" style="width: 5rem" alt="" /> Widely Available (October 2017)</h5>
+  <small balance>Two-dimensional layouts <mark>perfected</mark>, and the Holy-Grail layout finally easy</small>
+  <comparison>
+    <left>
+      <pre>
+        <code class="hljs css" data-trim data-line-numbers>
+/* Holy Grail Layout */
 .layout {
   display: grid;
   grid-template-areas:
@@ -85,18 +36,63 @@
       "footer";
     grid-template-columns: 1fr;
   }
-}</code></pre>
+}
+        </code>
+      </pre>
+    </left>
+    <right>
+      <div
+        style="
+          display: grid;
+          grid-template-areas: 'header header header' 'nav main aside' 'footer footer footer';
+          grid-template-columns: 80px 1fr 80px;
+          grid-template-rows: 40px 1fr 40px;
+          gap: 0.5rem;
+          height: 300px;
+          color: #000;
+          font-size: 2rem;
+        "
+      >
+        <div style="grid-area: header; background: #667eea; display: flex; align-items: center; justify-content: center; border-radius: 0.25rem">Header</div>
+        <div style="grid-area: nav; background: #10b981; display: flex; align-items: center; justify-content: center; border-radius: 0.25rem">Nav</div>
+        <div style="grid-area: main; background: #3b82f6; display: flex; align-items: center; justify-content: center; border-radius: 0.25rem">Main</div>
+        <div style="grid-area: aside; background: #f59e0b; display: flex; align-items: center; justify-content: center; border-radius: 0.25rem">Aside</div>
+        <div style="grid-area: footer; background: #ef4444; display: flex; align-items: center; justify-content: center; border-radius: 0.25rem">Footer</div>
+      </div>
+    </right>
+  </comparison>
+</section>
+
+<!--       
+      <div class="after fragment">
+        <h4>The Grid Way</h4>
+        <pre><code class="language-css">.wrapper {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "sidebar content"
+    "footer footer";
+  grid-template-columns: 200px 1fr;
+  gap: 1rem;
+}
+
+.header { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.content { grid-area: content; }
+.footer { grid-area: footer; }</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Grid <mark>Template</mark> Areas</h3>
+    <div class="code-demo-split">
+      <div class="code-example">
+        <pre><code class="language-css"></code></pre>
       </div>
       
       <div class="demo">
-        <div style="display: grid; grid-template-areas: 'header header header' 'nav main aside' 'footer footer footer'; grid-template-columns: 80px 1fr 80px; grid-template-rows: 40px 1fr 40px; gap: 0.5rem; height: 300px; font-size: 0.8rem;">
-          <div style="grid-area: header; background: #667eea; color: white; display: flex; align-items: center; justify-content: center; border-radius: 0.25rem;">Header</div>
-          <div style="grid-area: nav; background: #10b981; color: white; display: flex; align-items: center; justify-content: center; border-radius: 0.25rem;">Nav</div>
-          <div style="grid-area: main; background: #3b82f6; color: white; display: flex; align-items: center; justify-content: center; border-radius: 0.25rem;">Main</div>
-          <div style="grid-area: aside; background: #f59e0b; color: white; display: flex; align-items: center; justify-content: center; border-radius: 0.25rem;">Aside</div>
-          <div style="grid-area: footer; background: #ef4444; color: white; display: flex; align-items: center; justify-content: center; border-radius: 0.25rem;">Footer</div>
-        </div>
-        <p style="margin-top: 1rem; text-align: center;"><small>The Holy Grail layout - finally easy! 🏆</small></p>
+        
       </div>
     </div>
   </section>
@@ -194,4 +190,4 @@
       </a>
     </div>
   </section>
-</section>
+</section> -->

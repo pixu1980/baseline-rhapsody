@@ -1,241 +1,87 @@
-<section data-transition="convex">
-  <section>
-    <h2>overlay Property</h2>
-    <div class="baseline-badge widely">✅ Widely Available (2024)</div>
-    <p class="fragment">Control the <mark>top layer</mark></p>
-  </section>
+<section>
+  <h4>Overlay Positioning</h4>
+  <h5><img src="./assets/baseline/baseline-newly-icon.svg" style="width: 5rem" alt="" /> Newly Available (December 2023)</h5>
+  <p>Top layer for modals and popovers with <mark>proper stacking</mark></p>
+  <comparison>
+    <left>
+      <small style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%">
+        <!-- Top layer visualization -->
+        <div style="padding: 1.5rem; background: #f3f4f6; border-radius: 0.5rem">
+          <div style="font-weight: bold; margin-bottom: 1rem; color: #1f2937">Stacking Layers</div>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.875rem">
+            <div style="padding: 0.75rem; background: #ef4444; color: white; border-radius: 0.5rem; font-weight: bold; text-align: center">Top Layer (overlays)</div>
+            <div style="padding: 0.5rem; background: #e5e7eb; color: #6b7280; border-radius: 0.5rem; text-align: center">z-index: 9999</div>
+            <div style="padding: 0.5rem; background: #d1d5db; color: #6b7280; border-radius: 0.5rem; text-align: center">z-index: 100</div>
+            <div style="padding: 0.5rem; background: #9ca3af; color: white; border-radius: 0.5rem; text-align: center">Normal document flow</div>
+          </div>
+        </div>
 
-  <section>
-    <h3>What is the <mark>Top Layer</mark>?</h3>
-    <div class="code-demo-split">
-      <div class="code-example">
-        <pre><code class="language-html">&lt;!-- Elements that render in top layer --&gt;
-
-&lt;!-- Fullscreen API --&gt;
-&lt;div id="fullscreen"&gt;
-  Fullscreen content
-&lt;/div&gt;
-
-&lt;!-- Dialog element --&gt;
-&lt;dialog id="modal"&gt;
-  Modal content
-&lt;/dialog&gt;
-
-&lt;!-- Popover --&gt;
-&lt;div popover id="menu"&gt;
-  Popover content
-&lt;/div&gt;</code></pre>
-
-        <pre><code class="language-css">/* Top layer characteristics */
-dialog[open] {
+        <!-- Modal example -->
+        <div style="position: relative; padding: 2rem; background: rgba(0, 0, 0, 0.5); border-radius: 0.5rem; min-height: 140px; display: flex; align-items: center; justify-content: center">
+          <div style="background: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); max-width: 300px; text-align: center">
+            <div style="font-size: 1.25rem; font-weight: bold; margin-bottom: 0.5rem; color: #1f2937">Dialog</div>
+            <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 1rem">Always on top!</div>
+            <button style="padding: 0.5rem 1.5rem; background: #667eea; color: white; border: none; border-radius: 0.5rem; font-weight: bold">OK</button>
+          </div>
+        </div>
+      </small>
+    </left>
+    <right>
+      <pre>
+        <code class="hljs css" data-trim data-line-numbers>
+/* Elements in top layer */
+dialog,
+[popover],
+::backdrop {
   /* Automatically in top layer */
-  /* Renders above ALL other content */
-  /* Ignores z-index stacking contexts */
-  /* Has a ::backdrop pseudo-element */
+  /* No z-index needed! */
 }
 
+/* Top layer behavior */
+.overlay {
+  /* Always above everything else */
+  /* Ignores containing block */
+  /* Ignores overflow: hidden */
+  /* Ignores z-index stacking */
+}
+
+/* Backdrop styling */
 dialog::backdrop {
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
-}</code></pre>
-      </div>
-
-      <div class="demo">
-        <div style="padding: 2rem; background: #f8fafc; border-radius: 0.75rem;">
-          <div style="padding: 1.5rem; background: white; border: 2px dashed #cbd5e1; border-radius: 0.5rem; position: relative;">
-            <p style="margin: 0 0 1rem; font-size: 0.9rem;">Normal Document Layer</p>
-            <div style="position: absolute; top: -1rem; right: -1rem; padding: 1rem 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 0.5rem; box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3); font-weight: 600;">
-              Top Layer
-              <div style="font-size: 0.75rem; opacity: 0.9; margin-top: 0.25rem;">
-                (dialog, fullscreen, popover)
-              </div>
-            </div>
-          </div>
-          <p style="margin-top: 1.5rem; font-size: 0.85rem; color: #64748b;">
-            Top layer elements render above everything, even elements with high z-index.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h3>The <mark>overlay</mark> Property</h3>
-    <div class="code-demo-split">
-      <div class="code-example">
-        <pre><code class="language-css">/* Control top layer participation */
-
-/* Default for dialogs/fullscreen */
-dialog {
-  overlay: auto;
-  /* Stays in top layer when open */
 }
 
-/* Remove from top layer */
-dialog {
-  overlay: none;
-  /* Behaves like normal positioned element */
-  /* Uses regular z-index stacking */
+[popover]::backdrop {
+  background: transparent;
 }
 
-/* Useful for animations */
+/* Fullscreen also uses top layer */
+.video:fullscreen {
+  /* In top layer automatically */
+}
+
+.video::backdrop {
+  background: black;
+}
+
+/* Animating overlay */
 dialog {
-  overlay: auto;
   transition: 
     opacity 0.3s,
-    display 0.3s allow-discrete,
     overlay 0.3s allow-discrete;
 }
 
-/* Closing animation */
 dialog:not([open]) {
   opacity: 0;
-  overlay: none;
-}</code></pre>
-      </div>
-
-      <div class="code-example">
-        <pre><code class="language-css">/* Complete dialog example */
-dialog {
-  border: none;
-  border-radius: 1rem;
-  padding: 2rem;
-  max-width: 500px;
-  
-  /* Top layer control */
-  overlay: auto;
-  
-  /* Animations */
-  opacity: 0;
-  transform: scale(0.9);
-  transition: 
-    opacity 0.3s,
-    transform 0.3s,
-    display 0.3s allow-discrete,
-    overlay 0.3s allow-discrete;
 }
 
-dialog[open] {
-  opacity: 1;
-  transform: scale(1);
-}
+/* Multiple overlays stack correctly */
+/* Last opened is on top */
+/* Proper light-dismiss order */
 
-/* Backdrop */
-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(8px);
-  
-  opacity: 0;
-  transition: 
-    opacity 0.3s,
-    display 0.3s allow-discrete,
-    overlay 0.3s allow-discrete;
-}
-
-dialog[open]::backdrop {
-  opacity: 1;
-}</code></pre>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h3>Practical <mark>Example</mark></h3>
-    <div class="code-demo-split">
-      <div class="code-example">
-        <pre><code class="language-html">&lt;button onclick="dialog.showModal()"&gt;
-  Open Modal
-&lt;/button&gt;
-
-&lt;dialog id="modal"&gt;
-  &lt;h2&gt;Modal Title&lt;/h2&gt;
-  &lt;p&gt;Modal content here&lt;/p&gt;
-  &lt;button onclick="modal.close()"&gt;
-    Close
-  &lt;/button&gt;
-&lt;/dialog&gt;</code></pre>
-
-        <pre><code class="language-css">#modal {
-  border: none;
-  border-radius: 1rem;
-  padding: 2rem;
-  box-shadow: 0 25px 50px rgba(0,0,0,0.2);
-  
-  /* Smooth entry/exit */
-  overlay: auto;
-  opacity: 0;
-  transform: translateY(-20px);
-  
-  transition: 
-    opacity 0.2s,
-    transform 0.2s,
-    display 0.2s allow-discrete,
-    overlay 0.2s allow-discrete;
-}
-
-#modal[open] {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-#modal::backdrop {
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-}</code></pre>
-      </div>
-
-      <div class="demo">
-        <div style="padding: 2rem; background: #f8fafc; border-radius: 0.75rem;">
-          <button onclick="this.nextElementSibling.showModal()" style="padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer;">
-            Open Modal Demo
-          </button>
-          
-          <dialog style="border: none; border-radius: 1rem; padding: 2rem; max-width: 400px; box-shadow: 0 25px 50px rgba(0,0,0,0.2);">
-            <h3 style="margin: 0 0 1rem;">Demo Modal</h3>
-            <p style="margin: 0 0 1.5rem; color: #64748b;">
-              This dialog is rendered in the top layer using <code>overlay: auto</code>
-            </p>
-            <button onclick="this.closest('dialog').close()" style="padding: 0.5rem 1rem; background: #667eea; color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-weight: 500;">
-              Close
-            </button>
-          </dialog>
-          
-          <p style="margin-top: 1.5rem; font-size: 0.85rem; color: #64748b;">
-            Click the button to see the overlay property in action!
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h3>Use Cases & <mark>Benefits</mark></h3>
-    <div style="display: grid; gap: 1.5rem; margin-top: 2rem; font-size: 0.85rem;">
-      <div class="fragment" style="background: #f8fafc; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #10b981;">
-        <h4 style="margin-top: 0;">✅ Exit Animations</h4>
-        <p style="margin: 0 0 0.5rem;">Keep element in top layer during closing animation, then remove it.</p>
-        <pre><code class="language-css">dialog:not([open]) {
-  overlay: none; /* Removes from top layer after animation */
-}</code></pre>
-      </div>
-
-      <div class="fragment" style="background: #f8fafc; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #10b981;">
-        <h4 style="margin-top: 0;">✅ Modal Stacking</h4>
-        <p style="margin: 0 0 0.5rem;">Control which modals appear above others in the top layer.</p>
-        <pre><code class="language-css">dialog.background-modal {
-  overlay: none; /* Use normal z-index */
-  z-index: 100;
-}
-
-dialog.foreground-modal {
-  overlay: auto; /* Top layer */
-}</code></pre>
-      </div>
-
-      <div class="fragment" style="background: #f8fafc; padding: 1.5rem; border-radius: 0.75rem; border: 2px solid #10b981;">
-        <h4 style="margin-top: 0;">✅ Accessibility</h4>
-        <p style="margin: 0;">Top layer ensures dialogs are always visible, avoiding z-index battles and ensuring screen readers can access them properly.</p>
-      </div>
-    </div>
-  </section>
+/* No more z-index wars! */
+        </code>
+      </pre>
+    </right>
+  </comparison>
 </section>

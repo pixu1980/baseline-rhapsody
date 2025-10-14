@@ -1,246 +1,62 @@
 <section>
-  <h3>CSS Custom Functions (@function) 🔮</h3>
-  <div class="baseline-badge limited">🔴 Proposal Stage</div>
-</section>
+  <h4>CSS Custom Functions</h4>
+  <h5><img src="./assets/baseline/baseline-limited-icon.svg" style="width: 5rem" alt="" /> Limited Availability</h5>
+  <small>Define reusable <mark>calculation functions</mark> in CSS</small>
 
-<section>
-  <h4>What are Custom Functions?</h4>
-  <p>Define reusable calculation logic in CSS:</p>
-  <ul>
-    <li>Similar to custom properties, but with parameters</li>
-    <li>Reduce repetitive calc() expressions</li>
-    <li>Create design system utilities</li>
-    <li>Make complex math reusable</li>
-    <li>⚠️ Currently a CSSWG proposal</li>
-  </ul>
-</section>
-
-<section>
-  <h4>Proposed Syntax</h4>
-  <pre><code class="language-css">/* Define a custom function */
+  <pre>
+        <code class="hljs css" data-trim data-line-numbers>
+/* Define custom function */
 @function --fluid-size(
-  --min-size: 16px,
-  --max-size: 24px,
-  --min-vw: 320px,
-  --max-vw: 1280px
+  --min,
+  --max,
+  --viewport-min: 320px,
+  --viewport-max: 1200px
 ) {
   result: clamp(
-    var(--min-size),
+    var(--min),
     calc(
-      var(--min-size) + 
-      (var(--max-size) - var(--min-size)) * 
-      (100vw - var(--min-vw)) / 
-      (var(--max-vw) - var(--min-vw))
+      var(--min) + 
+      (var(--max) - var(--min)) * 
+      (100vw - var(--viewport-min)) / 
+      (var(--viewport-max) - var(--viewport-min))
     ),
-    var(--max-size)
+    var(--max)
   );
 }
 
 /* Use the function */
-.heading {
-  font-size: --fluid-size(18px, 48px, 320px, 1280px);
+h1 {
+  font-size: --fluid-size(
+    --min: 2rem,
+    --max: 4rem
+  );
 }
 
-.text {
-  font-size: --fluid-size(14px, 18px);
-  /* Uses default viewport values */
-}</code></pre>
-</section>
-
-<section>
-  <h4>Example: Spacing System</h4>
-  <pre><code class="language-css">/* Define spacing function */
-@function --spacing(--multiplier: 1) {
-  result: calc(var(--space-unit, 8px) * var(--multiplier));
+/* Another example - spacing function */
+@function --spacing(--multiplier) {
+  result: calc(var(--base-spacing) * var(--multiplier));
 }
 
-/* Use in components */
 .card {
-  padding: --spacing(3);      /* 24px */
-  margin-bottom: --spacing(4); /* 32px */
-  gap: --spacing(2);          /* 16px */
+  padding: --spacing(--multiplier: 2);
+  margin-bottom: --spacing(--multiplier: 3);
+}
+
+/* Color mixing function */
+@function --tint(--color, --percentage) {
+  result: color-mix(
+    in oklch,
+    var(--color),
+    white var(--percentage)
+  );
 }
 
 .button {
-  padding: --spacing(1.5) --spacing(3);
-  /* 12px 24px */
-}</code></pre>
-</section>
-
-<section>
-  <h4>Example: Color Utilities</h4>
-  <pre><code class="language-css">/* Define color manipulation function */
-@function --alpha(--color, --opacity: 1) {
-  result: color-mix(
-    in srgb, 
-    var(--color), 
-    transparent calc((1 - var(--opacity)) * 100%)
+  background: --tint(
+    --color: blue,
+    --percentage: 20%
   );
 }
-
-@function --shade(--color, --amount: 0.2) {
-  result: color-mix(
-    in srgb,
-    var(--color),
-    black calc(var(--amount) * 100%)
-  );
-}
-
-/* Use in styles */
-.overlay {
-  background: --alpha(#667eea, 0.8);
-}
-
-.button:hover {
-  background: --shade(var(--primary-color), 0.1);
-}</code></pre>
-</section>
-
-<section>
-  <h4>Example: Responsive Grid</h4>
-  <pre><code class="language-css">/* Auto-responsive grid columns */
-@function --auto-grid(
-  --min-width: 250px,
-  --gap: 1rem
-) {
-  result: repeat(
-    auto-fit,
-    minmax(
-      min(100%, var(--min-width)),
-      1fr
-    )
-  );
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: --auto-grid(300px, 2rem);
-  gap: 2rem;
-}
-
-.compact-grid {
-  display: grid;
-  grid-template-columns: --auto-grid(200px);
-  gap: 1rem;
-}</code></pre>
-</section>
-
-<section>
-  <h4>Example: Easing Functions</h4>
-  <pre><code class="language-css">/* Custom easing curve */
-@function --ease-out-cubic(--progress) {
-  result: calc(1 - pow(1 - var(--progress), 3));
-}
-
-@function --bounce(--progress) {
-  result: calc(
-    pow(2, -10 * var(--progress)) * 
-    sin((var(--progress) - 0.075) * 2 * pi / 0.3) + 1
-  );
-}
-
-/* Use in animations */
-@keyframes slide {
-  from {
-    --t: 0;
-    transform: translateX(
-      calc(--ease-out-cubic(var(--t)) * 100px)
-    );
-  }
-  to {
-    --t: 1;
-    transform: translateX(
-      calc(--ease-out-cubic(var(--t)) * 100px)
-    );
-  }
-}</code></pre>
-</section>
-
-<section>
-  <h4>Current Workarounds</h4>
-  <pre><code class="language-css">/* Until @function is available, use custom properties */
-:root {
-  --space-unit: 8px;
-  
-  /* Pre-calculate common values */
-  --space-1: calc(var(--space-unit) * 1);
-  --space-2: calc(var(--space-unit) * 2);
-  --space-3: calc(var(--space-unit) * 3);
-  --space-4: calc(var(--space-unit) * 4);
-}
-
-/* Or use CSS-in-JS / preprocessors */
-/* SCSS */
-@function fluid-size($min, $max, $min-vw: 320px, $max-vw: 1280px) {
-  @return clamp(
-    #{$min},
-    calc(#{$min} + (#{$max} - #{$min}) * 
-      (100vw - #{$min-vw}) / (#{$max-vw} - #{$min-vw})),
-    #{$max}
-  );
-}</code></pre>
-</section>
-
-<section>
-  <h4>Benefits Over Current Solutions</h4>
-  <ul>
-    <li>✅ Native CSS, no build step required</li>
-    <li>✅ Reusable logic across stylesheets</li>
-    <li>✅ Type-safe with default parameters</li>
-    <li>✅ Better than repetitive calc() expressions</li>
-    <li>✅ Improves maintainability</li>
-    <li>✅ Works with CSS custom properties</li>
-  </ul>
-</section>
-
-<section>
-  <h4>Proposal Status & Timeline</h4>
-  <ul>
-    <li>📋 <strong>Status:</strong> CSSWG Discussion</li>
-    <li>🗓️ <strong>Proposal:</strong> Active (2023-2024)</li>
-    <li>🔍 <strong>Specification:</strong> Draft phase</li>
-    <li>⏳ <strong>Implementation:</strong> Not yet in browsers</li>
-    <li>🎯 <strong>Estimated:</strong> 2026-2027 (optimistic)</li>
-  </ul>
-  <div class="resources">
-    <p><strong>Resources:</strong></p>
-    <ul>
-      <li><a href="https://github.com/w3c/csswg-drafts/issues/9350" target="_blank">CSSWG Issue #9350: CSS Functions</a></li>
-      <li><a href="https://css.oddbird.net/rwd/style-queries/" target="_blank">CSS Style Queries Proposal</a></li>
-    </ul>
-  </div>
-</section>
-
-<section>
-  <h4>How to Prepare</h4>
-  <ul>
-    <li>✅ Use CSS custom properties extensively</li>
-    <li>✅ Organize calc() expressions logically</li>
-    <li>✅ Document complex calculations</li>
-    <li>✅ Consider using CSS preprocessors now</li>
-    <li>✅ Follow CSSWG discussions</li>
-    <li>✅ Test with polyfills when available</li>
-  </ul>
-  <pre><code class="language-css">/* Structure code to be migration-ready */
-:root {
-  /* Future: @function --spacing(--mult) */
-  --spacing-1: calc(var(--base) * 1);
-  --spacing-2: calc(var(--base) * 2);
-  --spacing-3: calc(var(--base) * 3);
-}
-
-/* Easy to convert when @function arrives */</code></pre>
-</section>
-
-<section>
-  <h4>Key Takeaways</h4>
-  <ul>
-    <li>🔮 Custom functions will revolutionize CSS logic</li>
-    <li>⚠️ Currently in proposal stage (no browser support)</li>
-    <li>✅ Would eliminate repetitive calc() expressions</li>
-    <li>✅ Better than preprocessors (native, dynamic)</li>
-    <li>✅ Works with existing custom properties</li>
-    <li>📅 Prepare now by organizing calculations</li>
-    <li>👀 Watch CSSWG for updates</li>
-  </ul>
+        </code>
+      </pre>
 </section>

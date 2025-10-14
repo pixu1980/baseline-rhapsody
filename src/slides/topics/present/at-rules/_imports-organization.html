@@ -1,268 +1,90 @@
-<section data-transition="convex">
-  <section>
-    <h2>At-Rules: Organization</h2>
-    <div class="baseline-badge widely">✅ Widely Available (2015)</div>
-    <p class="fragment">Structure your <mark>stylesheets</mark></p>
-  </section>
-
-  <section>
-    <h3>@import - Modular <mark>CSS</mark></h3>
-    <div class="code-demo-split">
-      <div class="code-example">
-        <pre><code class="language-css">/* Basic import */
-@import url("reset.css");
-@import url("typography.css");
-
-/* Import with media query */
-@import url("print.css") print;
-@import url("mobile.css") 
-  screen and (max-width: 768px);
-
-/* Import with layer */
-@import url("theme.css") layer(theme);
-
-/* Import with supports */
-@import url("modern.css") 
-  supports(display: grid);
-
-/* Combine conditions */
-@import url("advanced.css")
-  layer(components)
-  supports(container-type: inline-size)
-  screen and (min-width: 1024px);</code></pre>
-      </div>
-
-      <div class="code-example">
-        <pre><code class="language-css">/* Modern project structure */
-/* main.css */
-@import url("layers.css"); /* Define layers first */
-@import url("reset.css") layer(reset);
-@import url("tokens.css") layer(tokens);
-@import url("components.css") layer(components);
-@import url("utilities.css") layer(utilities);
-
-/* Only load if supported */
-@import url("view-transitions.css")
-  layer(enhancements)
-  supports(view-transition-name: auto);
-  
-/* Performance tip: */
-/* Prefer bundling in production */
-/* Use @import for development organization */</code></pre>
-      </div>
-    </div>
-    <aside class="notes">
-      @import loads CSS files. Modern syntax supports layers, media queries, and feature detection. Note: @import has performance implications - prefer bundling in production.
-    </aside>
-  </section>
-
-  <section>
-    <h3>@charset & @namespace</h3>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; font-size: 0.85rem;">
-      <div class="fragment">
-        <h4>@charset - <mark>Encoding</mark></h4>
-        <pre><code class="language-css">/* Must be first line of file */
-@charset "UTF-8";
-
-/* Enables special characters */
-.element::before {
-  content: "→ → →";
-}
-
-.icon::after {
-  content: "★ ☆ ✓ ✗";
-}
-
-/* Emoji work fine with UTF-8 */
-.status::before {
-  content: "✅ ❌ ⚠️";
-}</code></pre>
-        <p style="margin-top: 1rem; font-size: 0.9rem; color: #64748b;">
-          📝 UTF-8 is the default. Only needed for special cases.
-        </p>
-      </div>
-
-      <div class="fragment">
-        <h4>@namespace - <mark>XML/SVG</mark></h4>
-        <pre><code class="language-css">/* For SVG in HTML */
-@namespace svg "http://www.w3.org/2000/svg";
-
-/* Target SVG elements specifically */
-svg|a {
-  fill: blue;
-}
-
-svg|circle {
-  stroke: currentColor;
-}
-
-/* Combine with HTML */
-@namespace url(http://www.w3.org/1999/xhtml);
-@namespace svg url(http://www.w3.org/2000/svg);
-
-/* HTML paragraph */
-|p { color: black; }
-
-/* SVG text */
-svg|text { fill: black; }</code></pre>
-        <p style="margin-top: 1rem; font-size: 0.9rem; color: #64748b;">
-          📝 Rarely needed in modern HTML.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h3>@counter-style - Custom <mark>Counters</mark></h3>
-    <div class="code-demo-split">
-      <div class="code-example">
-        <pre><code class="language-css">/* Define custom counter style */
-@counter-style emoji-numbers {
-  system: cyclic;
-  symbols: 1️⃣ 2️⃣ 3️⃣ 4️⃣ 5️⃣ 6️⃣ 7️⃣ 8️⃣ 9️⃣ 🔟;
-  suffix: " ";
-}
-
-@counter-style priority {
-  system: fixed;
-  symbols: 🔴 🟡 🟢;
-  suffix: " ";
-}
-
-@counter-style steps {
-  system: numeric;
-  symbols: ➊ ➋ ➌ ➍ ➎ ➏ ➐ ➑ ➒ ➓;
-  suffix: ") ";
-}
-
-/* Use them */
-ol.tasks {
-  list-style-type: emoji-numbers;
-}
-
-ol.todo {
-  list-style-type: priority;
-}
-
-ol.instructions {
-  list-style-type: steps;
-}</code></pre>
-      </div>
-
-      <div class="demo">
-        <style>
-          @counter-style demo-emoji {
-            system: cyclic;
-            symbols: "🎯" "✨" "🚀" "💎";
-            suffix: " ";
-          }
-          .demo-counter-style ol {
-            list-style-type: demo-emoji;
-            margin: 0.5rem 0;
-            padding-left: 2rem;
-          }
-        </style>
-        <div class="demo-counter-style" style="padding: 1.5rem; background: #f8fafc; border-radius: 0.75rem;">
-          <p style="margin: 0 0 1rem; font-weight: 600;">Custom Counter Style:</p>
-          <ol>
-            <li>First task</li>
-            <li>Second task</li>
-            <li>Third task</li>
-            <li>Fourth task</li>
-            <li>Fifth task (cycles back)</li>
-          </ol>
-          <div style="margin-top: 1rem; padding: 1rem; background: rgba(102, 126, 234, 0.1); border-radius: 0.5rem; font-size: 0.85rem;">
-            <code>@counter-style demo-emoji</code> with cyclic symbols
+<section>
+  <h4>@import and Organization</h4>
+  <h5><img src="./assets/baseline/baseline-widely-icon.svg" style="width: 5rem" alt="" /> Widely Available (various)</h5>
+  <p>Modern CSS architecture with <mark>imports and layers</mark></p>
+  <comparison>
+    <left>
+      <small style="display: flex; flex-direction: column; gap: 1rem; width: 100%">
+        <!-- File structure visualization -->
+        <div style="padding: 1.5rem; background: #1f2937; border-radius: 0.5rem; color: white; font-family: monospace; font-size: 0.75rem">
+          <div style="margin-bottom: 0.5rem">📁 styles/</div>
+          <div style="padding-left: 1rem; opacity: 0.9">
+            <div>├── 📄 reset.css</div>
+            <div>├── 📄 tokens.css</div>
+            <div>├── 📄 base.css</div>
+            <div>├── 📁 components/</div>
+            <div style="padding-left: 1rem">
+              <div>├── 📄 button.css</div>
+              <div>└── 📄 card.css</div>
+            </div>
+            <div>└── 📄 utilities.css</div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <section>
-    <h3>@page - Print <mark>Styles</mark></h3>
-    <div class="code-demo-split">
-      <div class="code-example">
-        <pre><code class="language-css">/* Default page rules */
-@page {
-  size: A4;
-  margin: 2cm;
-}
+        <!-- Import flow -->
+        <div style="padding: 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 0.5rem; color: white">
+          <div style="font-weight: bold; margin-bottom: 1rem">Import Flow</div>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.875rem">
+            <div>1. Import into layers ↓</div>
+            <div>2. Control cascade order ↓</div>
+            <div>3. Modular & maintainable ✓</div>
+          </div>
+        </div>
 
-/* First page different */
-@page :first {
-  margin-top: 5cm;
-}
+        <!-- Result -->
+        <div style="padding: 1.5rem; background: #f3f4f6; border-radius: 0.5rem">
+          <div style="font-weight: bold; margin-bottom: 0.5rem; color: #1f2937">Benefits</div>
+          <div style="font-size: 0.875rem; color: #6b7280; display: flex; flex-direction: column; gap: 0.25rem">
+            <div>✓ Organized codebase</div>
+            <div>✓ Predictable cascade</div>
+            <div>✓ Easy maintenance</div>
+          </div>
+        </div>
+      </small>
+    </left>
+    <right>
+      <pre>
+        <code class="hljs css" data-trim data-line-numbers>
+/* Main stylesheet */
+/* Define layer order first */
+@layer reset, tokens, base, components, utilities;
 
-/* Left and right pages */
-@page :left {
-  margin-left: 3cm;
-  margin-right: 2cm;
-}
+/* Import files into layers */
+@import url('reset.css') layer(reset);
+@import url('tokens.css') layer(tokens);
+@import url('base.css') layer(base);
 
-@page :right {
-  margin-left: 2cm;
-  margin-right: 3cm;
-}
+/* Import with supports */
+@import url('modern.css') 
+  supports(display: grid);
 
-/* Named pages */
-@page chapter {
-  size: A4 landscape;
-  margin: 1cm;
-}
+/* Import with media query */
+@import url('print.css') 
+  print;
 
-@page appendix {
-  size: A4;
-  margin: 1.5cm;
-  
-  @top-right {
-    content: "Appendix";
-  }
-}
+/* Combine conditions */
+@import url('advanced.css')
+  layer(components)
+  supports(container-type: inline-size)
+  (min-width: 768px);
 
-/* Apply named pages */
-.chapter {
-  page: chapter;
-}
+/* Component imports */
+@import url('components/button.css') 
+  layer(components);
+@import url('components/card.css') 
+  layer(components);
 
-.appendix {
-  page: appendix;
-}</code></pre>
-      </div>
+/* Utilities last */
+@import url('utilities.css') 
+  layer(utilities);
 
-      <div class="code-example">
-        <pre><code class="language-css">/* Complete print stylesheet */
-@media print {
-  @page {
-    size: A4;
-    margin: 2cm;
-    
-    @top-center {
-      content: string(doctitle);
-      font-size: 10pt;
-      color: #666;
-    }
-    
-    @bottom-right {
-      content: "Page " counter(page) 
-               " of " counter(pages);
-    }
-  }
-  
-  h1 {
-    string-set: doctitle content();
-    page-break-before: always;
-  }
-  
-  h2, h3 {
-    page-break-after: avoid;
-  }
-  
-  img, pre, table {
-    page-break-inside: avoid;
-  }
-}</code></pre>
-      </div>
-    </div>
-  </section>
+/* Modern modular CSS architecture:
+   - Organized by concern
+   - Controlled cascade with layers  
+   - Progressive enhancement
+   - Easy to maintain */
+        </code>
+      </pre>
+    </right>
+  </comparison>
 </section>

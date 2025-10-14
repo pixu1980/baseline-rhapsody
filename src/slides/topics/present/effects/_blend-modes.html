@@ -1,308 +1,104 @@
 <section>
-  <h3>CSS Blend Modes 🎨</h3>
-  <div class="baseline-badge widely">✅ Widely Available (2020)</div>
-</section>
+  <h4>Blend Modes</h4>
+  <h5><img src="./assets/baseline/baseline-widely-icon.svg" style="width: 5rem" alt="" /> Widely Available (January 2016)</h5>
+  <small>Photoshop-style <mark>blending</mark> in CSS</small>
+  <comparison>
+    <left>
+      <small style="display: flex; flex-direction: column; gap: 1rem; width: 100%">
+        <!-- mix-blend-mode examples -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem">
+          <div style="position: relative; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 100px; border-radius: 0.5rem; overflow: hidden">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; background: #fbbf24; border-radius: 50%; mix-blend-mode: multiply"></div>
+            <small style="position: absolute; bottom: 0.25rem; left: 0.5rem; color: white; font-size: 1.5rem">multiply</small>
+          </div>
+          <div style="position: relative; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 100px; border-radius: 0.5rem; overflow: hidden">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; background: #fbbf24; border-radius: 50%; mix-blend-mode: screen"></div>
+            <small style="position: absolute; bottom: 0.25rem; left: 0.5rem; color: white; font-size: 1.5rem">screen</small>
+          </div>
+          <div style="position: relative; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 100px; border-radius: 0.5rem; overflow: hidden">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; background: #fbbf24; border-radius: 50%; mix-blend-mode: overlay"></div>
+            <small style="position: absolute; bottom: 0.25rem; left: 0.5rem; color: white; font-size: 1.5rem">overlay</small>
+          </div>
+        </div>
 
-<section>
-  <h4>What are Blend Modes?</h4>
-  <p>Control how element colors blend with backgrounds:</p>
-  <ul>
-    <li><code>mix-blend-mode</code> - Blend element with backdrop</li>
-    <li><code>background-blend-mode</code> - Blend background layers</li>
-    <li>16 blend modes from Photoshop/design tools</li>
-    <li>Create complex visual effects with pure CSS</li>
-  </ul>
-</section>
+        <!-- background-blend-mode -->
+        <div
+          style="
+            height: 120px;
+            background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%), linear-gradient(45deg, #fbbf24 0%, #f59e0b 100%);
+            background-blend-mode: multiply;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+          "
+        >
+          background-blend-mode
+        </div>
 
-<section>
-  <h4>Available Blend Modes</h4>
-  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; font-size: 0.9rem;">
-    <div>
-      <strong>Standard Modes:</strong>
-      <ul>
-        <li><code>normal</code> - Default</li>
-        <li><code>multiply</code> - Darken</li>
-        <li><code>screen</code> - Lighten</li>
-        <li><code>overlay</code> - Contrast</li>
-      </ul>
-    </div>
-    <div>
-      <strong>Advanced Modes:</strong>
-      <ul>
-        <li><code>darken</code>, <code>lighten</code></li>
-        <li><code>color-dodge</code>, <code>color-burn</code></li>
-        <li><code>hard-light</code>, <code>soft-light</code></li>
-        <li><code>difference</code>, <code>exclusion</code></li>
-      </ul>
-    </div>
-    <div>
-      <strong>Color Modes:</strong>
-      <ul>
-        <li><code>hue</code> - Use hue only</li>
-        <li><code>saturation</code> - Use saturation</li>
-        <li><code>color</code> - Use hue + saturation</li>
-        <li><code>luminosity</code> - Use brightness</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section>
-  <h4>Mix Blend Mode Examples</h4>
-  <pre><code class="language-css">/* Blend element with background */
-.blend-text {
+        <!-- Text with blend mode -->
+        <div
+          style="position: relative; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); height: 100px; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center"
+        >
+          <div style="font-size: 3rem; font-weight: 900; color: white; mix-blend-mode: difference">TEXT</div>
+        </div>
+      </small>
+    </left>
+    <right>
+      <pre>
+        <code class="hljs css" data-trim data-line-numbers>
+/* mix-blend-mode - element blending */
+.overlay {
   mix-blend-mode: multiply;
+  /* multiply, screen, overlay, 
+     darken, lighten, color-dodge, 
+     color-burn, hard-light, soft-light,
+     difference, exclusion, hue, 
+     saturation, color, luminosity */
+}
+
+/* Text effects */
+.text-blend {
   color: white;
-  /* Text darkens the background */
-}
-
-/* Duotone effect */
-.duotone {
-  position: relative;
-  background: #667eea;
-}
-
-.duotone img {
-  mix-blend-mode: multiply;
-  opacity: 0.8;
-}
-
-/* Knockout text effect */
-.knockout {
   mix-blend-mode: difference;
-  color: white;
-  /* Inverts colors underneath */
-}</code></pre>
-</section>
+  /* Inverts against background */
+}
 
-<section>
-  <h4>Interactive Demo: Blend Modes</h4>
-  <div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 2rem; border-radius: 8px; position: relative;">
-    <style>
-      .blend-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 1rem;
-      }
-      
-      .blend-item {
-        background: white;
-        padding: 2rem;
-        border-radius: 6px;
-        text-align: center;
-      }
-      
-      .blend-item h5 {
-        margin: 0;
-        font-size: 1.2rem;
-      }
-      
-      .multiply { mix-blend-mode: multiply; }
-      .screen { mix-blend-mode: screen; }
-      .overlay { mix-blend-mode: overlay; }
-      .difference { mix-blend-mode: difference; }
-      .color-dodge { mix-blend-mode: color-dodge; }
-      .hard-light { mix-blend-mode: hard-light; }
-    </style>
-    <div class="blend-grid">
-      <div class="blend-item">
-        <h5>Normal</h5>
-      </div>
-      <div class="blend-item multiply">
-        <h5>Multiply</h5>
-      </div>
-      <div class="blend-item screen">
-        <h5>Screen</h5>
-      </div>
-      <div class="blend-item overlay">
-        <h5>Overlay</h5>
-      </div>
-      <div class="blend-item difference">
-        <h5>Difference</h5>
-      </div>
-      <div class="blend-item color-dodge">
-        <h5>Color Dodge</h5>
-      </div>
-      <div class="blend-item hard-light">
-        <h5>Hard Light</h5>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <h4>Background Blend Mode</h4>
-  <pre><code class="language-css">/* Blend multiple backgrounds */
-.hero {
-  background-image: 
-    linear-gradient(rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8)),
-    url('background.jpg');
+/* Image blending */
+.duotone {
+  background: 
+    url('/image.jpg'),
+    linear-gradient(#667eea, #764ba2);
   background-blend-mode: multiply;
   background-size: cover;
 }
 
-/* Color overlay effect */
-.color-overlay {
-  background: 
-    linear-gradient(#ff6b6b, #ff6b6b),
-    url('image.jpg');
-  background-blend-mode: color;
-  background-size: cover;
-}
-
-/* Texture effect */
-.textured {
+/* Multiple backgrounds */
+.complex {
   background:
-    url('noise.png'),
-    linear-gradient(135deg, #667eea, #764ba2);
-  background-blend-mode: overlay;
-}</code></pre>
-</section>
-
-<section>
-  <h4>Practical Example: Image Effects</h4>
-  <pre><code class="language-css">/* Duotone image effect */
-.duotone-image {
-  position: relative;
-  background: linear-gradient(45deg, #667eea, #f093fb);
+    linear-gradient(red, transparent),
+    linear-gradient(90deg, blue, transparent),
+    white;
+  background-blend-mode: multiply, screen;
 }
 
-.duotone-image img {
-  display: block;
-  width: 100%;
-  mix-blend-mode: multiply;
-}
-
-/* Add highlights */
-.duotone-image::after {
+/* Hover effects */
+.card::before {
   content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(45deg, #667eea, #f093fb);
-  mix-blend-mode: screen;
-  opacity: 0.3;
-}
-
-/* Color pop effect */
-.color-pop {
-  filter: grayscale(100%);
-  mix-blend-mode: luminosity;
-}
-
-.color-pop:hover {
-  filter: grayscale(0%);
-  mix-blend-mode: normal;
-  transition: all 0.5s ease;
-}</code></pre>
-</section>
-
-<section>
-  <h4>Text Effects with Blend Modes</h4>
-  <pre><code class="language-css">/* Knockout text (inverted) */
-.knockout-text {
-  font-size: 4rem;
-  font-weight: bold;
-  color: white;
-  mix-blend-mode: difference;
-  /* Text inverts background colors */
-}
-
-/* Gradient text blend */
-.gradient-blend {
-  background: linear-gradient(90deg, #667eea, #f093fb);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  mix-blend-mode: multiply;
-}
-
-/* Glowing text effect */
-.glow-text {
-  color: #667eea;
-  text-shadow: 0 0 20px #667eea;
-  mix-blend-mode: screen;
-}</code></pre>
-</section>
-
-<section>
-  <h4>Creative Composition</h4>
-  <pre><code class="language-css">/* Layered blend effects */
-.complex-blend {
-  position: relative;
-}
-
-.complex-blend::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle, #667eea, transparent);
-  mix-blend-mode: color-dodge;
-}
-
-.complex-blend::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(45deg, transparent, #764ba2);
+  background: white;
   mix-blend-mode: overlay;
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
-/* Neon effect */
-.neon {
-  background: #000;
-  color: #0ff;
-  text-shadow: 
-    0 0 10px #0ff,
-    0 0 20px #0ff,
-    0 0 30px #0ff;
-  mix-blend-mode: screen;
-}</code></pre>
-</section>
-
-<section>
-  <h4>Performance Considerations</h4>
-  <ul>
-    <li>✅ Blend modes are GPU-accelerated</li>
-    <li>⚠️ Can create new stacking contexts</li>
-    <li>✅ Use <code>will-change</code> for animations</li>
-    <li>⚠️ Test on mobile devices</li>
-  </ul>
-  <pre><code class="language-css">/* Optimize animated blends */
-.animated-blend {
-  will-change: mix-blend-mode;
-  mix-blend-mode: normal;
-  transition: mix-blend-mode 0.3s;
+.card:hover::before {
+  opacity: 1;
 }
-
-.animated-blend:hover {
-  mix-blend-mode: multiply;
-}</code></pre>
-</section>
-
-<section>
-  <h4>Browser Support</h4>
-  <ul>
-    <li>✅ <strong>mix-blend-mode:</strong> Chrome 41+, Firefox 32+, Safari 8+</li>
-    <li>✅ <strong>background-blend-mode:</strong> Chrome 35+, Firefox 30+, Safari 8+</li>
-    <li>📊 Baseline: Widely available (2020)</li>
-  </ul>
-  <div class="resources">
-    <p><strong>Resources:</strong></p>
-    <ul>
-      <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/mix-blend-mode" target="_blank">MDN: mix-blend-mode</a></li>
-      <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/background-blend-mode" target="_blank">MDN: background-blend-mode</a></li>
-    </ul>
-  </div>
-</section>
-
-<section>
-  <h4>Key Takeaways</h4>
-  <ul>
-    <li>✅ 16 blend modes from design tools</li>
-    <li>✅ mix-blend-mode for elements, background-blend-mode for layers</li>
-    <li>✅ Create duotone, knockout, and color effects</li>
-    <li>✅ Combine with gradients for complex visuals</li>
-    <li>✅ Great for images, text, and overlays</li>
-    <li>⚠️ Test across browsers and devices</li>
-  </ul>
+        </code>
+      </pre>
+    </right>
+  </comparison>
 </section>

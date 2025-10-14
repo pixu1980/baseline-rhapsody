@@ -1,16 +1,84 @@
-<section data-transition="convex">
-  <section>
-    <h2>@keyframes Animations</h2>
-    <div class="baseline-badge widely">✅ Widely Available (2017)</div>
-    <p class="fragment">Motion that <mark>delights</mark></p>
-  </section>
+<section>
+  <h4>@keyframes Animations</h4>
+  <h5><img src="./assets/baseline/baseline-widely-icon.svg" style="width: 5rem" alt="" /> Widely Available (October 2015)</h5>
+  <small>Declarative animations with <mark>full control</mark></small>
+  <comparison>
+    <left>
+      <small style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%">
+        <!-- Bounce animation -->
+        <div style="padding: 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 0.5rem; display: flex; justify-content: center; align-items: flex-end; height: 120px">
+          <div style="width: 60px; height: 60px; background: white; border-radius: 50%; animation: bounce 1s ease-in-out infinite">
+            <style>
+              @keyframes bounce {
+                0%,
+                100% {
+                  transform: translateY(0);
+                }
+                50% {
+                  transform: translateY(-40px);
+                }
+              }
+            </style>
+          </div>
+        </div>
+        <small style="text-align: center; opacity: 0.8; margin-top: -1rem">Bounce Animation</small>
 
-  <section>
-    <h3>Keyframes <mark>Basics</mark></h3>
-    <div class="code-demo-split">
-      <div class="code-example">
-        <pre><code class="language-css">/* Define animation */
-@keyframes fadeIn {
+        <!-- Spin animation -->
+        <div style="padding: 2rem; background: #f3f4f6; border-radius: 0.5rem; display: flex; justify-content: center">
+          <div style="width: 60px; height: 60px; border: 4px solid #e5e7eb; border-top-color: #667eea; border-radius: 50%; animation: spin 1s linear infinite">
+            <style>
+              @keyframes spin {
+                to {
+                  transform: rotate(360deg);
+                }
+              }
+            </style>
+          </div>
+        </div>
+        <small style="text-align: center; opacity: 0.8; margin-top: -1rem">Spin (loading indicator)</small>
+
+        <!-- Pulse animation -->
+        <div style="padding: 2rem; background: #1f2937; border-radius: 0.5rem; display: flex; justify-content: center">
+          <div style="width: 60px; height: 60px; background: #10b981; border-radius: 50%; animation: pulse 2s ease-in-out infinite">
+            <style>
+              @keyframes pulse {
+                0%,
+                100% {
+                  transform: scale(1);
+                  opacity: 1;
+                }
+                50% {
+                  transform: scale(1.2);
+                  opacity: 0.7;
+                }
+              }
+            </style>
+          </div>
+        </div>
+        <small style="text-align: center; opacity: 0.8; margin-top: -1rem">Pulse</small>
+      </small>
+    </left>
+    <right>
+      <pre>
+        <code class="hljs css" data-trim data-line-numbers>
+/* Define keyframes */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-40px);
+  }
+}
+
+/* Apply animation */
+.ball {
+  animation: bounce 1s ease-in-out infinite;
+  /* name duration timing-function iteration */
+}
+
+/* Multiple properties */
+@keyframes fadeInUp {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -21,284 +89,28 @@
   }
 }
 
-/* Or with percentages */
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+/* Percentage steps */
+@keyframes colorShift {
+  0% { background: red; }
+  25% { background: yellow; }
+  50% { background: green; }
+  75% { background: blue; }
+  100% { background: red; }
 }
 
-/* Apply animation */
+/* Animation properties */
 .element {
-  animation: fadeIn 0.5s ease-out;
+  animation-name: fadeInUp;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-delay: 0.2s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
 }
-
-.button {
-  animation: pulse 2s ease-in-out infinite;
-}</code></pre>
-      </div>
-
-      <div class="demo">
-        <style>
-          @keyframes demo-pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-          }
-          @keyframes demo-fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-          .demo-pulse-box {
-            animation: demo-pulse 2s ease-in-out infinite;
-          }
-          .demo-fade-box {
-            animation: demo-fadeIn 1s ease-out;
-          }
-        </style>
-        <div style="padding: 2rem; background: #f8fafc; border-radius: 0.75rem; display: flex; gap: 2rem; justify-content: center; align-items: center;">
-          <div class="demo-pulse-box" style="width: 100px; height: 100px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 1rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">
-            Pulse
-          </div>
-          <div class="demo-fade-box" style="width: 100px; height: 100px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 1rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">
-            Fade In
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h3>Complex <mark>Sequences</mark></h3>
-    <div class="code-demo-split">
-      <div class="code-example">
-        <pre><code class="language-css">@keyframes slideIn {
-  0% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  50% {
-    transform: translateX(10px);
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes loading {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-/* Multiple animations */
-.card {
-  animation: 
-    slideIn 0.5s ease-out,
-    pulse 2s ease-in-out 0.5s infinite;
-}
-
-.gradient-text {
-  background: linear-gradient(
-    90deg, 
-    #667eea, #764ba2, #f093fb, #667eea
-  );
-  background-size: 300% 100%;
-  animation: loading 3s ease infinite;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-}</code></pre>
-      </div>
-
-      <div class="demo">
-        <style>
-          @keyframes demo-slideIn {
-            0% { transform: translateX(-100%); opacity: 0; }
-            50% { transform: translateX(10px); }
-            100% { transform: translateX(0); opacity: 1; }
-          }
-          @keyframes demo-gradient {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-          }
-          .demo-slide-card {
-            animation: demo-slideIn 1.5s ease-out infinite;
-          }
-          .demo-gradient-text {
-            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #667eea);
-            background-size: 300% 100%;
-            animation: demo-gradient 3s ease infinite;
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-          }
-        </style>
-        <div style="padding: 2rem; background: #f8fafc; border-radius: 0.75rem;">
-          <div class="demo-slide-card" style="padding: 1rem; background: white; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 1.5rem;">
-            Sliding Card
-          </div>
-          <h3 class="demo-gradient-text" style="font-size: 2rem; font-weight: 800; margin: 0;">
-            Animated Gradient
-          </h3>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h3>animation-timeline <mark>(Scroll-Driven)</mark></h3>
-    <div class="baseline-badge widely">✅ Widely Available (2024)</div>
-    <div class="code-demo-split" style="margin-top: 1.5rem;">
-      <div class="code-example">
-        <pre><code class="language-css">/* Scroll-driven animation */
-@keyframes reveal {
-  from {
-    opacity: 0;
-    transform: translateY(100px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.element {
-  animation: reveal linear;
-  animation-timeline: view();
-  animation-range: entry 0% cover 50%;
-}
-
-/* Progress bar on scroll */
-@keyframes grow {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-
-.progress-bar {
-  animation: grow linear;
-  animation-timeline: scroll(root);
-  transform-origin: left;
-}
-
-/* Named timeline */
-.container {
-  scroll-timeline-name: --container-scroll;
-}
-
-.child {
-  animation: fade linear;
-  animation-timeline: --container-scroll;
-}</code></pre>
-      </div>
-
-      <div class="code-example">
-        <pre><code class="language-css">/* Practical example: Parallax */
-@keyframes parallax {
-  to {
-    transform: translateY(-50px);
-  }
-}
-
-.background {
-  animation: parallax linear;
-  animation-timeline: scroll(root);
-}
-
-/* View-based animations */
-@keyframes scale-in {
-  from { 
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  to { 
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.card {
-  animation: scale-in linear;
-  animation-timeline: view();
-  
-  /* Only animate when entering */
-  animation-range: entry 0% entry 100%;
-}</code></pre>
-      </div>
-    </div>
-    <aside class="notes">
-      animation-timeline allows animations to be driven by scroll position instead of time. Works with scroll() for document scroll or view() for element visibility. animation-range controls when the animation activates.
-    </aside>
-  </section>
-
-  <section>
-    <h3>Animation <mark>Properties</mark></h3>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; font-size: 0.8rem;">
-      <div class="fragment" style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; border: 2px solid #e2e8f0;">
-        <h4 style="margin-top: 0; font-size: 1rem;">Timing</h4>
-        <pre><code class="language-css">animation-duration: 1s;
-animation-delay: 0.5s;
-animation-timing-function: ease-in-out;
-
-/* Custom bezier */
-animation-timing-function: 
-  cubic-bezier(0.68, -0.55, 0.265, 1.55);
-
-/* Steps (for sprite animations) */
-animation-timing-function: steps(10);</code></pre>
-      </div>
-
-      <div class="fragment" style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; border: 2px solid #e2e8f0;">
-        <h4 style="margin-top: 0; font-size: 1rem;">Control</h4>
-        <pre><code class="language-css">animation-iteration-count: infinite;
-animation-direction: alternate;
-animation-fill-mode: both;
-animation-play-state: paused;
-
-/* Shorthand */
-animation: 
-  slideIn 1s ease-out 0.5s 
-  infinite alternate both;</code></pre>
-      </div>
-
-      <div class="fragment" style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; border: 2px solid #e2e8f0;">
-        <h4 style="margin-top: 0; font-size: 1rem;">Performance</h4>
-        <pre><code class="language-css">/* GPU-accelerated properties */
-transform: translateX(100px);
-opacity: 0.5;
-
-/* Use will-change sparingly */
-will-change: transform, opacity;
-
-/* After animation completes */
-will-change: auto;</code></pre>
-      </div>
-
-      <div class="fragment" style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; border: 2px solid #e2e8f0;">
-        <h4 style="margin-top: 0; font-size: 1rem;">Accessibility</h4>
-        <pre><code class="language-css">@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}</code></pre>
-      </div>
-    </div>
-  </section>
+        </code>
+      </pre>
+    </right>
+  </comparison>
 </section>

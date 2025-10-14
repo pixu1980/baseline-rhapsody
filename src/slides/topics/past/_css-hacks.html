@@ -1,13 +1,27 @@
 <section>
-  <h2>CSS Hacks & Workarounds</h2>
-  <p class="fragment">The <mark>wild west</mark> of browser compatibility</p>
+  <h3>Hacks & <mark>Workarounds</mark></h3>
+  <p class="fragment">a "<mark>wild west</mark>" of browser compatibility</p>
 </section>
 
 <section>
-  <h3>Browser-Specific <mark>Nightmares</mark></h3>
-  <div class="code-demo-split">
-    <div class="code-example">
-      <pre><code class="language-css">/* IE6/7 hacks */
+  <h4>Browser-Specific <mark>Nightmares</mark></h4>
+  <small>a <mark>minefield</mark> of hacks and workarounds</small>
+  <comparison>
+    <left>
+      <small class="fragment">
+        <ul>
+          <li>Too different rendering engines</li>
+          <li>Box model inconsistencies</li>
+          <li>Margin collapsing bugs</li>
+          <li>PNG transparency issues</li>
+          <li>Z-index nightmares</li>
+        </ul>
+      </small>
+    </left>
+    <right>
+      <pre class="fragment">
+        <code class="hljs css" data-trim data-line-numbers>
+/* IE6/7 hacks */
 * html .selector {
   /* Only IE6 sees this */
   margin: 10px;
@@ -27,32 +41,31 @@
 /* IE conditional comments in CSS */
 /* @media \0screen\,screen\9 {
   .selector { margin: 10px; }
-} */</code></pre>
-    </div>
-
-    <div class="demo">
-      <div style="background: #fef3c7; border: 3px solid #f59e0b; padding: 1.5rem; border-radius: 0.5rem">
-        <h4 style="margin-top: 0; color: #92400e">The Reality</h4>
-        <p style="font-size: 0.9rem; color: #78350f">Every CSS file looked like a minefield of hacks and workarounds.</p>
-        <ul style="font-size: 0.85rem; color: #78350f">
-          <li>Different rendering engines</li>
-          <li>Box model inconsistencies</li>
-          <li>Margin collapsing bugs</li>
-          <li>PNG transparency issues</li>
-          <li>Z-index nightmares</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+} */
+        </code>
+      </pre>
+    </right>
+  </comparison>
   <aside class="notes">Each browser had its own quirks. IE6 was the worst offender, but every browser required special treatment. We had to be browser archaeologists.</aside>
 </section>
 
 <section>
-  <h3>Vendor <mark>Prefix</mark> Hell</h3>
-  <div class="before-after">
-    <div class="before">
-      <h4>Writing Simple CSS</h4>
-      <pre><code class="language-css">.box {
+  <h4>Vendor <mark>Prefix</mark> Hell</h4>
+  <comparison>
+    <left>
+      <small class="fragment">
+        <ul>
+          <li>Different prefixes for different browsers</li>
+          <li>N times the code for one property</li>
+          <li>How and When to drop old prefixes?</li>
+          <li>Additional toolchain entries (Autoprefixer?)</li>
+        </ul>
+      </small>
+    </left>
+    <right>
+      <pre class="fragment">
+        <code class="hljs css" data-trim data-line-numbers>
+.box {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
@@ -68,25 +81,15 @@
   -ms-transform: rotate(5deg);
   -o-transform: rotate(5deg);
   transform: rotate(5deg);
-}</code></pre>
-    </div>
-
-    <div class="after fragment">
-      <h4>The Pain Points</h4>
-      <ul>
-        <li>📝 5x the code for one property</li>
-        <li>🔄 Update one value = update 5 lines</li>
-        <li>❌ Miss a prefix = broken in some browser</li>
-        <li>📚 Remember which prefixes for what</li>
-        <li>⏰ When can we drop old prefixes?</li>
-      </ul>
-      <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8">Tools like Autoprefixer became essential!</p>
-    </div>
-  </div>
+}
+        </code>
+      </pre>
+    </right>
+  </comparison>
   <aside class="notes">Vendor prefixes were necessary for experimental features, but they cluttered our code. Build tools eventually automated this pain away.</aside>
 </section>
 
-<section>
+<!-- <section>
   <h3>The Famous <mark>"Works on My Machine"</mark></h3>
   <div style="text-align: center; padding: 2rem">
     <div class="fragment" style="font-size: 3rem; margin-bottom: 1rem">🖥️ → 💥</div>
@@ -112,4 +115,4 @@
     The pain of browser compatibility testing was real. Virtual machines, separate test computers, BrowserStack... it was exhausting. Modern evergreen browsers and web standards have made this SO much
     better.
   </aside>
-</section>
+</section> -->
