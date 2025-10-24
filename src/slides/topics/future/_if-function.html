@@ -9,7 +9,8 @@
 /* Dark mode colors */
 .element {
   background: if(
-    style(--dark-mode: 1),
+    style(--dark-mode: 1): 20px,
+    style(--dark-mode: 2): 520px,
     #1f2937,
     white
   );
