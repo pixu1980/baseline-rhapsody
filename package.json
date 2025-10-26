@@ -23,9 +23,9 @@
     "approve-builds": "echo approve-builds OK"
   },
   "dependencies": {
-    "@pixu-talks/core": "0.3.2",
-    "@pixu-talks/fonts": "0.3.2",
-    "@pixu-talks/theme": "0.3.2",
+    "@pixu-talks/core": "0.3.3",
+    "@pixu-talks/fonts": "0.3.3",
+    "@pixu-talks/theme": "0.3.3",
     "reveal.js": "5.2.1"
   },
   "devDependencies": {
